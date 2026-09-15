@@ -5,7 +5,7 @@
 "projects": [
 {
 "name": "Local Auto Repair Shop",
-"image": "Commercial2",
+"image": "images/Commercial2",
 "description": "Installed a high-impact, slip-resistant system designed specifically to withstand dropped tools, jack stands, and harsh automotive solvents. The floor was prepped with a heavy diamond grind.",
 "bullets": [
 "Extreme Impact Resistance",
@@ -15,7 +15,7 @@
 },
 {
 "name": "Local Auto Repair Shop",
-"image": "Commercial2",
+"image": "images/Commercial2",
 "description": "Installed a high-impact, slip-resistant system designed specifically to withstand dropped tools, jack stands, and harsh automotive solvents. The floor was prepped with a heavy diamond grind.",
 "bullets": [
 "Extreme Impact Resistance",
@@ -25,7 +25,7 @@
 },
 {
 "name": "Local Auto Repair Shop",
-"image": "Commercial2",
+"image": "images/Commercial2",
 "description": "Installed a high-impact, slip-resistant system designed specifically to withstand dropped tools, jack stands, and harsh automotive solvents. The floor was prepped with a heavy diamond grind.",
 "bullets": [
 "Extreme Impact Resistance",
@@ -35,7 +35,7 @@
 },
 {
 "name": "East Texas Manufacturing Facility",
-"image": "Commercial1",
+"image": "images/Commercial1",
 "description": "A 5,000 sq ft warehouse requiring minimal downtime. We used a fast-curing polyaspartic system that allowed them to resume forklift operations within 24 hours.",
 "bullets": [
 "Forklift Rated",
@@ -45,7 +45,7 @@
 },
 {
 "name": "East Texas Manufacturing Facility",
-"image": "Commercial1",
+"image": "images/Commercial1",
 "description": "A 5,000 sq ft warehouse requiring minimal downtime. We used a fast-curing polyaspartic system that allowed them to resume forklift operations within 24 hours.",
 "bullets": [
 "Forklift Rated",
@@ -61,7 +61,7 @@
 "projects": [
 {
 "name": "The Lindale 3-Car Overlay",
-"image": "ResidentialGarage4",
+"image": "images/ResidentialGarage4",
 "description": "A complete overhaul of a heavily oil-stained 3-car garage. We ground the concrete down to the pores and applied a custom 'Nightfall' flake blend.",
 "bullets": [
 "2-Day Installation",
@@ -71,7 +71,7 @@
 },
 {
 "name": "Tyler New Construction Garage",
-"image": "ResidentialGarage1",
+"image": "images/ResidentialGarage1",
 "description": "Protected a brand new garage floor before moving day. This homeowner opted for a clean, solid grey epoxy base with a durable clear topcoat for easy maintenance.",
 "bullets": [
 "Hot-Tire Resistant",
@@ -81,7 +81,7 @@
 },
 {
 "name": "Tyler New Construction Garage",
-"image": "ResidentialGarage1",
+"image": "images/ResidentialGarage1",
 "description": "Protected a brand new garage floor before moving day. This homeowner opted for a clean, solid grey epoxy base with a durable clear topcoat for easy maintenance.",
 "bullets": [
 "Hot-Tire Resistant",
@@ -97,7 +97,7 @@
 "projects": [
 {
 "name": "East Texas Lakefront Patio",
-"image": "ResidentialOutdoor1",
+"image": "images/ResidentialOutdoor1",
 "description": "A seamless, waterproof floor coating that prevents bacteria buildup and makes daily wash-downs incredibly fast and efficient.",
 "bullets": [
 "100% Waterproof",
@@ -107,7 +107,7 @@
 },
 {
 "name": "Backyard Pool Deck Retreat",
-"image": "ResidentialOutdoor2",
+"image": "images/ResidentialOutdoor2",
 "description": "Resurfaced an aging, cracked concrete pool deck using a UV-stable polyaspartic coating with a broadcast quartz additive for maximum grip around wet areas.",
 "bullets": [
 "UV Stable (No Yellowing)",
@@ -117,7 +117,7 @@
 },
 {
 "name": "East Texas Lakefront Patio",
-"image": "ResidentialOutdoor1",
+"image": "images/ResidentialOutdoor1",
 "description": "A seamless, waterproof floor coating that prevents bacteria buildup and makes daily wash-downs incredibly fast and efficient.",
 "bullets": [
 "100% Waterproof",
