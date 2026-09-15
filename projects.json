@@ -16,10 +16,10 @@
 {
 "name": "East Texas Manufacturing Facility",
 "image": "images/Commercial1.png",
-"description": "A 5,000 sq ft warehouse requiring minimal downtime. We used a fast-curing polyaspartic system that allowed them to resume forklift operations within 24 hours.",
+"description": "A 5,000 sq ft warehouse requiring minimal downtime. We used a fast-curing polyaspartic system that allowed them to resume forklift operations within 48 hours.",
 "bullets": [
 "Forklift Rated",
-"24-Hour Return to Service",
+"48-Hour Return to Service",
 "Chemical & Stain Resistant"
 ]
 }
@@ -30,9 +30,9 @@
 "description": "Explore our recent residential garage floor transformations. Every project features our industrial-grade, multi-layer polyaspartic coating system.",
 "projects": [
 {
-"name": "The Lindale 3-Car Overlay",
+"name": "Lindale 3-Car Garage",
 "image": "images/ResidentialGarage4.png",
-"description": "A complete overhaul of a heavily oil-stained 3-car garage. We ground the concrete down to the pores and applied a custom 'Nightfall' flake blend.",
+"description": "A complete overhaul of a heavily oil-stained 3-car garage. We ground the concrete down to the pores and applied a custom dark blue flake blend.",
 "bullets": [
 "2-Day Installation",
 "Custom Flake Color",
@@ -40,13 +40,13 @@
 ]
 },
 {
-"name": "Tyler New Construction Garage",
-"image": "images/ResidentialGarage1.png",
-"description": "Protected a brand new garage floor before moving day. This homeowner opted for a clean, solid grey epoxy base with a durable clear topcoat for easy maintenance.",
+"name": "Tyler Garage Revamp",
+"image": "images/ResidentialGarage3.png",
+"description": "Updated from a peeling 1 coat epoxy to a durable tiered epoxy system. This homeowner opted for a clean, white and grey flake with a durable clear topcoat for easy maintenance.",
 "bullets": [
 "Hot-Tire Resistant",
 "Seamless Baseboards",
-"Wipes Clean Easily"
+"Easy Cleaning and Maintenance"
 ]
 }
 ]
@@ -56,7 +56,7 @@
 "description": "100% waterproof and easy-to-wash coatings perfect for patios and outdoor living spaces.",
 "projects": [
 {
-"name": "Backyard Pool Deck Retreat",
+"name": "Backyard Pool Deck",
 "image": "images/ResidentialOutdoor2.png",
 "description": "Resurfaced an aging, cracked concrete pool deck using a UV-stable polyaspartic coating with a broadcast quartz additive for maximum grip around wet areas.",
 "bullets": [
