@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floorever ETX | East Texas Epoxy & Concrete Coatings</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        oswald: ['Oswald', 'sans-serif'],
+                        worksans: ['Work Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { overflow-x: hidden; }
+        
+        /* Smooth fade animation for success message */
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-worksans text-gray-800 min-h-screen flex flex-col">
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-[#032338] md:bg-transparent py-5">
+           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="flex justify-between items-center">
+                   <div class="flex-shrink-0 flex items-center">
+                       <a href="#home" class="flex items-center gap-3">
+                           <img src="https://raw.githubusercontent.com/jmatthewsMATW/my-diagram-assets/refs/heads/main/ETXLOGOEDIT.png" alt="Floorever ETX Logo" class="h-24 w-auto object-contain">
+                       </a>
+                   </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Services</a>
+                    <a href="#materials" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Materials</a>
+                    <a href="#about" class="text-white hover:text-[#93e6ff] font-medium transition-colors">About Us</a>
+                    <a href="#contact" class="bg-[#e00603] hover:bg-red-700 text-white px-6 py-2.5 rounded font-oswald font-semibold tracking-wide transition-all transform hover:scale-105 shadow-lg">
+                        GET A FREE ESTIMATE
+                    </a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none">
+                        <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-[#032338] border-t border-gray-700 absolute w-full">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-lg">
+                <a href="#services" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Services</a>
+                <a href="#materials" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Materials</a>
+                <a href="#about" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">About Us</a>
+                <a href="#contact" class="mobile-link block px-3 py-2 text-[#e00603] font-bold">Get a Quote</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN HOME VIEW -->
+    <div id="home-view" class="w-full transition-opacity duration-300">
+        
+        <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-[#032338] overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://raw.githubusercontent.com/jmatthewsMATW/my-diagram-assets/refs/heads/main/BackdropETX.png" alt="Epoxy Flooring Background" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-[#032338] opacity-85"></div>
+            </div>
+
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-[#93e6ff] rounded-full filter blur-[100px]"></div>
+                <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#e00603] rounded-full filter blur-[120px]"></div>
+                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-white/10 text-[#93e6ff] font-semibold text-sm mb-6 uppercase tracking-wider border border-white/20">
+                    Serving Tyler, Lindale & East Texas
+                </span>
+                <h1 class="font-oswald text-5xl md:text-7xl font-bold text-white mb-6 uppercase tracking-tight leading-tight">
+                    East Texas Tough. <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#93e6ff] to-white">Showroom Shine.</span>
+                </h1>
+                <p class="mt-4 text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10 font-light">
+                    We transform cracked, stained, and dusty concrete into durable, custom floors built to handle dropped tools, hot tires, and heavy traffic.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#contact" class="bg-[#e00603] hover:bg-red-700 text-white px-8 py-4 rounded font-oswald text-lg font-semibold tracking-wide transition-all transform hover:-translate-y-1 shadow-lg shadow-red-500/30 flex items-center justify-center gap-2">
+                        REQUEST YOUR QUOTE <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#services" class="bg-transparent border-2 border-white/30 hover:border-white text-white px-8 py-4 rounded font-oswald text-lg font-semibold tracking-wide transition-all flex items-center justify-center">
+                        VIEW OUR WORK
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="bg-[#4d0103] py-8 relative z-10 -mt-2">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
+                    <div class="flex flex-col items-center p-4">
+                        <i data-lucide="shield-check" class="text-[#93e6ff] mb-3 w-10 h-10"></i>
+                        <h3 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">ICC Certified Expert</h3>
+                        <p class="text-gray-300 text-sm mt-1">Installed by a certified structural concrete inspector.</p>
+                    </div>
+                    <div class="flex flex-col items-center p-4">
+                        <i data-lucide="clock" class="text-[#93e6ff] mb-3 w-10 h-10"></i>
+                        <h3 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">15+ Years Experience</h3>
+                        <p class="text-gray-300 text-sm mt-1">Civil engineering inspection background on every job.</p>
+                    </div>
+                    <div class="flex flex-col items-center p-4">
+                        <i data-lucide="award" class="text-[#93e6ff] mb-3 w-10 h-10"></i>
+                        <h3 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">100% Solid Epoxies</h3>
+                        <p class="text-gray-300 text-sm mt-1">Industrial-grade polyaspartic coatings built to last.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="services" class="py-24 bg-white relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="font-oswald text-4xl md:text-5xl font-bold text-[#032338] mb-4 uppercase">Your Concrete, Upgraded</h2>
+                    <div class="w-24 h-1.5 bg-[#e00603] mx-auto mb-6"></div>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-2">
+                        From residential garages to high-traffic commercial facilities, we provide tailored coating solutions that resist chemicals, impacts, and the harsh Texas climate.
+                    </p>
+                    <p class="text-sm text-[#032338] font-bold uppercase tracking-wider">Click a category below to view our project gallery</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Commercial Card -->
+                    <a href="#category-commercial" class="block bg-[#a2def4]/20 rounded-xl overflow-hidden border border-[#a2def4]/50 hover:shadow-2xl transition-all transform hover:-translate-y-2 group cursor-pointer">
+                        <div class="h-48 bg-[#032338] relative overflow-hidden flex items-center justify-center">
+                            <img src="https://greenmountainepoxyflooring.com/photos/commercial-epoxy-flooring.webp" alt="Commercial Epoxy Floor" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-[#032338]/40 group-hover:bg-transparent transition-all z-10 flex items-center justify-center">
+                                <div class="bg-[#e00603] text-white px-4 py-2 rounded font-oswald font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">VIEW GALLERY</div>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <h3 class="font-oswald text-2xl font-bold text-[#032338] mb-3 group-hover:text-[#e00603] transition-colors">Commercial & Industrial</h3>
+                            <p class="text-gray-600 mb-6">Built for forklifts, heavy foot traffic, and rigorous cleaning protocols. We install seamless floors that meet strict safety standards.</p>
+                            <ul class="space-y-2 mb-2">
+                                <li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> High impact resistance</li>
+                                <li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> Slip-resistant textures</li>
+                                <li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> Minimal operational downtime</li>
+                            </ul>
+                        </div>
+                    </a>
+
+                    <!-- Residential Card -->
+                    <a href="#category-residential" class="block bg-[#032338] rounded-xl overflow-hidden shadow-xl transform hover:-translate-y-2 hover:shadow-2xl transition-all relative group cursor-pointer md:-mt-4">
+                        <div class="absolute top-0 right-0 bg-[#e00603] text-white text-xs font-bold px-3 py-1 font-oswald uppercase tracking-wider rounded-bl-lg z-20">Most Popular</div>
+                        <div class="h-48 bg-[#4d0103] relative overflow-hidden flex items-center justify-center">
+                            <img src="https://greenmountainepoxyflooring.com/photos/flake-epoxy-garage-floor.webp" alt="Residential Garage Epoxy Floor" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-[#032338]/40 group-hover:bg-transparent transition-all z-10 flex items-center justify-center">
+                                <div class="bg-[#e00603] text-white px-4 py-2 rounded font-oswald font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">VIEW GALLERY</div>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <h3 class="font-oswald text-2xl font-bold text-white mb-3 group-hover:text-[#93e6ff] transition-colors">Residential</h3>
+                            <p class="text-gray-300 mb-6">Turn your dusty, stained garage into a clean, easy-to-wash showroom. Our systems cure fast so you can park your cars again in no time.</p>
+                            <ul class="space-y-2 mb-2">
+                                <li class="flex items-center text-sm text-gray-200"><i data-lucide="circle-check" class="text-[#93e6ff] mr-2 w-4 h-4"></i> Oil & Chemical resistant</li>
+                                <li class="flex items-center text-sm text-gray-200"><i data-lucide="circle-check" class="text-[#93e6ff] mr-2 w-4 h-4"></i> Easy to clean</li>
+                                <li class="flex items-center text-sm text-gray-200"><i data-lucide="circle-check" class="text-[#93e6ff] mr-2 w-4 h-4"></i> Custom flake colors</li>
+                            </ul>
+                        </div>
+                    </a>
+
+                    <!-- Outdoor Card -->
+                    <a href="#category-outdoor" class="block bg-[#a2def4]/20 rounded-xl overflow-hidden border border-[#a2def4]/50 hover:shadow-2xl transition-all transform hover:-translate-y-2 group cursor-pointer">
+                        <div class="h-48 bg-[#032338] relative overflow-hidden flex items-center justify-center">
+                            <img src="https://static.wixstatic.com/media/722e7a_41f520556cd94355aa921f9dc789fdb8~mv2.jpg/v1/fill/w_2500,h_1875,al_c/722e7a_41f520556cd94355aa921f9dc789fdb8~mv2.jpg" alt="Outdoor Epoxy Floor" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-[#032338]/40 group-hover:bg-transparent transition-all z-10 flex items-center justify-center">
+                                <div class="bg-[#e00603] text-white px-4 py-2 rounded font-oswald font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">VIEW GALLERY</div>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <h3 class="font-oswald text-2xl font-bold text-[#032338] mb-3 group-hover:text-[#e00603] transition-colors">Outdoor</h3>
+                            <p class="text-gray-600 mb-6">Sanitary, waterproof, and extremely durable coatings perfect for outdoor living spaces, kennels, and utility areas.</p>
+                            <ul class="space-y-2 mb-2">
+                                <li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> 100% Waterproof</li>
+                                <li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> UV stable (no yellowing)</li>
+                                <li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> Scratch resistant</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="materials" class="py-24 bg-[#032338] text-white overflow-hidden relative">
+            <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#ffffff 2px, transparent 2px); background-size: 40px 40px;"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    
+                    <div class="w-full lg:w-1/2">
+                        <span class="text-[#93e6ff] font-oswald font-bold uppercase tracking-wider text-sm mb-2 block">Ditch the DIY Kits</span>
+                        <h2 class="font-oswald text-4xl md:text-5xl font-bold mb-4 uppercase">Industrial-Grade Materials. Period.</h2>
+                        <div class="w-24 h-1.5 bg-[#e00603] mb-6"></div>
+                        <p class="text-xl text-gray-300 font-light mb-8">
+                            Store-bought epoxy kits peel up on hot tires within a year because they are essentially just thick paint. We use a commercial-grade, multi-layer resin system that permanently bonds to the concrete.
+                        </p>
+
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded border border-white/20 flex items-center justify-center shrink-0 mr-4">
+                                    <i data-lucide="layers" class="text-[#93e6ff] w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-oswald text-xl font-bold tracking-wide">1. Mechanical Prep & Diamond Grinding</h4>
+                                    <p class="text-gray-400 mt-1">We don't acid wash. We use heavy diamond grinders to profile the concrete, ensuring the base coat achieves a deep, permanent mechanical bond.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded border border-white/20 flex items-center justify-center shrink-0 mr-4">
+                                    <i data-lucide="droplets" class="text-[#93e6ff] w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-oswald text-xl font-bold tracking-wide">2. 100% Solid Epoxy Base Coat</h4>
+                                    <p class="text-gray-400 mt-1">Our industrial epoxies are formulated to wick deep into the pores of the concrete, blocking moisture and preventing hot-tire pickup.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded border border-white/20 flex items-center justify-center shrink-0 mr-4">
+                                    <i data-lucide="sun" class="text-[#93e6ff] w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-oswald text-xl font-bold tracking-wide">3. Polyaspartic Clear Topcoat</h4>
+                                    <p class="text-gray-400 mt-1">The final layer is a premium polyaspartic clear coat. It cures harder than epoxy, provides a brilliant high-gloss shine, and is 100% UV stable (it will never yellow in the Texas sun).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full lg:w-1/2">
+                        <div class="bg-[#4d0103] p-2 rounded-2xl shadow-2xl border border-red-900/50 transform rotate-2 hover:rotate-0 transition-transform duration-300">
+                            <div class="bg-white p-8 rounded-xl relative overflow-hidden h-[500px] flex flex-col justify-center items-center text-center">
+                                <div class="absolute inset-0 bg-[#a2def4] opacity-20"></div>
+                                
+                                <div class="space-y-4 w-3/4 relative z-10">
+                                    <div class="p-4 bg-white/80 backdrop-blur border-2 border-[#93e6ff] rounded shadow-lg text-[#032338] font-bold uppercase tracking-widest -mt-4 transform translate-y-4 z-40">
+                                        Polyaspartic Topcoat
+                                    </div>
+                                    <div class="p-4 bg-gray-200 border-2 border-gray-300 rounded shadow-md text-gray-700 font-bold uppercase tracking-widest transform translate-y-2 z-30 flex gap-1 justify-center overflow-hidden">
+                                        <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                                        <span class="w-2 h-2 bg-gray-600 rounded-full"></span>
+                                        <span class="w-2 h-2 bg-gray-800 rounded-full"></span>
+                                        Full Flake Broadcast
+                                        <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                                        <span class="w-2 h-2 bg-gray-600 rounded-full"></span>
+                                    </div>
+                                    <div class="p-4 bg-[#032338] rounded shadow text-white font-bold uppercase tracking-widest z-20">
+                                        100% Solid Epoxy Base
+                                    </div>
+                                    <div class="p-4 bg-gray-400 rounded-b shadow text-gray-800 font-bold uppercase tracking-widest z-10 opacity-70">
+                                        Diamond Ground Concrete
+                                    </div>
+                                </div>
+                                
+                                <p class="mt-12 text-[#032338] font-oswald text-xl font-bold relative z-10">
+                                    THE FLOOREVER ETX SYSTEM
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-24 bg-gray-50 border-t border-gray-200 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row items-center gap-16">
+                    <div class="w-full lg:w-1/2">
+                        <div class="relative aspect-square rounded-2xl overflow-hidden bg-gray-300 shadow-2xl flex items-center justify-center">
+                            <img src="https://github.com/jmatthewsMATW/my-diagram-assets/blob/main/KPS.png?raw=true" alt="Floorever ETX Team" class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-[#032338] opacity-20"></div>
+                            <div class="absolute inset-0 border-8 border-[#93e6ff]/30 m-4 rounded-xl z-10"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full lg:w-1/2">
+                        <h2 class="font-oswald text-4xl md:text-5xl font-bold text-[#032338] mb-4 uppercase">The Expert Neighbor</h2>
+                        <div class="w-24 h-1.5 bg-[#e00603] mb-8"></div>
+                        
+                        <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
+                            <p>
+                                We are a locally owned, family-run business deeply rooted in the Tyler and Lindale community. When you hire Floorever ETX, you aren't getting a faceless franchise—you're getting Patrick and Kerry.
+                            </p>
+                            <p>
+                                <strong>We don't just paint floors; we understand concrete at a structural level.</strong> With over 15 years of civil engineering inspection experience and ICC Concrete Certification, Patrick brings a level of technical expertise and rigorous prep work that most contractors simply cannot match.
+                            </p>
+                            <p>
+                                Our foundation is built on integrity, hard work, and doing the job right the first time. We treat every home and business exactly how we would treat our own.
+                            </p>
+                        </div>
+
+                        <div class="mt-10 bg-white p-6 border-l-4 border-[#e00603] shadow-md italic text-gray-600">
+                            "So if the Son sets you free, you will be free indeed." <br>
+                            <span class="font-bold text-[#032338] mt-2 block not-italic">— John 8:36</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="bg-[#4d0103] py-20 relative">
+            <div class="absolute top-0 left-0 w-full h-2 bg-[#e00603]"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-12 bg-white rounded-2xl shadow-2xl overflow-hidden">
+                    
+                    <div class="w-full lg:w-2/5 bg-[#032338] text-white p-10 lg:p-12 flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-20 -mt-20"></div>
+                        
+                        <div class="relative z-10">
+                            <h3 class="font-oswald text-3xl font-bold uppercase mb-2">Ready to Upgrade?</h3>
+                            <p class="text-[#93e6ff] mb-12 text-lg">Contact us today for a free, no-obligation estimate.</p>
+                            
+                            <div class="space-y-8">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-[#e00603] rounded-full flex items-center justify-center shrink-0 mr-4">
+                                        <i data-lucide="phone" class="text-white w-6 h-6"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-400 font-oswald uppercase tracking-wider mb-1">Call or Text</p>
+                                        <a href="tel:4302358699" class="text-2xl font-bold hover:text-[#93e6ff] transition-colors">(430) 235-8699</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0 mr-4">
+                                        <i data-lucide="mail" class="text-[#93e6ff] w-6 h-6"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-400 font-oswald uppercase tracking-wider mb-1">Email Us</p>
+                                        <a href="mailto:info@flooreveretx.com" class="text-lg font-medium hover:text-[#93e6ff] transition-colors">info@flooreveretx.com</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0 mr-4">
+                                        <i data-lucide="map-pin" class="text-[#93e6ff] w-6 h-6"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-400 font-oswald uppercase tracking-wider mb-1">Service Area</p>
+                                        <p class="text-lg font-medium">Tyler, Lindale & East Texas</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Side: Integrated with Google Forms -->
+                    <div class="w-full lg:w-3/5 p-10 lg:p-12">
+                        <h3 class="font-oswald text-3xl font-bold text-[#032338] uppercase mb-6">Request a Quote</h3>
+                    
+                    <!-- Hidden Iframe to prevent Google redirecting the page -->
+                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){ showSuccessMessage(); }"></iframe>
+                    
+                    <!-- TEMPORARILY REMOVED target="hidden_iframe" AND onsubmit FOR TESTING -->
+                    <form id="quote-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfpRNg33cxM9hy8wPN2lbNIIvpPTxT5dx6ASgTwQ_6NaDvVig/formResponse" method="POST" class="space-y-6">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">First Name</label>
+                                    <input type="text" name="entry.2010600177" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors" placeholder="John" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Last Name</label>
+                                    <input type="text" name="entry.1123746651" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors" placeholder="Doe" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Phone Number</label>
+                                    <input type="tel" name="entry.748055845" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors" placeholder="(555) 123-4567" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Email Address</label>
+                                    <input type="email" name="entry.268719956" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors" placeholder="john@example.com" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Project Type</label>
+                                <select name="entry.753884142" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors text-gray-700">
+                                    <option value="Garage / Driveway">Garage / Driveway</option>
+                                    <option value="Patio / Pool Deck">Patio / Pool Deck</option>
+                                    <option value="Commercial / Industrial">Commercial / Industrial</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Project Details (Optional)</label>
+                                <textarea name="entry.870330039" rows="4" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors resize-none" placeholder="Tell us a bit about the space..."></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-[#e00603] hover:bg-red-700 text-white py-4 rounded font-oswald text-xl font-bold tracking-wider transition-all transform hover:-translate-y-1 shadow-lg flex justify-center items-center gap-2">
+                                SUBMIT REQUEST <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <!-- END MAIN HOME VIEW -->
+
+    <!-- DYNAMIC PROJECTS VIEW -->
+    <div id="projects-view" class="hidden w-full pt-32 pb-24 bg-white flex-grow transition-opacity duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <a href="#services" class="inline-flex items-center text-[#e00603] font-oswald font-bold tracking-wide hover:text-red-800 transition-colors mb-12 bg-red-50 px-4 py-2 rounded-full border border-red-100">
+                <i data-lucide="arrow-left" class="w-5 h-5 mr-2"></i> BACK TO SERVICES
+            </a>
+            
+            <div class="text-center mb-16">
+                <h2 id="gallery-title" class="font-oswald text-4xl md:text-6xl font-bold text-[#032338] mb-4 uppercase">Loading Gallery...</h2>
+                <div class="w-24 h-1.5 bg-[#e00603] mx-auto mb-6"></div>
+                <p id="gallery-description" class="text-lg text-gray-600 max-w-2xl mx-auto">Please wait while we load our latest projects.</p>
+            </div>
+
+            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project cards injected here -->
+            </div>
+
+            <div id="gallery-loader" class="hidden flex flex-col items-center justify-center py-20 text-gray-400">
+                <i data-lucide="loader-2" class="w-12 h-12 animate-spin mb-4 text-[#e00603]"></i>
+                <p class="font-oswald text-xl tracking-wider">LOADING PROJECTS...</p>
+            </div>
+        </div>
+    </div> <!-- END DYNAMIC PROJECTS VIEW -->
+
+    <footer class="bg-[#1a0001] py-8 text-center border-t border-white/10 mt-auto w-full">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center mb-4">
+                <img src="https://raw.githubusercontent.com/jmatthewsMATW/my-diagram-assets/refs/heads/main/ETXLOGOEDIT.png" alt="Floorever ETX Logo" class="h-20 w-auto object-contain">
+            </div>
+            <p class="text-gray-500 text-sm">
+                &copy; <span id="year"></span> Floorever ETX. All rights reserved. <br class="md:hidden"> Proudly serving East Texas.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        let isGalleryView = false;
+        let submitted = false;
+
+        const navbar = document.getElementById('navbar');
+        function updateNavbarStyle() {
+            if (isGalleryView || window.scrollY > 20) {
+                navbar.classList.add('bg-[#032338]', 'shadow-lg', 'py-3');
+                navbar.classList.remove('md:bg-transparent', 'py-5');
+            } else {
+                navbar.classList.add('md:bg-transparent', 'py-5');
+                navbar.classList.remove('bg-[#032338]', 'shadow-lg', 'py-3');
+            }
+        }
+
+        window.addEventListener('scroll', updateNavbarStyle);
+
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        });
+
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // SUCCESS MESSAGE FOR GOOGLE FORMS
+        function showSuccessMessage() {
+            const formContainer = document.getElementById('quote-form').parentElement;
+            formContainer.innerHTML = `
+                <div class="text-center py-16 space-y-4 animate-fade-in">
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto shadow-sm">
+                        <i data-lucide="check" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-oswald text-3xl font-bold text-[#032338] uppercase">Request Received!</h3>
+                    <p class="text-gray-600 max-w-md mx-auto">Thank you! We will review your project details and get back to you shortly.</p>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // --- SPA ROUTING & JSON FETCHING LOGIC --- //
+
+        const GITHUB_JSON_URL = "https://raw.githubusercontent.com/jmatthewsMATW/my-diagram-assets/refs/heads/main/projects.json";
+        
+        const FALLBACK_PROJECTS_DATA = {
+            // (Fallback data hidden for brevity, fetch handles errors nicely now)
+        };
+
+        const homeView = document.getElementById('home-view');
+        const projectsView = document.getElementById('projects-view');
+        const galleryGrid = document.getElementById('gallery-grid');
+        const galleryTitle = document.getElementById('gallery-title');
+        const galleryDesc = document.getElementById('gallery-description');
+        const galleryLoader = document.getElementById('gallery-loader');
+
+        async function fetchProjectData() {
+            try {
+                const timestamp = new Date().getTime();
+                const response = await fetch(`${GITHUB_JSON_URL}?t=${timestamp}`);
+                
+                if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
+                
+                const data = await response.json();
+                return data;
+
+            } catch (error) {
+                console.error("CRITICAL ERROR: Failed to fetch or parse GitHub JSON.", error);
+                
+                galleryGrid.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 lg:col-span-3 bg-red-50 border-l-4 border-[#e00603] p-6 rounded-r shadow-md">
+                        <div class="flex items-center">
+                            <i data-lucide="alert-triangle" class="text-[#e00603] w-8 h-8 mr-4"></i>
+                            <div>
+                                <h3 class="text-[#e00603] font-oswald font-bold text-xl uppercase">Error Loading Data</h3>
+                                <p class="text-gray-700 mt-1">We could not read the projects.json file on GitHub. Please check the file for syntax errors like missing commas or quotation marks.</p>
+                                <p class="text-sm text-gray-500 mt-2 font-mono bg-gray-100 p-2 rounded">${error.message}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+                
+                return null;
+            }
+        }
+
+        async function renderCategoryView(categoryKey) {
+            galleryGrid.innerHTML = '';
+            galleryLoader.classList.remove('hidden');
+            galleryTitle.textContent = "Loading...";
+            galleryDesc.textContent = "";
+
+            const allData = await fetchProjectData();
+            const categoryData = allData ? allData[categoryKey] : null;
+
+            galleryLoader.classList.add('hidden');
+
+            if (!allData) return;
+
+            if (!categoryData) {
+                galleryTitle.textContent = "Category Not Found";
+                galleryDesc.textContent = "We couldn't find the projects you were looking for.";
+                return;
+            }
+
+            galleryTitle.textContent = categoryData.title;
+            galleryDesc.textContent = categoryData.description;
+
+            let htmlContent = '';
+            categoryData.projects.forEach(proj => {
+                let bulletsHtml = proj.bullets.map(b =>
+                    `<li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> ${b}</li>`
+                ).join('');
+
+                htmlContent += `
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-shadow group flex flex-col transform hover:-translate-y-1 duration-300">
+                        <div class="h-64 bg-[#032338] relative overflow-hidden flex-shrink-0">
+                            <img src="${proj.image}" alt="${proj.name}" onerror="this.onerror=null; this.src='https://placehold.co/600x400/032338/93e6ff?text=Photo+Coming+Soon';" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80 z-10"></div>
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow relative z-20 bg-white">
+                            <h3 class="font-oswald text-2xl font-bold text-[#032338] mb-3">${proj.name}</h3>
+                            <p class="text-gray-600 mb-6 flex-grow">${proj.description}</p>
+                            <ul class="space-y-2 mt-auto border-t border-gray-100 pt-4">
+                                ${bulletsHtml}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            });
+
+            galleryGrid.innerHTML = htmlContent;
+            lucide.createIcons();
+        }
+
+        function handleRouteChange() {
+            const hash = window.location.hash;
+
+            if (hash.startsWith('#category-')) {
+                isGalleryView = true;
+                const category = hash.replace('#category-', '');
+                
+                homeView.classList.add('hidden');
+                projectsView.classList.remove('hidden');
+                
+                window.scrollTo(0, 0);
+                updateNavbarStyle();
+                renderCategoryView(category);
+                
+            } else {
+                isGalleryView = false;
+                homeView.classList.remove('hidden');
+                projectsView.classList.add('hidden');
+                
+                updateNavbarStyle();
+                
+                if (hash && hash !== '#' && hash !== '#home') {
+                    setTimeout(() => {
+                        const target = document.querySelector(hash);
+                        if(target) {
+                            const headerOffset = 80;
+                            const elementPosition = target.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                            
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: "smooth"
+                            });
+                        }
+                    }, 50);
+                } else {
+                    window.scrollTo(0, 0);
+                }
+            }
+        }
+
+        window.addEventListener('hashchange', handleRouteChange);
+
+        window.addEventListener('load', () => {
+            handleRouteChange();
+            lucide.createIcons();
+        });
+
+    </script>
+</body>
+</html>
