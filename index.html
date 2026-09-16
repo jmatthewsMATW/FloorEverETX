@@ -363,23 +363,33 @@
                                     </div>
                                 </div>
                                 
-                                <div class="flex items-start">
-                                    <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0 mr-4">
-                                        <i data-lucide="map-pin" class="text-[#93e6ff] w-6 h-6"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-400 font-oswald uppercase tracking-wider mb-1">Service Area</p>
-                                        <p class="text-lg font-medium">Tyler, Lindale & East Texas</p>
-                                        <div class="mt-12 mx-auto max-w-lg overflow-hidden rounded-xl shadow-md">
-                                            <img
-                                                src="images/ServiceArea.png"
-                                                alt="FloorEver ETX Service Area - Tyler, Lindale, and East Texas"
-                                                class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                                                loading="lazy"
-                                            >
-                                    </div>
-                                </div>
-                            </div>
+                                <div class="flex flex-col"> 
+    
+    <!-- Icon and Text Row -->
+    <div class="flex items-start">
+        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0 mr-4">
+            <i data-lucide="map-pin" class="text-[#93e6ff] w-6 h-6"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-400 font-oswald uppercase tracking-wider mb-1">Service Area</p>
+            <p class="text-lg font-medium">Tyler, Lindale & East Texas</p>
+        </div>
+    </div>
+
+    <!-- Image Row (Pulled OUT of the text div to center across the whole column) -->
+    <div class="mt-6 w-full flex justify-center">
+        <!-- Adjust 'max-w-sm' to 'max-w-md' if you want the image wider -->
+        <div class="max-w-sm w-full overflow-hidden rounded-xl shadow-md">
+            <img
+                src="images/ServiceArea.png"
+                alt="FloorEver ETX Service Area - Tyler, Lindale, and East Texas"
+                class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+            >
+        </div>
+    </div>
+
+</div>
                         </div>
                     </div>
 
