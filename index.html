@@ -55,8 +55,8 @@
                     <a href="#services" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Services</a>
                     <a href="#materials" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Materials</a>
                     <a href="#about" class="text-white hover:text-[#93e6ff] font-medium transition-colors">About Us</a>
-                    <a href="#connect" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Connect</a>
-                    <a href="/contact" class="bg-[#e00603] hover:bg-red-700 text-white px-6 py-2.5 rounded font-oswald font-semibold tracking-wide transition-all transform hover:scale-105 shadow-lg">
+                    <a href="/connect" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Connect</a>
+                    <a href="#contact" class="bg-[#e00603] hover:bg-red-700 text-white px-6 py-2.5 rounded font-oswald font-semibold tracking-wide transition-all transform hover:scale-105 shadow-lg">
                         GET A FREE ESTIMATE
                     </a>
                 </div>
@@ -74,6 +74,7 @@
                 <a href="#services" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Services</a>
                 <a href="#materials" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Materials</a>
                 <a href="#about" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">About Us</a>
+                <a href="/connect" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Connect</a>
                 <a href="#contact" class="mobile-link block px-3 py-2 text-[#e00603] font-bold">Get a Quote</a>
             </div>
         </div>
@@ -481,7 +482,11 @@
         </div>
     </footer>
 
-    <script>
+    <!-- UPDATED: Script block changed to type="module" -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
         document.getElementById('year').textContent = new Date().getFullYear();
 
         let isGalleryView = false;
@@ -578,13 +583,19 @@
             });
         }
 
-        // --- SPA ROUTING & JSON FETCHING LOGIC --- //
+        // --- SPA ROUTING & FIREBASE FETCHING LOGIC --- //
 
-        const GITHUB_JSON_URL = "projects.json";
-        
-        const FALLBACK_PROJECTS_DATA = {
-            // (Fallback data hidden for brevity, fetch handles errors nicely now)
+        const firebaseConfig = {
+            apiKey: "AIzaSyC21GSGjGST_xtvS1d8sfkUDMHCDzOL0tw",
+            authDomain: "flooreveretx-7083b.firebaseapp.com",
+            projectId: "flooreveretx-7083b",
+            storageBucket: "flooreveretx-7083b.firebasestorage.app",
+            messagingSenderId: "840978108031",
+            appId: "1:840978108031:web:ea008314dd1fecdbac394a"
         };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
         const homeView = document.getElementById('home-view');
         const projectsView = document.getElementById('projects-view');
@@ -593,84 +604,88 @@
         const galleryDesc = document.getElementById('gallery-description');
         const galleryLoader = document.getElementById('gallery-loader');
 
-        async function fetchProjectData() {
+        // Static details for the category headers
+        const categoryDataMap = {
+            'commercial': { title: 'Commercial & Industrial', description: 'Built for forklifts, heavy foot traffic, and rigorous cleaning protocols. We install seamless floors that meet strict safety standards.' },
+            'residential': { title: 'Residential', description: 'Turn your dusty, stained garage into a clean, easy-to-wash showroom. Our systems cure fast so you can park your cars again in no time.' },
+            'outdoor': { title: 'Outdoor Spaces', description: 'Sanitary, waterproof, and extremely durable coatings perfect for outdoor living spaces, kennels, and utility areas.' }
+        };
+
+        async function renderCategoryView(categoryKey) {
+            galleryGrid.innerHTML = '';
+            galleryLoader.classList.remove('hidden');
+            
+            const catInfo = categoryDataMap[categoryKey];
+            if (!catInfo) {
+                galleryTitle.textContent = "Category Not Found";
+                galleryDesc.textContent = "We couldn't find the projects you were looking for.";
+                galleryLoader.classList.add('hidden');
+                return;
+            }
+
+            galleryTitle.textContent = catInfo.title;
+            galleryDesc.textContent = catInfo.description;
+
             try {
-                const timestamp = new Date().getTime();
-                const response = await fetch(`${GITHUB_JSON_URL}?t=${timestamp}`);
+                // Query Firestore for projects that match the clicked category
+                const q = query(collection(db, "projects"), where("category", "==", categoryKey));
+                const querySnapshot = await getDocs(q);
                 
-                if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
-                
-                const data = await response.json();
-                return data;
+                galleryLoader.classList.add('hidden');
+
+                if (querySnapshot.empty) {
+                    galleryGrid.innerHTML = `
+                        <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-16">
+                            <p class="text-xl text-gray-500 font-oswald uppercase tracking-wider">No projects uploaded yet.</p>
+                            <p class="text-gray-400 mt-2">Check back soon for our latest work!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let htmlContent = '';
+                querySnapshot.forEach((doc) => {
+                    const proj = doc.data();
+                    let bulletsHtml = (proj.bullets || []).map(b =>
+                        `<li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> ${b}</li>`
+                    ).join('');
+
+                    htmlContent += `
+                        <div class="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-shadow group flex flex-col transform hover:-translate-y-1 duration-300">
+                            <div class="h-64 bg-[#032338] relative overflow-hidden flex-shrink-0">
+                                <img src="${proj.image}" alt="${proj.name}" onerror="this.onerror=null; this.src='https://placehold.co/600x400/032338/93e6ff?text=Photo+Coming+Soon';" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80 z-10"></div>
+                            </div>
+                            <div class="p-8 flex flex-col flex-grow relative z-20 bg-white">
+                                <h3 class="font-oswald text-2xl font-bold text-[#032338] mb-3">${proj.name}</h3>
+                                <p class="text-gray-600 mb-6 flex-grow">${proj.description}</p>
+                                <ul class="space-y-2 mt-auto border-t border-gray-100 pt-4">
+                                    ${bulletsHtml}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                galleryGrid.innerHTML = htmlContent;
+                lucide.createIcons();
 
             } catch (error) {
-                console.error("CRITICAL ERROR: Failed to fetch or parse GitHub JSON.", error);
-                
+                console.error("Error fetching projects:", error);
+                galleryLoader.classList.add('hidden');
                 galleryGrid.innerHTML = `
                     <div class="col-span-1 md:col-span-2 lg:col-span-3 bg-red-50 border-l-4 border-[#e00603] p-6 rounded-r shadow-md">
                         <div class="flex items-center">
                             <i data-lucide="alert-triangle" class="text-[#e00603] w-8 h-8 mr-4"></i>
                             <div>
-                                <h3 class="text-[#e00603] font-oswald font-bold text-xl uppercase">Error Loading Data</h3>
-                                <p class="text-gray-700 mt-1">We could not read the projects.json file on GitHub. Please check the file for syntax errors like missing commas or quotation marks.</p>
-                                <p class="text-sm text-gray-500 mt-2 font-mono bg-gray-100 p-2 rounded">${error.message}</p>
+                                <h3 class="text-[#e00603] font-oswald font-bold text-xl uppercase">Connection Error</h3>
+                                <p class="text-gray-700 mt-1">We couldn't load the gallery from our database. Please refresh the page or try again later.</p>
                             </div>
                         </div>
                     </div>
                 `;
                 lucide.createIcons();
-                
-                return null;
             }
-        }
-
-        async function renderCategoryView(categoryKey) {
-            galleryGrid.innerHTML = '';
-            galleryLoader.classList.remove('hidden');
-            galleryTitle.textContent = "Loading...";
-            galleryDesc.textContent = "";
-
-            const allData = await fetchProjectData();
-            const categoryData = allData ? allData[categoryKey] : null;
-
-            galleryLoader.classList.add('hidden');
-
-            if (!allData) return;
-
-            if (!categoryData) {
-                galleryTitle.textContent = "Category Not Found";
-                galleryDesc.textContent = "We couldn't find the projects you were looking for.";
-                return;
-            }
-
-            galleryTitle.textContent = categoryData.title;
-            galleryDesc.textContent = categoryData.description;
-
-            let htmlContent = '';
-            categoryData.projects.forEach(proj => {
-                let bulletsHtml = proj.bullets.map(b =>
-                    `<li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> ${b}</li>`
-                ).join('');
-
-                htmlContent += `
-                    <div class="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-shadow group flex flex-col transform hover:-translate-y-1 duration-300">
-                        <div class="h-64 bg-[#032338] relative overflow-hidden flex-shrink-0">
-                            <img src="${proj.image}" alt="${proj.name}" onerror="this.onerror=null; this.src='https://placehold.co/600x400/032338/93e6ff?text=Photo+Coming+Soon';" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80 z-10"></div>
-                        </div>
-                        <div class="p-8 flex flex-col flex-grow relative z-20 bg-white">
-                            <h3 class="font-oswald text-2xl font-bold text-[#032338] mb-3">${proj.name}</h3>
-                            <p class="text-gray-600 mb-6 flex-grow">${proj.description}</p>
-                            <ul class="space-y-2 mt-auto border-t border-gray-100 pt-4">
-                                ${bulletsHtml}
-                            </ul>
-                        </div>
-                    </div>
-                `;
-            });
-
-            galleryGrid.innerHTML = htmlContent;
-            lucide.createIcons();
         }
 
         function handleRouteChange() {
@@ -724,4 +739,5 @@
     </script>
 </body>
 </html>
+
 
