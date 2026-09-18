@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Visualizer | Floorever ETX</title>
+    <title>3D Floor Studio | Floorever ETX</title>
     
     <link rel="icon" type="image/png" href="images/Favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
     <header class="bg-[#032338] border-b border-white/10 px-6 py-4 flex justify-between items-center z-20 shrink-0">
         <div class="flex items-center gap-3">
             <img src="images/FlooreverLogo.png" alt="Floorever Logo" class="h-12 w-auto object-contain">
-            <span class="font-oswald text-xl font-bold tracking-wide uppercase text-[#93e6ff] hidden sm:block">3D Visualizer</span>
+            <span class="font-oswald text-xl font-bold tracking-wide uppercase text-[#93e6ff] hidden sm:block">3D Floor Studio</span>
         </div>
         <a href="/" class="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2">
             <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Main Site
@@ -87,7 +87,6 @@
                 <div id="section-flakeblend" class="border-t border-white/10 pt-6">
                     <h2 class="font-oswald text-xl font-bold uppercase tracking-wide mb-3 text-white">3. Select Flake Blend</h2>
                     
-                    <!-- NEW: Collection Filter -->
                     <select id="blend-collection" class="w-full bg-[#02182b] border border-white/20 text-white text-sm rounded-lg px-3 py-2 mb-4 focus:outline-none focus:border-[#93e6ff]" onchange="filterBlends()">
                         <option value="all">View All Collections</option>
                         <option value="signature">Signature Collection</option>
@@ -123,18 +122,16 @@
 
                 <!-- 6. Topcoat Finish -->
                 <div class="border-t border-white/10 pt-6 pb-4">
-    <h2 class="font-oswald text-xl font-bold uppercase tracking-wide mb-4 text-white">6. Topcoat Gloss</h2>
-    <div class="grid grid-cols-2 gap-2">
-        <!-- Changed to inactive colors (gray) -->
-        <button id="btn-gloss-high" class="py-2 px-3 rounded text-sm font-medium border border-white/20 bg-white/5 text-gray-400 hover:text-white transition-all">
-            High-Gloss
-        </button>
-        <!-- Changed to active colors (blue) -->
-        <button id="btn-gloss-satin" class="py-2 px-3 rounded text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all">
-            Matte / Satin
-        </button>
-    </div>
-</div>
+                    <h2 class="font-oswald text-xl font-bold uppercase tracking-wide mb-4 text-white">6. Topcoat Gloss</h2>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-gloss-high" class="py-2 px-3 rounded text-sm font-medium border border-white/20 bg-white/5 text-gray-400 hover:text-white transition-all">
+                            High-Gloss
+                        </button>
+                        <button id="btn-gloss-satin" class="py-2 px-3 rounded text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all">
+                            Matte / Satin
+                        </button>
+                    </div>
+                </div>
 
             </div>
 
@@ -198,33 +195,27 @@
 
         let currentSystem = 'full'; 
         let currentGloss = 'satin';
-        let currentFlakeScale = 1; // 1 = 1/4", 0.5 = 1/8", 0.25 = 1/16"
+        let currentFlakeScale = 1; 
         let activeBase = baseColors[0];
         let activeBlend = JSON.parse(JSON.stringify(flakeBlends[0]));
 
         // --- PROCEDURAL TEXTURE GENERATOR --- //
-        // Upgraded to handle millions of non-repeating flakes intelligently
         function generateTexture() {
             const canvas = document.createElement('canvas');
-            // Huge canvas to prevent grid patterning
             canvas.width = 3072; 
             canvas.height = 3072;
             const ctx = canvas.getContext('2d', { alpha: false });
 
-            // 1. Draw Base Coat
+            // Draw Base Coat
             ctx.fillStyle = activeBase.hex;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 2. Draw Flakes
+            // Draw Flakes
             if (currentSystem !== 'solid') {
-                
-                // Math to dynamically scale flakes and counts
-                // If flakes are 4x smaller, we need 16x as many to cover the same area
                 const baseFlakeCount = currentSystem === 'full' ? 300000 : 35000;
                 const numFlakes = Math.floor(baseFlakeCount / (currentFlakeScale * currentFlakeScale));
                 const baseSize = 7 * currentFlakeScale; 
 
-                // Pre-calculate cumulative weights for fast color picking
                 let totalWeight = 0;
                 let cumWeights = activeBlend.flakes.map(f => {
                     totalWeight += parseInt(f.weight);
@@ -238,13 +229,10 @@
                     const y = Math.random() * canvas.height;
                     const size = Math.random() * baseSize + (baseSize * 0.5); 
                     
-                    // Pick color based on custom weights
                     let r = Math.random() * totalWeight;
                     let cIndex = cumWeights.findIndex(cw => r <= cw);
                     ctx.fillStyle = activeBlend.flakes[cIndex].hex;
                     
-                    // Optimization: Use polygon drawing for 1/4" flakes, but switch to ultra-fast 
-                    // solid rects for 1/8" and 1/16" since they are too small for the eye to see shape details
                     if (currentFlakeScale === 1) {
                         ctx.beginPath();
                         const sides = Math.floor(Math.random() * 3) + 4;
@@ -258,7 +246,6 @@
                         ctx.closePath();
                         ctx.fill();
                     } else {
-                        // Fast rect for tiny flakes
                         ctx.fillRect(x, y, size, size);
                     }
                 }
@@ -268,8 +255,6 @@
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-            
-            // Fixed repeat rate ensures the giant canvas is spread naturally, eliminating the wallpaper grid look
             texture.repeat.set(1.5, 1.5);
             return texture;
         }
@@ -493,7 +478,6 @@
             });
         }
 
-        // Handle Collection Filter
         window.filterBlends = function() {
             renderBlends();
         }
@@ -521,9 +505,11 @@
             });
         }
 
+        // Proportional 100% Locked Sliders
         function renderSliders() {
             const cont = document.getElementById('sliders-container');
             cont.innerHTML = '';
+            
             activeBlend.flakes.forEach((flake, index) => {
                 const div = document.createElement('div');
                 div.innerHTML = `
@@ -533,15 +519,57 @@
                         </span>
                         <span class="text-xs text-[#93e6ff] font-mono w-8 text-right" id="val-${index}">${flake.weight}%</span>
                     </div>
-                    <input type="range" min="0" max="100" value="${flake.weight}" class="w-full">
+                    <input type="range" id="slider-${index}" min="0" max="100" value="${flake.weight}" class="w-full">
                 `;
-                const slider = div.querySelector('input');
+                cont.appendChild(div);
+            });
+
+            activeBlend.flakes.forEach((flake, index) => {
+                const slider = document.getElementById(`slider-${index}`);
                 slider.addEventListener('input', (e) => {
-                    activeBlend.flakes[index].weight = e.target.value;
-                    document.getElementById(`val-${index}`).innerText = e.target.value + '%';
+                    let newValue = parseInt(e.target.value);
+                    let oldValue = parseInt(activeBlend.flakes[index].weight);
+                    
+                    if (newValue === oldValue) return;
+
+                    activeBlend.flakes[index].weight = newValue;
+                    
+                    let otherIndices = activeBlend.flakes.map((_, i) => i).filter(i => i !== index);
+                    let sumOthers = otherIndices.reduce((sum, i) => sum + parseInt(activeBlend.flakes[i].weight), 0);
+                    let targetSumOthers = 100 - newValue;
+
+                    if (sumOthers > 0) {
+                        otherIndices.forEach(i => {
+                            let current = parseInt(activeBlend.flakes[i].weight);
+                            activeBlend.flakes[i].weight = Math.round(current * (targetSumOthers / sumOthers));
+                        });
+                    } else {
+                        let equalShare = Math.round(targetSumOthers / otherIndices.length);
+                        otherIndices.forEach(i => activeBlend.flakes[i].weight = equalShare);
+                    }
+
+                    // Fix minor rounding errors to ensure exact 100%
+                    let actualSumOthers = otherIndices.reduce((sum, i) => sum + activeBlend.flakes[i].weight, 0);
+                    let remainder = targetSumOthers - actualSumOthers;
+                    if (remainder !== 0 && otherIndices.length > 0) {
+                        let largestIndex = otherIndices[0];
+                        for (let i of otherIndices) {
+                            if (activeBlend.flakes[i].weight > activeBlend.flakes[largestIndex].weight) {
+                                largestIndex = i;
+                            }
+                        }
+                        activeBlend.flakes[largestIndex].weight += remainder;
+                        if (activeBlend.flakes[largestIndex].weight < 0) activeBlend.flakes[largestIndex].weight = 0;
+                    }
+
+                    // Update all slider UIs
+                    activeBlend.flakes.forEach((f, i) => {
+                        if (i !== index) document.getElementById(`slider-${i}`).value = f.weight;
+                        document.getElementById(`val-${i}`).innerText = f.weight + '%';
+                    });
+
                     triggerRender();
                 });
-                cont.appendChild(div);
             });
         }
 
