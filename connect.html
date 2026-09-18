@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect | Floorever ETX</title>
+
+    <link rel="icon" type="image/png" href="images/Favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        oswald: ['Oswald', 'sans-serif'],
+                        worksans: ['Work Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-worksans text-gray-800 min-h-screen flex flex-col relative">
+    
+    <!-- Background Design Element -->
+    <div class="absolute inset-0 opacity-20 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-[#93e6ff] rounded-full filter blur-[120px]"></div>
+    </div>
+
+    <!-- Main Navigation Menu -->
+    <nav id="navbar" class="w-full z-50 bg-[#032338] shadow-lg py-3 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <img src="images/FlooreverLogo.png" alt="Floorever ETX Logo" class="h-20 w-auto object-contain">
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <!-- Links route back to the main index.html page -->
+                    <a href="index.html#services" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Services</a>
+                    <a href="index.html#materials" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Materials</a>
+                    <a href="index.html#about" class="text-white hover:text-[#93e6ff] font-medium transition-colors">About Us</a>
+                    <!-- This link jumps down to the form on THIS page -->
+                    <a href="#contact" class="bg-[#e00603] hover:bg-red-700 text-white px-6 py-2.5 rounded font-oswald font-semibold tracking-wide transition-all transform hover:scale-105 shadow-lg">
+                        GET A FREE ESTIMATE
+                    </a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none">
+                        <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#032338] border-t border-gray-700 absolute w-full z-50">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-lg">
+                <a href="index.html#services" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Services</a>
+                <a href="index.html#materials" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Materials</a>
+                <a href="index.html#about" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">About Us</a>
+                <a href="#contact" class="mobile-link block px-3 py-2 text-[#e00603] font-bold">Get a Quote</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-2xl mx-auto px-4 py-12 relative z-10">
+        
+        <!-- Social Media Links Section -->
+        <div class="mb-16">
+            <h1 class="font-oswald text-3xl font-bold text-center text-[#032338] mb-8 uppercase tracking-wide">Connect With Us</h1>
+            
+            <div class="space-y-4">
+                <a href="index.html" class="flex items-center p-4 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg hover:border-[#93e6ff] transition-all transform hover:-translate-y-1 group">
+                    <div class="w-14 h-14 bg-[#032338] rounded-full flex items-center justify-center shrink-0 mr-5 group-hover:bg-[#93e6ff] transition-colors">
+                        <i data-lucide="globe" class="text-white w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="block font-oswald text-xl font-bold text-[#032338]">Visit Our Website</span>
+                        <span class="text-sm text-gray-500">View our full gallery and services</span>
+                    </div>
+                </a>
+
+                <!-- UPDATE HREF WITH YOUR ACTUAL FACEBOOK LINK -->
+                <a href="https://www.facebook.com/flooreveretx" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg hover:border-[#1877F2] transition-all transform hover:-translate-y-1 group">
+                    <img src="images/facebook.png" alt="Facebook" class="w-14 h-14 shrink-0 mr-5 object-contain hover:scale-110 transition-transform">
+                    <div>
+                        <span class="block font-oswald text-xl font-bold text-[#032338]">Follow on Facebook</span>
+                        <span class="text-sm text-gray-500">See our latest projects & updates</span>
+                    </div>
+                </a>
+
+                <!-- UPDATE HREF WITH YOUR ACTUAL INSTAGRAM LINK -->
+                <a href="https://www.instagram.com/flooreveretx" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg hover:border-[#E1306C] transition-all transform hover:-translate-y-1 group">
+                    <img src="images/instagram.webp" alt="Instagram" class="w-14 h-14 shrink-0 mr-5 object-contain hover:scale-110 transition-transform">
+                    <div>
+                        <span class="block font-oswald text-xl font-bold text-[#032338]">Follow on Instagram</span>
+                        <span class="text-sm text-gray-500">Check out our showroom shines</span>
+                    </div>
+                </a>
+
+		<!-- UPDATE HREF WITH YOUR ACTUAL INSTAGRAM LINK -->
+                <a href="https://www.tiktok.com/@floorever.etx" target="_blank" class="flex items-center p-4 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg hover:border-[#E1306C] transition-all transform hover:-translate-y-1 group">
+                    <img src="images/tiktok.webp" alt="TikTok" class="w-14 h-14 shrink-0 mr-5 object-contain hover:scale-110 transition-transform">
+                    <div>
+                        <span class="block font-oswald text-xl font-bold text-[#032338]">Follow on Instagram</span>
+                        <span class="text-sm text-gray-500">Check out our showroom shines</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center justify-center mb-16">
+            <div class="w-full h-px bg-gray-300"></div>
+            <span class="px-4 text-gray-400 font-oswald uppercase tracking-widest text-sm">Or</span>
+            <div class="w-full h-px bg-gray-300"></div>
+        </div>
+
+        <!-- Contact Form Section (ID added to match the nav link) -->
+        <div id="contact" class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-[#e00603]"></div>
+            
+            <div class="text-center mb-8">
+                <h2 class="font-oswald text-3xl font-bold text-[#032338] uppercase mb-2">Request a Quote</h2>
+                <p class="text-gray-500">Fill out the details below and we will get back to you shortly.</p>
+            </div>
+
+            <form id="quote-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfpRNg33cxM9hy8wPN2lbNIIvpPTxT5dx6ASgTwQ_6NaDvVig/formResponse" method="POST" class="space-y-6">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">First Name</label>
+                        <input type="text" name="entry.2010600177" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors" placeholder="John" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Last Name</label>
+                        <input type="text" name="entry.1123746651" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors" placeholder="Doe" required>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Phone Number</label>
+                        <input type="tel" name="entry.748055845" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors" placeholder="(555) 123-4567" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Email Address</label>
+                        <input type="email" name="entry.268719956" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors" placeholder="john@example.com" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Project Type</label>
+                    <select name="entry.753884142" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors text-gray-700">
+                        <option value="Garage / Driveway">Garage / Driveway</option>
+                        <option value="Patio / Pool Deck">Patio / Pool Deck</option>
+                        <option value="Commercial / Industrial">Commercial / Industrial</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2 font-oswald tracking-wide uppercase">Project Details (Optional)</label>
+                    <textarea name="entry.870330039" rows="4" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-[#032338] focus:ring-1 focus:ring-[#032338] transition-colors resize-none" placeholder="Tell us a bit about the space..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-[#e00603] hover:bg-red-700 text-white py-4 rounded font-oswald text-xl font-bold tracking-wider transition-all transform hover:-translate-y-1 shadow-lg flex justify-center items-center gap-2">
+                    SUBMIT REQUEST <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-[#1a0001] py-8 text-center mt-auto w-full relative z-10">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-gray-500 text-sm">
+                &copy; <span id="year"></span> Floorever ETX. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        lucide.createIcons();
+
+        // Mobile Menu Toggle Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // Form Submission Logic
+        function showSuccessMessage() {
+            const formContainer = document.getElementById('quote-form').parentElement;
+            formContainer.innerHTML = `
+                <div class="text-center py-10 space-y-4 animate-fade-in">
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto shadow-sm">
+                        <i data-lucide="check" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-oswald text-3xl font-bold text-[#032338] uppercase">Request Received!</h3>
+                    <p class="text-gray-600 max-w-sm mx-auto">Thank you! We will review your project details and get back to you shortly.</p>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        const quoteForm = document.getElementById('quote-form');
+        if(quoteForm) {
+            quoteForm.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+                
+                const form = this;
+                const data = new FormData(form);
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitButton.innerHTML;
+                
+                submitButton.innerHTML = 'SENDING... <i data-lucide="loader-2" class="w-6 h-6 animate-spin"></i>';
+                lucide.createIcons();
+                submitButton.disabled = true;
+                
+                fetch(form.action, {
+                    method: 'POST',
+                    body: data,
+                    mode: 'no-cors' 
+                })
+                .then(() => {
+                    showSuccessMessage();
+                })
+                .catch((error) => {
+                    console.error('Error!', error.message);
+                    alert("Something went wrong. Please check your connection and try again.");
+                    submitButton.innerHTML = originalBtnText;
+                    submitButton.disabled = false;
+                    lucide.createIcons();
+                });
+            });
+        }
+    </script>
+</body>
+</html>
