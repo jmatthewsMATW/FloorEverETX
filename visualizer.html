@@ -405,7 +405,7 @@
         const wallMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.9 });
         
         const floorGeo = new THREE.PlaneGeometry(30, 24);
-        const floorMat = new THREE.MeshStandardMaterial({ roughness: 0.15, metalness: 0.05 });
+        const floorMat = new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0.05 });
         const floorMesh = new THREE.Mesh(floorGeo, floorMat);
         floorMesh.rotation.x = -Math.PI / 2;
         floorMesh.receiveShadow = true;
