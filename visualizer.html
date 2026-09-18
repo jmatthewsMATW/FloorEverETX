@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Floor Studio | Floorever ETX</title>
+    
+    <link rel="icon" type="image/png" href="images/Favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Three.js and OrbitControls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <style>
+        .font-oswald { font-family: 'Oswald', sans-serif; }
+        body { font-family: 'Work Sans', sans-serif; }
+        #canvas-container canvas { width: 100% !important; height: 100% !important; outline: none; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #032338; }
+        ::-webkit-scrollbar-thumb { background: #1f3b52; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #93e6ff; }
+
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #93e6ff; cursor: pointer; margin-top: -6px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #1f3b52; border-radius: 2px; }
+    </style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen flex flex-col select-none overflow-hidden">
+
+    <!-- Header -->
+    <header class="bg-[#032338] border-b border-white/10 px-6 py-4 flex justify-between items-center z-20 shrink-0">
+        <div class="flex items-center gap-3">
+            <img src="images/FlooreverLogo.png" alt="Floorever Logo" class="h-12 w-auto object-contain">
+            <span class="font-oswald text-xl font-bold tracking-wide uppercase text-[#93e6ff] hidden sm:block">3D Floor Studio</span>
+        </div>
+        <a href="/" class="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Main Site
+        </a>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="flex-grow flex flex-col lg:flex-row relative h-[calc(100vh-80px)]">
+        
+        <!-- 3D Viewport Canvas -->
+        <div class="relative flex-grow h-[45vh] lg:h-full bg-black" id="canvas-container">
+            <div class="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur px-3 py-2 rounded-lg border border-white/10 text-xs text-gray-300 flex items-center gap-3 pointer-events-none">
+                <i data-lucide="mouse-pointer" class="w-4 h-4 text-[#93e6ff]"></i>
+                <span>Click & drag to look around <br> Scroll to zoom</span>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="texture-loader" class="absolute inset-0 z-20 bg-black/80 flex flex-col items-center justify-center hidden">
+                <i data-lucide="loader-2" class="w-12 h-12 text-[#93e6ff] animate-spin mb-3"></i>
+                <p class="font-oswald tracking-widest uppercase text-sm">Rendering Details...</p>
+                <p class="text-xs text-gray-500 mt-2">Generating millions of flakes</p>
+            </div>
+        </div>
+
+        <!-- Sidebar / Control Panel -->
+        <aside class="w-full lg:w-[450px] bg-[#032338] border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col z-20 shrink-0 h-[55vh] lg:h-full">
+            
+            <div class="p-6 flex-grow overflow-y-auto space-y-8">
+                
+                <!-- 1. System Type -->
+                <div>
+                    <h2 class="font-oswald text-xl font-bold uppercase tracking-wide mb-4 text-white">1. Select System Type</h2>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setSystem('solid')" id="sys-solid" class="sys-btn py-2 px-2 rounded-lg text-sm font-medium border border-white/20 bg-white/5 text-gray-300 hover:bg-white/10 transition-all text-center">Solid Color</button>
+                        <button onclick="setSystem('partial')" id="sys-partial" class="sys-btn py-2 px-2 rounded-lg text-sm font-medium border border-white/20 bg-white/5 text-gray-300 hover:bg-white/10 transition-all text-center">Partial Flake</button>
+                        <button onclick="setSystem('full')" id="sys-full" class="sys-btn py-2 px-2 rounded-lg text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all text-center">Full Flake</button>
+                    </div>
+                </div>
+
+                <!-- 2. Base Coat (Hidden on Full Flake) -->
+                <div id="section-basecolor" class="border-t border-white/10 pt-6">
+                    <h2 class="font-oswald text-xl font-bold uppercase tracking-wide mb-4 text-white">2. Base Coat Color</h2>
+                    <div class="grid grid-cols-2 gap-3" id="base-container">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- 3. Flake Blend (Hidden on Solid) -->
+                <div id="section-flakeblend" class="border-t border-white/10 pt-6">
+                    <h2 class="font-oswald text-xl font-bold uppercase tracking-wide mb-3 text-white">3. Select Flake Blend</h2>
+                    
+                    <!-- NEW: Collection Filter -->
+                    <select id="blend-collection" class="w-full bg-[#02182b] border border-white/20 text-white text-sm rounded-lg px-3 py-2 mb-4 focus:outline-none focus:border-[#93e6ff]" onchange="filterBlends()">
+                        <option value="all">View All Collections</option>
+                        <option value="signature">Signature Collection</option>
+                        <option value="earth">Earth Tones</option>
+                        <option value="cool">Cool & Industrial</option>
+                    </select>
+
+                    <div class="grid grid-cols-2 gap-3" id="blend-container">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- 4. Flake Size (Hidden on Solid) -->
+                <div id="section-flakesize" class="border-t border-white/10 pt-6">
+                    <h2 class="font-oswald text-xl font-bold uppercase tracking-wide mb-4 text-white">4. Flake Size</h2>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setFlakeSize(1)" id="size-1" class="size-btn py-2 px-2 rounded-lg text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all text-center">1/4" (Std)</button>
+                        <button onclick="setFlakeSize(0.5)" id="size-0.5" class="size-btn py-2 px-2 rounded-lg text-sm font-medium border border-white/20 bg-white/5 text-gray-300 hover:bg-white/10 transition-all text-center">1/8"</button>
+                        <button onclick="setFlakeSize(0.25)" id="size-0.25" class="size-btn py-2 px-2 rounded-lg text-sm font-medium border border-white/20 bg-white/5 text-gray-300 hover:bg-white/10 transition-all text-center">1/16"</button>
+                    </div>
+                </div>
+
+                <!-- 5. Flake Customizer (Hidden on Solid) -->
+                <div id="section-customizer" class="border-t border-white/10 pt-6 pb-2">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-oswald text-xl font-bold uppercase tracking-wide text-white">5. Customize Blend</h2>
+                        <button onclick="resetSliders()" class="text-xs text-[#93e6ff] hover:text-white uppercase tracking-wider font-bold"><i data-lucide="refresh-cw" class="w-3 h-3 inline mr-1"></i>Reset</button>
+                    </div>
+                    <div id="sliders-container" class="space-y-4 bg-white/5 p-4 rounded-xl border border-white/10">
+                        <!-- Sliders injected by JS -->
+                    </div>
+                </div>
+
+                <!-- 6. Topcoat Finish -->
+                <div class="border-t border-white/10 pt-6 pb-4">
+                    <h2 class="font-oswald text-xl font-bold uppercase tracking-wide mb-4 text-white">6. Topcoat Gloss</h2>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-gloss-high" class="py-2 px-3 rounded text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all">
+                            High-Gloss
+                        </button>
+                        <button id="btn-gloss-satin" class="py-2 px-3 rounded text-sm font-medium border border-white/20 bg-white/5 text-gray-400 hover:text-white transition-all">
+                            Matte / Satin
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CTA Footer -->
+            <div class="p-6 bg-[#02182b] border-t border-white/10 shrink-0">
+                <p id="active-selection-text" class="text-sm text-gray-400 mb-3 text-center">Currently viewing: <span class="text-white font-bold">Domino (Full Flake)</span></p>
+                <a href="/#contact" class="block w-full bg-[#e00603] hover:bg-red-700 text-white text-center py-4 rounded font-oswald text-xl font-bold tracking-wide transition-all shadow-lg shadow-red-500/20">
+                    REQUEST A QUOTE
+                </a>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // --- STATE & DATA --- //
+        const baseColors = [
+            { id: "lightgray", name: "Light Gray", hex: "#b0b3b8" },
+            { id: "darkgray", name: "Dark Gray", hex: "#5a5c60" },
+            { id: "tan", name: "Desert Tan", hex: "#c2b29f" },
+            { id: "black", name: "Jet Black", hex: "#1a1a1a" }
+        ];
+
+        // Portfolio with assigned Collections
+        const flakeBlends = [
+            { id: "domino", name: "Domino", collection: "signature", flakes: [
+                { name: "White", hex: "#ffffff", weight: 40 },
+                { name: "Black", hex: "#000000", weight: 30 },
+                { name: "Dark Gray", hex: "#444444", weight: 20 },
+                { name: "Light Gray", hex: "#888888", weight: 10 }
+            ]},
+            { id: "gravel", name: "Gravel", collection: "signature", flakes: [
+                { name: "Light Gray", hex: "#aaaaaa", weight: 40 },
+                { name: "White", hex: "#ffffff", weight: 30 },
+                { name: "Dark Gray", hex: "#444444", weight: 30 }
+            ]},
+            { id: "nightfall", name: "Nightfall", collection: "cool", flakes: [
+                { name: "Black", hex: "#111111", weight: 50 },
+                { name: "Dark Blue", hex: "#1e3a8a", weight: 30 },
+                { name: "Light Blue", hex: "#93e6ff", weight: 10 },
+                { name: "White", hex: "#ffffff", weight: 10 }
+            ]},
+            { id: "slate", name: "Slate Stone", collection: "cool", flakes: [
+                { name: "Charcoal", hex: "#222222", weight: 50 },
+                { name: "Steel", hex: "#64748b", weight: 40 },
+                { name: "White", hex: "#ffffff", weight: 10 }
+            ]},
+            { id: "saddle", name: "Saddle Tan", collection: "earth", flakes: [
+                { name: "Tan", hex: "#d4a373", weight: 45 },
+                { name: "Brown", hex: "#3b2f2f", weight: 30 },
+                { name: "Cream", hex: "#faedcd", weight: 15 },
+                { name: "Black", hex: "#000000", weight: 10 }
+            ]},
+            { id: "canyon", name: "Canyon", collection: "earth", flakes: [
+                { name: "Sand", hex: "#e6ccb2", weight: 40 },
+                { name: "Rust", hex: "#9c6644", weight: 40 },
+                { name: "Dark Brown", hex: "#5c4033", weight: 20 }
+            ]}
+        ];
+
+        let currentSystem = 'full'; 
+        let currentGloss = 'high';
+        let currentFlakeScale = 1; // 1 = 1/4", 0.5 = 1/8", 0.25 = 1/16"
+        let activeBase = baseColors[0];
+        let activeBlend = JSON.parse(JSON.stringify(flakeBlends[0]));
+
+        // --- PROCEDURAL TEXTURE GENERATOR --- //
+        // Upgraded to handle millions of non-repeating flakes intelligently
+        function generateTexture() {
+            const canvas = document.createElement('canvas');
+            // Huge canvas to prevent grid patterning
+            canvas.width = 3072; 
+            canvas.height = 3072;
+            const ctx = canvas.getContext('2d', { alpha: false });
+
+            // 1. Draw Base Coat
+            ctx.fillStyle = activeBase.hex;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Draw Flakes
+            if (currentSystem !== 'solid') {
+                
+                // Math to dynamically scale flakes and counts
+                // If flakes are 4x smaller, we need 16x as many to cover the same area
+                const baseFlakeCount = currentSystem === 'full' ? 300000 : 35000;
+                const numFlakes = Math.floor(baseFlakeCount / (currentFlakeScale * currentFlakeScale));
+                const baseSize = 7 * currentFlakeScale; 
+
+                // Pre-calculate cumulative weights for fast color picking
+                let totalWeight = 0;
+                let cumWeights = activeBlend.flakes.map(f => {
+                    totalWeight += parseInt(f.weight);
+                    return totalWeight;
+                });
+                if (totalWeight === 0) totalWeight = 1;
+
+                // Fast Drawing Loop
+                for (let i = 0; i < numFlakes; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    const size = Math.random() * baseSize + (baseSize * 0.5); 
+                    
+                    // Pick color based on custom weights
+                    let r = Math.random() * totalWeight;
+                    let cIndex = cumWeights.findIndex(cw => r <= cw);
+                    ctx.fillStyle = activeBlend.flakes[cIndex].hex;
+                    
+                    // Optimization: Use polygon drawing for 1/4" flakes, but switch to ultra-fast 
+                    // solid rects for 1/8" and 1/16" since they are too small for the eye to see shape details
+                    if (currentFlakeScale === 1) {
+                        ctx.beginPath();
+                        const sides = Math.floor(Math.random() * 3) + 4;
+                        const startAngle = Math.random() * Math.PI * 2; 
+                        for (let j = 0; j < sides; j++) {
+                            const angle = startAngle + (j / sides) * Math.PI * 2 + (Math.random() * 0.4);
+                            const radius = size * (0.6 + Math.random() * 0.4);
+                            if (j === 0) ctx.moveTo(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
+                            else ctx.lineTo(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
+                        }
+                        ctx.closePath();
+                        ctx.fill();
+                    } else {
+                        // Fast rect for tiny flakes
+                        ctx.fillRect(x, y, size, size);
+                    }
+                }
+            }
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            
+            // Fixed repeat rate ensures the giant canvas is spread naturally, eliminating the wallpaper grid look
+            texture.repeat.set(1.5, 1.5);
+            return texture;
+        }
+
+        // --- THREE.JS SCENE SETUP --- //
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a202c);
+        scene.fog = new THREE.Fog(0x1a202c, 10, 45);
+
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+        camera.position.set(0, 6, 6);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2 - 0.05; 
+        controls.minDistance = 2;
+        controls.maxDistance = 25;
+        controls.target.set(0, 1, -4);
+
+        // --- ARCHITECTURAL BUILDERS --- //
+        function buildGarageDoor(w, h) {
+            const group = new THREE.Group();
+            const panelMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 });
+            const windowMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1, metalness: 0.8 });
+            const metalMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.5, metalness: 0.6 });
+
+            const backer = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.1), new THREE.MeshStandardMaterial({ color: 0xe2e8f0 }));
+            group.add(backer);
+
+            const rows = 4;
+            const cols = w > 10 ? 8 : 4;
+            const pW = (w - 0.4) / cols - 0.1;
+            const pH = (h - 0.4) / rows - 0.1;
+
+            for(let r = 0; r < rows; r++) {
+                for(let c = 0; c < cols; c++) {
+                    const isWin = (r === rows - 1);
+                    const pMesh = new THREE.Mesh(new THREE.BoxGeometry(pW, pH, 0.05), isWin ? windowMat : panelMat);
+                    pMesh.position.set(-w/2 + 0.2 + pW/2 + c*(pW + 0.1), -h/2 + 0.2 + pH/2 + r*(pH + 0.1), 0.06);
+                    group.add(pMesh);
+                }
+            }
+
+            for(let r = 1; r < rows; r++) {
+                const rail = new THREE.Mesh(new THREE.BoxGeometry(w, 0.05, 0.08), metalMat);
+                rail.position.set(0, -h/2 + r*(h/rows), -0.06);
+                group.add(rail);
+            }
+            for(let c = 1; c < cols; c++) {
+                const stile = new THREE.Mesh(new THREE.BoxGeometry(0.05, h, 0.08), metalMat);
+                stile.position.set(-w/2 + c*(w/cols), 0, -0.06);
+                group.add(stile);
+            }
+            
+            const lStile = new THREE.Mesh(new THREE.BoxGeometry(0.05, h, 0.08), metalMat);
+            lStile.position.set(-w/2 + 0.025, 0, -0.06); group.add(lStile);
+            const rStile = new THREE.Mesh(new THREE.BoxGeometry(0.05, h, 0.08), metalMat);
+            rStile.position.set(w/2 - 0.025, 0, -0.06); group.add(rStile);
+
+            return group;
+        }
+
+        function buildCabinets(w) {
+            const group = new THREE.Group();
+            const cabMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.6 });
+            const handleMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8 });
+
+            group.add(new THREE.Mesh(new THREE.BoxGeometry(w, 3, 2), cabMat).translateY(1.5));
+            group.add(new THREE.Mesh(new THREE.BoxGeometry(w + 0.1, 0.15, 2.1), new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.3 })).translateY(3.075).translateZ(0.05));
+            group.add(new THREE.Mesh(new THREE.BoxGeometry(w, 2.5, 1.2), cabMat).translateY(5.75).translateZ(-0.4));
+
+            const numDoors = Math.floor(w / 2.5);
+            const dW = (w / numDoors) - 0.05;
+            for(let i = 0; i < numDoors; i++) {
+                const posX = -w/2 + dW/2 + 0.025 + i*(dW + 0.05);
+                const ld = new THREE.Mesh(new THREE.BoxGeometry(dW, 2.8, 0.05), cabMat);
+                ld.position.set(posX, 1.5, 1.02);
+                const lh = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.6, 0.05), handleMat);
+                lh.position.set(dW/2 - 0.15, 0.8, 0.05);
+                ld.add(lh);
+                group.add(ld);
+
+                const ud = new THREE.Mesh(new THREE.BoxGeometry(dW, 2.3, 0.05), cabMat);
+                ud.position.set(posX, 5.75, 0.22);
+                const uh = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.6, 0.05), handleMat);
+                uh.position.set(dW/2 - 0.15, -0.6, 0.05);
+                ud.add(uh);
+                group.add(ud);
+            }
+            return group;
+        }
+
+        function buildManDoor() {
+            const group = new THREE.Group();
+            group.add(new THREE.Mesh(new THREE.BoxGeometry(3.2, 7.2, 0.2), new THREE.MeshStandardMaterial({ color: 0x94a3b8 })));
+            
+            const door = new THREE.Mesh(new THREE.BoxGeometry(3, 7, 0.1), new THREE.MeshStandardMaterial({ color: 0xcbd5e1 }));
+            door.position.z = 0.05;
+            
+            const knob = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), new THREE.MeshStandardMaterial({ color: 0xd4d4d8, metalness: 0.8, roughness: 0.2 }));
+            knob.position.set(-1.2, 0, 0.15);
+            
+            const pGeo = new THREE.BoxGeometry(2.4, 3, 0.02);
+            door.add(new THREE.Mesh(pGeo, door.material).translateY(1.5).translateZ(0.06));
+            door.add(new THREE.Mesh(pGeo, door.material).translateY(-1.8).translateZ(0.06));
+
+            group.add(door, knob);
+            return group;
+        }
+
+        // --- 3D SCENE ASSEMBLY --- //
+        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const addLight = (x, z) => {
+            const l = new THREE.PointLight(0xffffff, 0.8, 25, 1.5);
+            l.position.set(x, 9.5, z); l.castShadow = true; l.shadow.bias = -0.0005;
+            scene.add(l);
+            const fix = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.1, 4), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            fix.position.set(x, 9.8, z); scene.add(fix);
+        };
+        [-10, 0, 10].forEach(x => { addLight(x, -5); addLight(x, 5); });
+
+        const roomGroup = new THREE.Group();
+        const wallMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.9 });
+        
+        const floorGeo = new THREE.PlaneGeometry(30, 24);
+        const floorMat = new THREE.MeshStandardMaterial({ roughness: 0.15, metalness: 0.05 });
+        const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+        floorMesh.rotation.x = -Math.PI / 2;
+        floorMesh.receiveShadow = true;
+        roomGroup.add(floorMesh);
+
+        const frontWall = new THREE.Mesh(new THREE.PlaneGeometry(30, 10), wallMat);
+        frontWall.position.set(0, 5, 12); frontWall.rotation.y = Math.PI; frontWall.receiveShadow = true;
+        roomGroup.add(frontWall);
+
+        const d2 = buildGarageDoor(16, 7); d2.position.set(-5, 3.5, 11.9); d2.castShadow = true; roomGroup.add(d2);
+        const d1 = buildGarageDoor(8, 7); d1.position.set(9, 3.5, 11.9); d1.castShadow = true; roomGroup.add(d1);
+
+        const backWall = new THREE.Mesh(new THREE.PlaneGeometry(30, 10), wallMat);
+        backWall.position.set(0, 5, -12); backWall.receiveShadow = true;
+        roomGroup.add(backWall);
+        
+        const cabs = buildCabinets(24); cabs.position.set(0, 0, -11); cabs.castShadow = true; roomGroup.add(cabs);
+
+        const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(24, 10), wallMat);
+        rightWall.position.set(15, 5, 0); rightWall.rotation.y = -Math.PI / 2; rightWall.receiveShadow = true;
+        roomGroup.add(rightWall);
+
+        const md = buildManDoor(); md.position.set(14.9, 3.5, 0); md.rotation.y = -Math.PI / 2; roomGroup.add(md);
+
+        const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(24, 10), wallMat);
+        leftWall.position.set(-15, 5, 0); leftWall.rotation.y = Math.PI / 2; leftWall.receiveShadow = true;
+        roomGroup.add(leftWall);
+
+        const baseboardMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.6 });
+        const bbBack = new THREE.Mesh(new THREE.BoxGeometry(30, 0.5, 0.1), baseboardMat);
+        bbBack.position.set(0, 0.25, -11.95); roomGroup.add(bbBack);
+        const bbLeft = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.5, 24), baseboardMat);
+        bbLeft.position.set(-14.95, 0.25, 0); roomGroup.add(bbLeft);
+
+        scene.add(roomGroup);
+
+        // --- UI & LOGIC --- //
+        let renderTimeout;
+        const loader = document.getElementById('texture-loader');
+        const activeText = document.getElementById('active-selection-text');
+
+        function triggerRender() {
+            if(currentSystem === 'solid') {
+                floorMat.map = null;
+                floorMat.color.set(activeBase.hex);
+                floorMat.needsUpdate = true;
+                updateTitle();
+                return;
+            }
+
+            loader.classList.remove('hidden');
+            clearTimeout(renderTimeout);
+            
+            renderTimeout = setTimeout(() => {
+                floorMat.color.set(0xffffff); 
+                const newTex = generateTexture();
+                if(floorMat.map) floorMat.map.dispose();
+                floorMat.map = newTex;
+                floorMat.needsUpdate = true;
+                updateTitle();
+                loader.classList.add('hidden');
+            }, 50);
+        }
+
+        function updateTitle() {
+            let sysName = currentSystem.charAt(0).toUpperCase() + currentSystem.slice(1);
+            if(sysName === 'Partial' || sysName === 'Full') sysName += " Flake";
+            
+            let name = currentSystem === 'solid' ? activeBase.name : activeBlend.name;
+            let sizeStr = currentSystem === 'solid' ? "" : ` - ${currentFlakeScale === 1 ? '1/4"' : (currentFlakeScale === 0.5 ? '1/8"' : '1/16"')}`;
+            
+            activeText.innerHTML = `Currently viewing: <span class="text-white font-bold">${name} (${sysName}${sizeStr})</span>`;
+        }
+
+        function renderBaseColors() {
+            const cont = document.getElementById('base-container');
+            cont.innerHTML = '';
+            baseColors.forEach(bc => {
+                const btn = document.createElement('button');
+                const isActive = activeBase.id === bc.id;
+                btn.className = `p-3 rounded-xl border text-left flex items-center gap-3 transition-all ${isActive ? 'border-[#93e6ff] bg-white/10 shadow-md' : 'border-white/10 bg-white/5 hover:border-white/30'}`;
+                btn.innerHTML = `<div class="w-8 h-8 rounded-full border border-white/20 shrink-0" style="background-color: ${bc.hex};"></div><p class="font-oswald font-bold text-sm truncate text-white">${bc.name}</p>`;
+                btn.onclick = () => { activeBase = bc; renderBaseColors(); triggerRender(); };
+                cont.appendChild(btn);
+            });
+        }
+
+        // Handle Collection Filter
+        window.filterBlends = function() {
+            renderBlends();
+        }
+
+        function renderBlends() {
+            const cont = document.getElementById('blend-container');
+            cont.innerHTML = '';
+            
+            const filterVal = document.getElementById('blend-collection').value;
+            
+            flakeBlends.forEach(b => {
+                if(filterVal !== 'all' && b.collection !== filterVal) return;
+
+                const btn = document.createElement('button');
+                const isActive = activeBlend.id === b.id;
+                btn.className = `p-3 rounded-xl border text-left flex items-center gap-3 transition-all ${isActive ? 'border-[#93e6ff] bg-white/10 shadow-md' : 'border-white/10 bg-white/5 hover:border-white/30'}`;
+                btn.innerHTML = `<div class="w-8 h-8 rounded-full border border-white/20 shrink-0" style="background: ${b.flakes[0].hex}; border: 2px dotted ${b.flakes[1].hex};"></div><p class="font-oswald font-bold text-sm truncate text-white">${b.name}</p>`;
+                btn.onclick = () => { 
+                    activeBlend = JSON.parse(JSON.stringify(b)); 
+                    renderBlends(); 
+                    renderSliders(); 
+                    triggerRender(); 
+                };
+                cont.appendChild(btn);
+            });
+        }
+
+        function renderSliders() {
+            const cont = document.getElementById('sliders-container');
+            cont.innerHTML = '';
+            activeBlend.flakes.forEach((flake, index) => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold flex items-center gap-2 text-white">
+                            <span class="w-3 h-3 rounded-full border border-white/30 block" style="background:${flake.hex}"></span> ${flake.name}
+                        </span>
+                        <span class="text-xs text-[#93e6ff] font-mono w-8 text-right" id="val-${index}">${flake.weight}%</span>
+                    </div>
+                    <input type="range" min="0" max="100" value="${flake.weight}" class="w-full">
+                `;
+                const slider = div.querySelector('input');
+                slider.addEventListener('input', (e) => {
+                    activeBlend.flakes[index].weight = e.target.value;
+                    document.getElementById(`val-${index}`).innerText = e.target.value + '%';
+                    triggerRender();
+                });
+                cont.appendChild(div);
+            });
+        }
+
+        window.setFlakeSize = function(scale) {
+            currentFlakeScale = scale;
+            document.querySelectorAll('.size-btn').forEach(btn => btn.className = 'size-btn py-2 px-2 rounded-lg text-sm font-medium border border-white/20 bg-white/5 text-gray-300 hover:bg-white/10 transition-all text-center');
+            document.getElementById('size-' + scale).className = 'size-btn py-2 px-2 rounded-lg text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all text-center';
+            triggerRender();
+        };
+
+        const btnHigh = document.getElementById('btn-gloss-high');
+        const btnSatin = document.getElementById('btn-gloss-satin');
+
+        btnHigh.onclick = () => {
+            currentGloss = 'high';
+            floorMat.roughness = 0.15;
+            floorMat.needsUpdate = true;
+            btnHigh.className = 'py-2 px-3 rounded text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all';
+            btnSatin.className = 'py-2 px-3 rounded text-sm font-medium border border-white/20 bg-white/5 text-gray-400 hover:text-white transition-all';
+        };
+
+        btnSatin.onclick = () => {
+            currentGloss = 'satin';
+            floorMat.roughness = 0.55; 
+            floorMat.needsUpdate = true;
+            btnSatin.className = 'py-2 px-3 rounded text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all';
+            btnHigh.className = 'py-2 px-3 rounded text-sm font-medium border border-white/20 bg-white/5 text-gray-400 hover:text-white transition-all';
+        };
+
+        window.resetSliders = function() {
+            const original = flakeBlends.find(f => f.id === activeBlend.id);
+            activeBlend = JSON.parse(JSON.stringify(original));
+            renderSliders();
+            triggerRender();
+        }
+
+        window.setSystem = function(sys) {
+            currentSystem = sys;
+            document.querySelectorAll('.sys-btn').forEach(btn => btn.className = 'sys-btn py-2 px-2 rounded-lg text-sm font-medium border border-white/20 bg-white/5 text-gray-300 hover:bg-white/10 transition-all text-center');
+            document.getElementById('sys-' + sys).className = 'sys-btn py-2 px-2 rounded-lg text-sm font-medium border border-[#93e6ff] bg-[#93e6ff]/20 text-[#93e6ff] transition-all text-center';
+
+            document.getElementById('section-basecolor').style.display = sys === 'full' ? 'none' : 'block';
+            document.getElementById('section-flakeblend').style.display = sys === 'solid' ? 'none' : 'block';
+            document.getElementById('section-flakesize').style.display = sys === 'solid' ? 'none' : 'block';
+            document.getElementById('section-customizer').style.display = sys === 'solid' ? 'none' : 'block';
+
+            triggerRender();
+        };
+
+        renderBaseColors();
+        renderBlends();
+        renderSliders();
+        setSystem('full'); 
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    </script>
+</body>
+</html>
