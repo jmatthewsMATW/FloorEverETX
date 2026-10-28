@@ -147,7 +147,6 @@
                         <button onclick="openLeadModal()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-bold text-sm transition-colors uppercase tracking-wide">+ New Lead</button>
                     </div>
                     
-                    <!-- Active Leads -->
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -162,7 +161,6 @@
                         </table>
                     </div>
 
-                    <!-- Folded Archived Leads -->
                     <details class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                         <summary class="px-6 py-4 font-bold text-gray-700 cursor-pointer focus:outline-none bg-gray-50 hover:bg-gray-100 transition-colors">Not Interested / Archived Leads</summary>
                         <div class="border-t border-gray-200">
@@ -868,29 +866,6 @@
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
 
-        window.convertLeadFromModal = async (leadId) => {
-            const lead = leads.find(l => l.id === leadId);
-            if(!lead) return;
-            try {
-                const clientName = `${lead.firstName || ''} ${lead.lastName || ''}`.trim() || 'Unnamed Client';
-                const accRef = await addDoc(getColRef('accounts'), {
-                    companyName: lead.companyName || '',
-                    phone: lead.phone, email: lead.email, address: lead.address, notes: lead.notes,
-                    contacts: [{firstName: lead.firstName, lastName: lead.lastName, phone: lead.phone, email: lead.email}],
-                    createdAt: new Date().toISOString()
-                });
-                await addDoc(getColRef('opportunities'), {
-                    accountId: accRef.id, accountName: lead.companyName ? `${clientName} (${lead.companyName})` : clientName,
-                    name: `${lead.projectType || 'New'} Project`, primaryContact: clientName,
-                    stage: 'New Opportunity', tasks: lead.tasks,
-                    createdAt: new Date().toISOString(), stageUpdatedAt: new Date().toISOString()
-                });
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', leadId));
-                closeModal();
-            } catch(e) { alert("Conversion failed: " + e.message); }
-        };
-
-        // --- PRODUCTS & QUOTING ---
         document.getElementById('add-category-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             try { await addDoc(getColRef('categories'), { name: document.getElementById('cat-name').value }); e.target.reset(); } 
@@ -1002,25 +977,48 @@
             doc.setFillColor(0, 0, 0);
             doc.rect(0, 0, 210, 35, 'F'); 
 
+            // Text configuration
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            const text1 = "DURABLE. PROFESSIONAL. ";
+            const text2 = "LOCAL.";
+            const w1 = doc.getTextWidth(text1);
+            const w2 = doc.getTextWidth(text2);
+            const totalW = w1 + w2;
+            const rightMarginX = 196;
+            const startX = rightMarginX - totalW;
+            const textY = 21;
+
             // Load Logo asynchronously
             const img = new Image();
             img.src = '../images/FlooreverLogo.png';
             await new Promise((resolve) => { img.onload = resolve; img.onerror = resolve; });
 
             if (img.width) {
-                const imgWidth = 50;
-                const imgHeight = (img.height / img.width) * imgWidth;
-                const yPos = (35 - imgHeight) / 2;
-                doc.addImage(img, 'PNG', 14, yPos > 0 ? yPos : 5, imgWidth, imgHeight);
+                let maxH = 25;
+                let maxW = 80;
+                let imgRatio = img.width / img.height;
+                let renderW = maxH * imgRatio;
+                let renderH = maxH;
                 
-                doc.setFontSize(12); doc.setTextColor(220, 38, 38); doc.setFont("helvetica","bold");
-                doc.text("DURABLE. PROFESSIONAL. LOCAL.", 14 + imgWidth + 8, 19);
+                if (renderW > maxW) {
+                    renderW = maxW;
+                    renderH = renderW / imgRatio;
+                }
+                const yPos = (35 - renderH) / 2;
+                doc.addImage(img, 'PNG', 14, yPos, renderW, renderH);
             } else {
+                // Fallback if logo fails to load
                 doc.setFontSize(24); doc.setTextColor(220, 38, 38); doc.setFont("helvetica","bold");
-                doc.text("FLOOREVER", 14, 22); 
-                doc.setFontSize(10); doc.setTextColor(220, 38, 38);
-                doc.text("DURABLE. PROFESSIONAL. LOCAL.", 75, 22);
+                doc.text("FLOOREVER", 14, 23); 
             }
+
+            // Draw right-aligned split-color text
+            doc.setFontSize(18);
+            doc.setTextColor(255, 255, 255); // White
+            doc.text(text1, startX, textY);
+            doc.setTextColor(220, 38, 38); // Red
+            doc.text(text2, startX + w1, textY);
 
             // --- METADATA ---
             doc.setFontSize(12); doc.setTextColor(100, 100, 100); doc.setFont("helvetica","bold");
