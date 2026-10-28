@@ -19,7 +19,7 @@
         .kanban-col { min-width: 280px; max-width: 280px; }
         .view-section { display: none !important; }
         .view-section.active { display: block !important; animation: fadeIn 0.3s; }
-        #opportunities-view.active { display: flex !important; flex-direction: column; }
+        #opportunities-view.active, #jobs-view.active { display: flex !important; flex-direction: column; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
@@ -66,6 +66,7 @@
                 <button data-target="leads-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Leads</button>
                 <button data-target="accounts-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Accounts</button>
                 <button data-target="opportunities-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Opportunities</button>
+                <button data-target="jobs-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Jobs</button>
                 <button data-target="products-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Products Catalog</button>
                 <button data-target="quoting-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Quote Engine</button>
             </nav>
@@ -146,7 +147,6 @@
                         <button onclick="openLeadModal()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-bold text-sm transition-colors uppercase tracking-wide">+ New Lead</button>
                     </div>
                     
-                    <!-- Active Leads -->
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -161,7 +161,6 @@
                         </table>
                     </div>
 
-                    <!-- Folded Archived Leads -->
                     <details class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                         <summary class="px-6 py-4 font-bold text-gray-700 cursor-pointer focus:outline-none bg-gray-50 hover:bg-gray-100 transition-colors">Not Interested / Archived Leads</summary>
                         <div class="border-t border-gray-200">
@@ -212,7 +211,20 @@
                     </div>
                 </div>
 
-                <!-- 4. PRODUCTS VIEW -->
+                <!-- 4. JOBS VIEW (KANBAN) -->
+                <div id="jobs-view" class="view-section h-full flex-col">
+                    <div class="flex justify-between items-center mb-6 shrink-0">
+                        <h3 class="text-lg font-bold text-gray-900">Jobs & Installation Board</h3>
+                        <button onclick="openJobModal()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-bold text-sm transition-colors uppercase tracking-wide">+ New Job</button>
+                    </div>
+                    <div class="flex-1 overflow-x-auto pb-4">
+                        <div class="flex space-x-4 min-h-[500px]" id="jobs-board">
+                            <!-- Columns injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. PRODUCTS VIEW -->
                 <div id="products-view" class="view-section">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-bold text-gray-900">Product & Services Catalog</h3>
@@ -242,7 +254,7 @@
                     </div>
                 </div>
 
-                <!-- 5. QUOTING ENGINE -->
+                <!-- 6. QUOTING ENGINE -->
                 <div id="quoting-view" class="view-section">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-bold text-gray-900">Dynamic Quote Engine</h3>
@@ -267,7 +279,6 @@
                             <button id="add-to-quote-btn" class="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Add to Quote</button>
                         </div>
                         
-                        <!-- QUOTE DOCUMENT PREVIEW -->
                         <div class="bg-white rounded-lg shadow-sm border border-gray-200 lg:col-span-2 flex flex-col h-full min-h-[600px]">
                             <div class="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-lg">
                                 <div>
@@ -357,12 +368,12 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let currentUser = null;
-        let unsubscribeArr = [];
-        let leads = [], accounts = [], opportunities = [], categories = [], products = [], currentQuoteItems = [];
+        let currentUser = null, unsubscribeArr = [];
+        let leads = [], accounts = [], opportunities = [], jobs = [], categories = [], products = [], currentQuoteItems = [];
         let currentModalContext = { type: null, id: null };
 
         const stages = ['New Opportunity', 'Site Survey', 'Proposal', 'Negotiation', 'PO Pending', 'Closed Won', 'Closed Lost'];
+        const jobStatuses = ['Unscheduled', 'Scheduled', 'In Progress', 'Completed'];
         
         // --- Auth ---
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
@@ -413,6 +424,7 @@
             unsubscribeArr.push(onSnapshot(getColRef('leads'), (snap) => { leads = snap.docs.map(d => ({id: d.id, ...d.data()})); renderLeads(); updateDashboardMetrics(); }));
             unsubscribeArr.push(onSnapshot(getColRef('accounts'), (snap) => { accounts = snap.docs.map(d => ({id: d.id, ...d.data()})); renderAccounts(); renderQuoteAccounts(); }));
             unsubscribeArr.push(onSnapshot(getColRef('opportunities'), (snap) => { opportunities = snap.docs.map(d => ({id: d.id, ...d.data()})); renderOpportunities(); updateDashboardMetrics(); }));
+            unsubscribeArr.push(onSnapshot(getColRef('jobs'), (snap) => { jobs = snap.docs.map(d => ({id: d.id, ...d.data()})); renderJobs(); updateDashboardMetrics(); }));
             unsubscribeArr.push(onSnapshot(getColRef('categories'), (snap) => { categories = snap.docs.map(d => ({id: d.id, ...d.data()})); renderCategoryDropdowns(); }));
             unsubscribeArr.push(onSnapshot(getColRef('products'), (snap) => { products = snap.docs.map(d => ({id: d.id, ...d.data()})); renderProducts(); }));
         }
@@ -427,20 +439,18 @@
             document.getElementById('metric-won-opps').textContent = wonOpps.length;
             document.getElementById('metric-open-opps').textContent = openOpps.length;
             
-            // Only count active leads
             const activeLeads = leads.filter(l => l.status !== 'not_interested');
             document.getElementById('metric-open-leads').textContent = activeLeads.length;
             
-            document.getElementById('metric-completed-jobs').textContent = wonOpps.length;
-            document.getElementById('metric-open-jobs').textContent = opportunities.filter(o => o.stage === 'Scheduled' || o.stage === 'PO Pending').length;
+            // JOBS SYNC
+            document.getElementById('metric-completed-jobs').textContent = jobs.filter(j => j.status === 'Completed').length;
+            document.getElementById('metric-open-jobs').textContent = jobs.filter(j => j.status !== 'Completed').length;
 
             const now = new Date();
             const calcAvgAge = (arr) => arr.length ? Math.round(arr.reduce((sum, item) => sum + Math.abs(now - new Date(item.createdAt||now))/(1000*60*60*24), 0)/arr.length) : 0;
-            
             document.getElementById('metric-avg-lead-age').textContent = `${calcAvgAge(activeLeads)} days`;
             document.getElementById('metric-avg-opp-age').textContent = `${calcAvgAge(openOpps)} days`;
 
-            // Compile Tasks
             const tasksContainer = document.getElementById('tasks-container');
             tasksContainer.innerHTML = '';
             let tCount = 0;
@@ -529,6 +539,30 @@
             });
         }
 
+        function renderJobs() {
+            const board = document.getElementById('jobs-board'); board.innerHTML = '';
+            jobStatuses.forEach(status => {
+                const col = document.createElement('div'); col.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300";
+                const colJobs = jobs.filter(j => (j.status || 'Unscheduled') === status);
+                
+                let cardsHtml = colJobs.map(j => `
+                    <div class="bg-white p-3 rounded-md shadow-sm border border-gray-200 cursor-pointer hover:border-red-400 transition-colors" onclick="openJobModal('${j.id}')">
+                        <div class="font-bold text-sm text-gray-900">${j.name || 'Unnamed Job'}</div>
+                        <div class="text-xs font-medium text-gray-500 truncate">${j.accountName || '-'}</div>
+                        ${j.scheduledDate ? `<div class="text-xs font-bold text-indigo-600 mt-2">Date: ${new Date(j.scheduledDate).toLocaleDateString()}</div>` : ''}
+                    </div>
+                `).join('');
+
+                col.innerHTML = `
+                    <div class="p-3 border-b border-gray-300 bg-gray-200 rounded-t-lg font-bold text-sm text-gray-800 flex justify-between">
+                        <span>${status}</span><span class="bg-white px-2 py-0.5 rounded text-xs shadow-sm">${colJobs.length}</span>
+                    </div>
+                    <div class="p-3 flex-1 overflow-y-auto space-y-3">${cardsHtml}</div>
+                `;
+                board.appendChild(col);
+            });
+        }
+
         // --- GLOBAL CRUD HELPERS ---
         window.deleteDocument = async (col, id) => {
             if(confirm('Are you sure you want to permanently delete this record? This action cannot be undone.')) {
@@ -592,12 +626,43 @@
                         closedLostReason: document.getElementById('m-reason').value, quoteLink: document.getElementById('m-link').value,
                         notes: document.getElementById('m-notes').value, tasks: getTasksFromDOM()
                     };
-                    if(isNew) { data.createdAt = new Date().toISOString(); data.stageUpdatedAt = new Date().toISOString(); await addDoc(getColRef('opportunities'), data); } 
-                    else {
+                    
+                    // Opportunity Auto-Job Creation Logic
+                    if(isNew) { 
+                        data.createdAt = new Date().toISOString(); data.stageUpdatedAt = new Date().toISOString(); 
+                        const docRef = await addDoc(getColRef('opportunities'), data); 
+                        if(data.stage === 'Closed Won') {
+                            await addDoc(getColRef('jobs'), {
+                                name: data.name + ' (Installation)', accountId: data.accountId, accountName: data.accountName,
+                                opportunityId: docRef.id, status: 'Unscheduled', createdAt: new Date().toISOString()
+                            });
+                        }
+                    } else {
                         const existing = opportunities.find(o=>o.id===id);
-                        if(existing && existing.stage !== data.stage) data.stageUpdatedAt = new Date().toISOString();
+                        if(existing && existing.stage !== data.stage) {
+                            data.stageUpdatedAt = new Date().toISOString();
+                            if(data.stage === 'Closed Won') {
+                                await addDoc(getColRef('jobs'), {
+                                    name: data.name + ' (Installation)', accountId: data.accountId, accountName: data.accountName,
+                                    opportunityId: id, status: 'Unscheduled', createdAt: new Date().toISOString()
+                                });
+                            }
+                        }
                         await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'opportunities', id), data);
                     }
+                }
+                else if(currentModalContext.type === 'job') {
+                    const data = {
+                        name: document.getElementById('m-job-name').value, 
+                        accountId: document.getElementById('m-job-acc').value,
+                        accountName: document.getElementById('m-job-acc').options[document.getElementById('m-job-acc').selectedIndex]?.text || '',
+                        opportunityId: document.getElementById('m-job-opp').value,
+                        status: document.getElementById('m-job-status').value,
+                        scheduledDate: document.getElementById('m-job-date').value,
+                        notes: document.getElementById('m-job-notes').value
+                    };
+                    if(isNew) { data.createdAt = new Date().toISOString(); await addDoc(getColRef('jobs'), data); } 
+                    else await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'jobs', id), data);
                 }
                 else if(currentModalContext.type === 'product') {
                     const data = {
@@ -736,6 +801,35 @@
                 <h4 class="font-bold text-gray-900 mb-3">Tasks & Reminders</h4>
                 <div id="modal-tasks-list">${renderTasksHTML(o.tasks)}</div>
                 <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New task..."><button onclick="addTaskUI()" class="bg-slate-900 text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
+            `;
+            document.getElementById('modal-overlay').classList.remove('hidden');
+        };
+
+        window.openJobModal = (id = null) => {
+            currentModalContext = { type: 'job', id };
+            const j = id ? jobs.find(x => x.id === id) : {};
+            
+            const accOptions = accounts.map(a => {
+                const clientName = `${a.contacts?.[0]?.firstName || ''} ${a.contacts?.[0]?.lastName || ''}`.trim() || 'Unnamed Client';
+                const display = a.companyName ? `${clientName} (${a.companyName})` : clientName;
+                return `<option value="${a.id}" ${a.id===j.accountId?'selected':''}>${display}</option>`;
+            }).join('');
+            
+            const oppOptions = opportunities.map(o => `<option value="${o.id}" ${o.id===j.opportunityId?'selected':''}>${o.name}</option>`).join('');
+            const statusOptions = jobStatuses.map(s => `<option value="${s}" ${s===(j.status||'Unscheduled')?'selected':''}>${s}</option>`).join('');
+
+            document.getElementById('modal-delete-container').innerHTML = id ? `<button onclick="deleteDocument('jobs', '${id}')" class="text-red-600 font-bold hover:text-red-800 text-sm">Delete Job</button>` : '';
+
+            document.getElementById('modal-content').innerHTML = `
+                <div class="flex justify-between items-center mb-6"><h3 class="text-xl font-bold text-gray-900 tracking-tight">${id ? 'Edit Job' : 'New Job'}</h3></div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Job Name</label><input type="text" id="m-job-name" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500" value="${j.name||''}"></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Account</label><select id="m-job-acc" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500"><option value="">-- Select --</option>${accOptions}</select></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Related Opportunity</label><select id="m-job-opp" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500"><option value="">-- None --</option>${oppOptions}</select></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Status</label><select id="m-job-status" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 font-medium">${statusOptions}</select></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Scheduled Date</label><input type="date" id="m-job-date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500" value="${j.scheduledDate||''}"></div>
+                    <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Installation Notes</label><textarea id="m-job-notes" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500" rows="3">${j.notes||''}</textarea></div>
+                </div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
