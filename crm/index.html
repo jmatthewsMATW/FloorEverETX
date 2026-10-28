@@ -147,6 +147,7 @@
                         <button onclick="openLeadModal()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-bold text-sm transition-colors uppercase tracking-wide">+ New Lead</button>
                     </div>
                     
+                    <!-- Active Leads -->
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -161,6 +162,7 @@
                         </table>
                     </div>
 
+                    <!-- Folded Archived Leads -->
                     <details class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                         <summary class="px-6 py-4 font-bold text-gray-700 cursor-pointer focus:outline-none bg-gray-50 hover:bg-gray-100 transition-colors">Not Interested / Archived Leads</summary>
                         <div class="border-t border-gray-200">
@@ -669,10 +671,17 @@
                 }
                 else if(currentModalContext.type === 'product') {
                     const data = {
-                        categoryId: document.getElementById('m-prod-cat').value, name: document.getElementById('m-prod-name').value,
-                        unit: document.getElementById('m-prod-unit').value, price: parseFloat(document.getElementById('m-prod-price').value)
+                        categoryId: document.getElementById('m-prod-cat').value, 
+                        name: document.getElementById('m-prod-name').value,
+                        unit: document.getElementById('m-prod-unit').value, 
+                        price: parseFloat(document.getElementById('m-prod-price').value)
                     };
-                    if(!isNew) await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id), data);
+                    if(isNew) {
+                        data.createdAt = new Date().toISOString();
+                        await addDoc(getColRef('products'), data);
+                    } else {
+                        await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id), data);
+                    }
                 }
                 closeModal();
             } catch(e) { alert("Error saving: " + e.message); }
@@ -859,6 +868,29 @@
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
 
+        window.convertLeadFromModal = async (leadId) => {
+            const lead = leads.find(l => l.id === leadId);
+            if(!lead) return;
+            try {
+                const clientName = `${lead.firstName || ''} ${lead.lastName || ''}`.trim() || 'Unnamed Client';
+                const accRef = await addDoc(getColRef('accounts'), {
+                    companyName: lead.companyName || '',
+                    phone: lead.phone, email: lead.email, address: lead.address, notes: lead.notes,
+                    contacts: [{firstName: lead.firstName, lastName: lead.lastName, phone: lead.phone, email: lead.email}],
+                    createdAt: new Date().toISOString()
+                });
+                await addDoc(getColRef('opportunities'), {
+                    accountId: accRef.id, accountName: lead.companyName ? `${clientName} (${lead.companyName})` : clientName,
+                    name: `${lead.projectType || 'New'} Project`, primaryContact: clientName,
+                    stage: 'New Opportunity', tasks: lead.tasks,
+                    createdAt: new Date().toISOString(), stageUpdatedAt: new Date().toISOString()
+                });
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', leadId));
+                closeModal();
+            } catch(e) { alert("Conversion failed: " + e.message); }
+        };
+
+        // --- PRODUCTS & QUOTING ---
         document.getElementById('add-category-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             try { await addDoc(getColRef('categories'), { name: document.getElementById('cat-name').value }); e.target.reset(); } 
