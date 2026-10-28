@@ -13,7 +13,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .view-section { display: none; }
-        .view-section.active { display: block; animate: fadeIn 0.3s; }
+        .view-section.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -25,31 +25,31 @@
 <body class="bg-gray-50 text-gray-800 h-screen overflow-hidden flex">
 
     <!-- ==================== AUTHENTICATION GATE ==================== -->
-    <div id="auth-view" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center hidden">
-            <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
-                <div class="text-center mb-8">
-                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                    </div>
-                    <h1 class="text-2xl font-bold text-gray-900">Floorever CRM</h1>
-                    <p class="text-sm text-gray-500 mt-2">Sign in with your staff account.</p>
+    <div id="auth-view" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                 </div>
-                <form id="login-form" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                        <input type="email" id="login-email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="you@flooreveretx.com">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                        <input type="password" id="login-password" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••••••">
-                    </div>
-                    <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                        Sign In
-                    </button>
-                </form>
-                <div id="auth-error" class="mt-4 text-sm text-red-600 text-center hidden"></div>
+                <h1 class="text-2xl font-bold text-gray-900">Floorever CRM</h1>
+                <p class="text-sm text-gray-500 mt-2">Sign in with your staff account.</p>
             </div>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="login-email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="you@flooreveretx.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="login-password" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                    Sign In
+                </button>
+            </form>
+            <div id="auth-error" class="mt-4 text-sm text-red-600 text-center hidden"></div>
         </div>
+    </div>
 
     <!-- ==================== MAIN CRM APPLICATION ==================== -->
     <div id="app-view" class="w-full h-full flex hidden">
@@ -60,7 +60,11 @@
                 <span class="text-xl font-bold text-white tracking-tight">CRM<span class="text-blue-500">Pro</span></span>
             </div>
             <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto" id="sidebar-nav">
-                <button data-target="leads-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg bg-blue-600 text-white transition-colors">
+                <button data-target="home-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg bg-blue-600 text-white transition-colors">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Home Dashboard
+                </button>
+                <button data-target="leads-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
                     <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     Leads
                 </button>
@@ -95,15 +99,67 @@
         <main class="flex-1 flex flex-col bg-gray-50 overflow-hidden">
             <!-- Top Header -->
             <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8 z-10">
-                <h2 id="page-title" class="text-xl font-semibold text-gray-800">Leads Management</h2>
+                <h2 id="page-title" class="text-xl font-semibold text-gray-800">Home Dashboard</h2>
                 <div id="status-indicator" class="text-xs font-medium px-3 py-1 rounded-full bg-green-100 text-green-700">Online</div>
             </header>
 
             <!-- Scrollable Content -->
             <div class="flex-1 overflow-y-auto p-8">
                 
+                <!-- 0. HOME DASHBOARD VIEW -->
+                <div id="home-view" class="view-section active">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-900">Business Performance & Metrics</h3>
+                        <p class="text-sm text-gray-500">Overview of your open pipelines, jobs, and lead ages.</p>
+                    </div>
+                    
+                    <!-- Metrics Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-sm font-medium text-gray-500">Open Opportunities</div>
+                            <div class="text-3xl font-bold text-gray-900 mt-2" id="metric-open-opps">0</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-sm font-medium text-gray-500">Won Opportunities</div>
+                            <div class="text-3xl font-bold text-green-600 mt-2" id="metric-won-opps">0</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-sm font-medium text-gray-500">Open Leads</div>
+                            <div class="text-3xl font-bold text-blue-600 mt-2" id="metric-open-leads">0</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-sm font-medium text-gray-500">Completed Jobs</div>
+                            <div class="text-3xl font-bold text-indigo-600 mt-2" id="metric-completed-jobs">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Metrics & Analytics Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-sm font-medium text-gray-500">Scheduled / Open Jobs</div>
+                            <div class="text-2xl font-bold text-gray-900 mt-2" id="metric-open-jobs">0</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-sm font-medium text-gray-500">Avg. Lead Age</div>
+                            <div class="text-2xl font-bold text-gray-900 mt-2" id="metric-avg-lead-age">0 days</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-sm font-medium text-gray-500">Avg. Opportunity Age</div>
+                            <div class="text-2xl font-bold text-gray-900 mt-2" id="metric-avg-opp-age">0 days</div>
+                        </div>
+                    </div>
+
+                    <!-- Reminders / Tasks Section -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h4 class="font-medium text-gray-900 mb-4">Reminders & Follow-up Tasks</h4>
+                        <div id="tasks-container" class="space-y-3">
+                            <div class="text-sm text-gray-400 italic">No urgent reminders or pending tasks.</div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 1. LEADS VIEW -->
-                <div id="leads-view" class="view-section active">
+                <div id="leads-view" class="view-section">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-medium text-gray-900">New Leads</h3>
                     </div>
@@ -117,8 +173,12 @@
                                     <input type="text" id="lead-name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone / Email</label>
-                                    <input type="text" id="lead-contact" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                    <input type="tel" id="lead-phone" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="(555) 000-0000">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input type="email" id="lead-email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="client@example.com">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Area of Interest</label>
@@ -128,6 +188,10 @@
                                         <option value="Commercial">Commercial</option>
                                         <option value="Other">Other</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Notes / Reminders</label>
+                                    <textarea id="lead-notes" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Add any details or follow-up notes..."></textarea>
                                 </div>
                                 <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-medium transition-colors">Add Lead</button>
                             </form>
@@ -140,8 +204,9 @@
                                     <thead class="bg-gray-50">
                                         <tr>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interest</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interest & Notes</th>
                                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                                         </tr>
                                     </thead>
@@ -375,493 +440,548 @@
     </div>
 
     <!-- ==================== LOGIC & FIREBASE INTEGRATION ==================== -->
-        <script type="module">
-            // --- 1. Firebase Setup & Imports (Using v11.6.1 consistently) ---
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-            import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-            import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-            // Your actual Firebase configuration
-            const firebaseConfig = {
-                apiKey: "AIzaSyAUmBUuXMbMVTOB4HyrwoiM5i9kRKQDj40",
-                authDomain: "flooreveretx-crm.firebaseapp.com",
-                projectId: "flooreveretx-crm",
-                storageBucket: "flooreveretx-crm.firebasestorage.app",
-                messagingSenderId: "139070726156",
-                appId: "1:139070726156:web:7e0771b969e2fc0528ce29"
-            };
-            const appId = 'floorever-crm';
+        // Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAUmBUuXMbMVTOB4HyrwoiM5i9kRKQDj40",
+            authDomain: "flooreveretx-crm.firebaseapp.com",
+            projectId: "flooreveretx-crm",
+            storageBucket: "flooreveretx-crm.firebasestorage.app",
+            messagingSenderId: "139070726156",
+            appId: "1:139070726156:web:7e0771b969e2fc0528ce29"
+        };
+        const appId = 'floorever-crm';
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let unsubscribeArr = [];
+        
+        let leads = [];
+        let accounts = [];
+        let opportunities = [];
+        let categories = [];
+        let products = [];
+        let currentQuoteItems = [];
+        
+        const authView = document.getElementById('auth-view');
+        const appView = document.getElementById('app-view');
+        const authError = document.getElementById('auth-error');
+
+        // --- Authentication Flow ---
+        function initAuth() {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    enterApp();
+                } else {
+                    currentUser = null;
+                    authView.classList.remove('hidden');
+                    appView.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                authError.classList.add('hidden');
+                
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } catch (e) {
+                    authError.textContent = "Login failed: " + e.message;
+                    authError.classList.remove('hidden');
+                }
+            });
+        }
+
+        function enterApp() {
+            if (!currentUser) return;
+            authView.classList.add('hidden');
+            appView.classList.remove('hidden');
+            document.getElementById('user-display').textContent = currentUser.email || ("Staff (" + currentUser.uid.substring(0,6) + "...)");
+            initRealtimeSync();
+        }
+
+        initAuth();
+
+        // --- UI Routing (SPA Navigation) ---
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.view-section');
+        const pageTitle = document.getElementById('page-title');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navBtns.forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white');
+                    b.classList.add('hover:bg-slate-800', 'hover:text-white', 'text-slate-300');
+                });
+                btn.classList.remove('hover:bg-slate-800', 'hover:text-white', 'text-slate-300');
+                btn.classList.add('bg-blue-600', 'text-white');
+                
+                const targetId = btn.getAttribute('data-target');
+                sections.forEach(sec => sec.classList.remove('active'));
+                document.getElementById(targetId).classList.add('active');
+                
+                pageTitle.textContent = btn.textContent.trim();
+            });
+        });
+
+        // --- Firestore Database Operations ---
+        function getColRef(colName) {
+            return collection(db, 'artifacts', appId, 'public', 'data', colName);
+        }
+
+        function initRealtimeSync() {
+            if (!currentUser) return;
+            const errHandler = (err) => console.error("Firestore Error:", err);
+
+            unsubscribeArr.push(onSnapshot(getColRef('leads'), (snap) => {
+                leads = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderLeads();
+                updateDashboardMetrics();
+            }, errHandler));
+
+            unsubscribeArr.push(onSnapshot(getColRef('accounts'), (snap) => {
+                accounts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderAccounts();
+                renderQuoteAccounts();
+            }, errHandler));
+
+            unsubscribeArr.push(onSnapshot(getColRef('opportunities'), (snap) => {
+                opportunities = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderOpportunities();
+                updateDashboardMetrics();
+            }, errHandler));
+
+            unsubscribeArr.push(onSnapshot(getColRef('categories'), (snap) => {
+                categories = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderCategoryDropdowns();
+            }, errHandler));
+
+            unsubscribeArr.push(onSnapshot(getColRef('products'), (snap) => {
+                products = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderProducts();
+            }, errHandler));
+        }
+
+        // --- Dashboard Metrics & Analytics ---
+        function updateDashboardMetrics() {
+            // Open Opportunities (stages Estimating, Scheduled)
+            const openOpps = opportunities.filter(o => o.stage !== 'Completed');
+            // Won / Completed Opportunities
+            const wonOpps = opportunities.filter(o => o.stage === 'Completed');
             
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
+            document.getElementById('metric-open-opps').textContent = openOpps.length;
+            document.getElementById('metric-won-opps').textContent = wonOpps.length;
+            document.getElementById('metric-open-leads').textContent = leads.length;
+            document.getElementById('metric-open-jobs').textContent = opportunities.filter(o => o.stage === 'Scheduled').length;
+            document.getElementById('metric-completed-jobs').textContent = wonOpps.length;
 
-            // State & DOM Elements
-            let currentUser = null;
-            let unsubscribeArr = [];
+            // Average Lead Age
+            let totalLeadDays = 0;
+            const now = new Date();
+            leads.forEach(l => {
+                const created = new Date(l.createdAt || now);
+                const diffTime = Math.abs(now - created);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                totalLeadDays += diffDays;
+            });
+            const avgLeadAge = leads.length > 0 ? Math.round(totalLeadDays / leads.length) : 0;
+            document.getElementById('metric-avg-lead-age').textContent = `${avgLeadAge} days`;
+
+            // Average Opportunity Age
+            let totalOppDays = 0;
+            opportunities.forEach(o => {
+                const created = new Date(o.createdAt || now);
+                const diffTime = Math.abs(now - created);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                totalOppDays += diffDays;
+            });
+            const avgOppAge = opportunities.length > 0 ? Math.round(totalOppDays / opportunities.length) : 0;
+            document.getElementById('metric-avg-opp-age').textContent = `${avgOppAge} days`;
+
+            // Tasks and Reminders Feed
+            const tasksContainer = document.getElementById('tasks-container');
+            tasksContainer.innerHTML = '';
             
-            // Data Caches
-            let leads = [];
-            let accounts = [];
-            let opportunities = [];
-            let categories = [];
-            let products = [];
-            let currentQuoteItems = [];
+            let taskCount = 0;
+            leads.forEach(l => {
+                if (l.notes) {
+                    taskCount++;
+                    tasksContainer.innerHTML += `
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-100 flex justify-between items-center text-sm">
+                            <div><span class="font-semibold text-blue-600">[Lead Note] ${l.name}:</span> ${l.notes}</div>
+                            <span class="text-xs text-gray-400">${new Date(l.createdAt).toLocaleDateString()}</span>
+                        </div>`;
+                }
+            });
+
+            if (taskCount === 0) {
+                tasksContainer.innerHTML = `<div class="text-sm text-gray-400 italic">No notes or active task reminders found on leads.</div>`;
+            }
+        }
+
+        // --- Leads & Conversion ---
+        document.getElementById('add-lead-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+            const name = document.getElementById('lead-name').value;
+            const phone = document.getElementById('lead-phone').value;
+            const email = document.getElementById('lead-email').value;
+            const interest = document.getElementById('lead-interest').value;
+            const notes = document.getElementById('lead-notes').value;
             
-            const authView = document.getElementById('auth-view');
-            const appView = document.getElementById('app-view');
-            const authError = document.getElementById('auth-error');
+            try {
+                await addDoc(getColRef('leads'), {
+                    name, phone, email, interest, notes,
+                    createdAt: new Date().toISOString()
+                });
+                e.target.reset();
+            } catch(err) { console.error("Error adding lead:", err); }
+        });
 
-            // --- 2. Authentication Flow ---
-            async function initAuth() {
-                        authView.classList.remove('hidden'); // Show login gate by default
-                        
-                        // Listen for auth state changes
-                        onAuthStateChanged(auth, (user) => {
-                            if (user) {
-                                currentUser = user;
-                                enterApp();
-                            } else {
-                                currentUser = null;
-                                authView.classList.remove('hidden');
-                                appView.classList.add('hidden');
-                            }
-                        });
+        function renderLeads() {
+            const tbody = document.getElementById('leads-table-body');
+            tbody.innerHTML = '';
+            if(leads.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">No new leads.</td></tr>`;
+                return;
+            }
+            leads.forEach(lead => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${lead.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${lead.phone || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${lead.email || 'N/A'}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 mb-1">${lead.interest}</span>
+                        <div class="text-xs text-gray-600">${lead.notes ? 'Note: ' + lead.notes : ''}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button class="text-green-600 hover:text-green-900 font-semibold convert-btn" data-id="${lead.id}">Convert to Account</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
 
-                        // Handle Email/Password Form Submit
-                        document.getElementById('login-form').addEventListener('submit', async (e) => {
-                            e.preventDefault();
-                            authError.classList.add('hidden');
-                            
-                            const email = document.getElementById('login-email').value;
-                            const password = document.getElementById('login-password').value;
+            document.querySelectorAll('.convert-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    await convertLead(e.target.getAttribute('data-id'));
+                });
+            });
+        }
 
-                            try {
-                                await signInWithEmailAndPassword(auth, email, password);
-                            } catch (e) {
-                                authError.textContent = "Login failed: " + e.message;
-                                authError.classList.remove('hidden');
-                            }
-                        });
+        async function convertLead(leadId) {
+            if (!currentUser) return;
+            const lead = leads.find(l => l.id === leadId);
+            if (!lead) return;
+
+            try {
+                const accRef = await addDoc(getColRef('accounts'), {
+                    name: lead.name,
+                    contact: `${lead.phone || ''} | ${lead.email || ''}`,
+                    createdAt: new Date().toISOString()
+                });
+                await addDoc(getColRef('opportunities'), {
+                    accountId: accRef.id,
+                    accountName: lead.name,
+                    title: `${lead.interest} Project`,
+                    stage: 'Estimating',
+                    createdAt: new Date().toISOString()
+                });
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', leadId));
+            } catch(e) { console.error("Conversion failed:", e); }
+        }
+
+        // --- Accounts ---
+        function renderAccounts() {
+            const tbody = document.getElementById('accounts-table-body');
+            tbody.innerHTML = '';
+            if(accounts.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">No accounts found.</td></tr>`;
+                return;
+            }
+            accounts.forEach(acc => {
+                const date = new Date(acc.createdAt).toLocaleDateString();
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${acc.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${acc.contact}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- Opportunities Pipeline ---
+        function renderOpportunities() {
+            const stages = { 'Estimating': [], 'Scheduled': [], 'Completed': [] };
+            opportunities.forEach(opp => { if(stages[opp.stage]) stages[opp.stage].push(opp); });
+
+            document.getElementById('count-estimating').textContent = stages['Estimating'].length;
+            document.getElementById('count-scheduled').textContent = stages['Scheduled'].length;
+            document.getElementById('count-completed').textContent = stages['Completed'].length;
+
+            Object.keys(stages).forEach(stage => {
+                const container = document.getElementById(`kanban-${stage.toLowerCase()}`);
+                container.innerHTML = '';
+                stages[stage].forEach(opp => {
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-3 rounded shadow-sm border border-gray-200 cursor-default";
+                    let options = '';
+                    ['Estimating', 'Scheduled', 'Completed'].forEach(s => {
+                        if(s !== opp.stage) options += `<option value="${s}">Move to ${s}</option>`;
+                    });
+                    card.innerHTML = `
+                        <div class="font-medium text-sm text-gray-900">${opp.accountName}</div>
+                        <div class="text-xs text-gray-500 mt-1">${opp.title}</div>
+                        <div class="mt-3 border-t border-gray-100 pt-2">
+                            <select class="stage-select text-xs block w-full border-gray-300 rounded focus:ring-blue-500 bg-gray-50" data-id="${opp.id}">
+                                <option value="" disabled selected>Change Stage...</option>
+                                ${options}
+                            </select>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+
+            document.querySelectorAll('.stage-select').forEach(sel => {
+                sel.addEventListener('change', async (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    const newStage = e.target.value;
+                    if(id && newStage && currentUser) {
+                        try {
+                            await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'opportunities', id), { stage: newStage });
+                        } catch(err) { console.error(err); }
                     }
-
-            function enterApp() {
-                if (!currentUser) return;
-                authView.classList.add('hidden');
-                appView.classList.remove('hidden');
-                document.getElementById('user-display').textContent = currentUser.email || ("Staff (" + currentUser.uid.substring(0,6) + "...)");
-                
-                // Start real-time data sync
-                initRealtimeSync();
-            }
-
-            // Run Auth Flow on Load
-            initAuth();
-
-            // --- 3. UI Routing (SPA Navigation) ---
-            const navBtns = document.querySelectorAll('.nav-btn');
-            const sections = document.querySelectorAll('.view-section');
-            const pageTitle = document.getElementById('page-title');
-
-            navBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    navBtns.forEach(b => {
-                        b.classList.remove('bg-blue-600', 'text-white');
-                        b.classList.add('hover:bg-slate-800', 'hover:text-white', 'text-slate-300');
-                    });
-                    btn.classList.remove('hover:bg-slate-800', 'hover:text-white', 'text-slate-300');
-                    btn.classList.add('bg-blue-600', 'text-white');
-                    
-                    const targetId = btn.getAttribute('data-target');
-                    sections.forEach(sec => sec.classList.remove('active'));
-                    document.getElementById(targetId).classList.add('active');
-                    
-                    pageTitle.textContent = btn.textContent.trim();
                 });
             });
+        }
 
-            // --- 4. Firestore Database Operations ---
-            function getColRef(colName) {
-                return collection(db, 'artifacts', appId, 'public', 'data', colName);
+        // --- Products & Categories ---
+        document.getElementById('add-category-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+            const name = document.getElementById('cat-name').value;
+            try {
+                await addDoc(getColRef('categories'), { name });
+                e.target.reset();
+            } catch(err) { console.error("Error adding category:", err); }
+        });
+
+        document.getElementById('add-product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+            const catId = document.getElementById('prod-category').value;
+            const name = document.getElementById('prod-name').value;
+            const unit = document.getElementById('prod-unit').value;
+            const price = parseFloat(document.getElementById('prod-price').value);
+
+            try {
+                await addDoc(getColRef('products'), { categoryId: catId, name, unit, price });
+                e.target.reset();
+            } catch(err) { console.error("Error adding product:", err); }
+        });
+
+        function renderCategoryDropdowns() {
+            const prodCat = document.getElementById('prod-category');
+            const quoteCat = document.getElementById('quote-category');
+            prodCat.innerHTML = '<option value="" disabled selected>Select Category</option>';
+            quoteCat.innerHTML = '<option value="">-- All Categories --</option>';
+            categories.forEach(cat => {
+                prodCat.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
+                quoteCat.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
+            });
+        }
+
+        function renderProducts() {
+            const tbody = document.getElementById('products-table-body');
+            tbody.innerHTML = '';
+            if(products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No products added.</td></tr>`;
             }
+            products.forEach(p => {
+                const cat = categories.find(c => c.id === p.categoryId);
+                const catName = cat ? cat.name : 'Unknown';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${p.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${catName}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${p.unit}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">$${p.price.toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            populateQuoteProducts();
+        }
 
-            function initRealtimeSync() {
-                if (!currentUser) return;
-                const errHandler = (err) => console.error("Firestore Error:", err);
+        // --- Quote Engine ---
+        const quoteAccountSel = document.getElementById('quote-account');
+        const quoteCategorySel = document.getElementById('quote-category');
+        const quoteProductSel = document.getElementById('quote-product');
+        const quoteQtyIn = document.getElementById('quote-qty');
+        const quoteUnitDisp = document.getElementById('quote-unit-display');
+        const quoteLineTotal = document.getElementById('quote-line-total');
+        let selectedProductForQuote = null;
 
-                unsubscribeArr.push(onSnapshot(getColRef('leads'), (snap) => {
-                    leads = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderLeads();
-                }, errHandler));
+        function renderQuoteAccounts() {
+            quoteAccountSel.innerHTML = '<option value="" disabled selected>-- Select Account --</option>';
+            accounts.forEach(acc => { quoteAccountSel.innerHTML += `<option value="${acc.id}">${acc.name}</option>`; });
+        }
 
-                unsubscribeArr.push(onSnapshot(getColRef('accounts'), (snap) => {
-                    accounts = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderAccounts();
-                    renderQuoteAccounts();
-                }, errHandler));
+        quoteCategorySel.addEventListener('change', populateQuoteProducts);
 
-                unsubscribeArr.push(onSnapshot(getColRef('opportunities'), (snap) => {
-                    opportunities = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderOpportunities();
-                }, errHandler));
+        function populateQuoteProducts() {
+            const catId = quoteCategorySel.value;
+            quoteProductSel.innerHTML = '<option value="">-- Select an item --</option>';
+            const filtered = catId ? products.filter(p => p.categoryId === catId) : products;
+            filtered.forEach(p => {
+                quoteProductSel.innerHTML += `<option value="${p.id}">${p.name} ($${p.price.toFixed(2)}/${p.unit})</option>`;
+            });
+            selectedProductForQuote = null;
+            updateQuoteLineMath();
+        }
 
-                unsubscribeArr.push(onSnapshot(getColRef('categories'), (snap) => {
-                    categories = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderCategoryDropdowns();
-                }, errHandler));
+        quoteProductSel.addEventListener('change', (e) => {
+            selectedProductForQuote = products.find(p => p.id === e.target.value);
+            quoteUnitDisp.textContent = selectedProductForQuote ? selectedProductForQuote.unit : 'Unit';
+            updateQuoteLineMath();
+        });
 
-                unsubscribeArr.push(onSnapshot(getColRef('products'), (snap) => {
-                    products = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderProducts();
-                }, errHandler));
-            }
+        quoteQtyIn.addEventListener('input', updateQuoteLineMath);
 
-            // --- 5. Logic: Leads & Conversion ---
-            document.getElementById('add-lead-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!currentUser) return;
-                const name = document.getElementById('lead-name').value;
-                const contact = document.getElementById('lead-contact').value;
-                const interest = document.getElementById('lead-interest').value;
-                
-                try {
-                    await addDoc(getColRef('leads'), { name, contact, interest, createdAt: new Date().toISOString() });
-                    e.target.reset();
-                } catch(e) { console.error(e); }
+        function updateQuoteLineMath() {
+            if(!selectedProductForQuote) { quoteLineTotal.textContent = "$0.00"; return; }
+            const qty = parseFloat(quoteQtyIn.value) || 0;
+            quoteLineTotal.textContent = `$${(qty * selectedProductForQuote.price).toFixed(2)}`;
+        }
+
+        quoteAccountSel.addEventListener('change', (e) => {
+            const acc = accounts.find(a => a.id === e.target.value);
+            if(acc) document.getElementById('quote-client-name').textContent = `Account: ${acc.name}`;
+        });
+
+        document.getElementById('add-to-quote-btn').addEventListener('click', () => {
+            if(!selectedProductForQuote) return;
+            const qty = parseFloat(quoteQtyIn.value) || 0;
+            if(qty <= 0) return;
+
+            currentQuoteItems.push({
+                name: selectedProductForQuote.name,
+                qty: qty,
+                unit: selectedProductForQuote.unit,
+                price: selectedProductForQuote.price,
+                total: qty * selectedProductForQuote.price
             });
 
-            function renderLeads() {
-                const tbody = document.getElementById('leads-table-body');
-                tbody.innerHTML = '';
-                if(leads.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No new leads.</td></tr>`;
-                    return;
-                }
-                leads.forEach(lead => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${lead.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${lead.contact}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${lead.interest}</span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button class="text-green-600 hover:text-green-900 font-semibold convert-btn" data-id="${lead.id}">Convert to Account</button>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
+            quoteQtyIn.value = '';
+            updateQuoteLineMath();
+            renderQuoteDocument();
+        });
 
-                document.querySelectorAll('.convert-btn').forEach(btn => {
-                    btn.addEventListener('click', async (e) => {
-                        await convertLead(e.target.getAttribute('data-id'));
-                    });
-                });
+        function renderQuoteDocument() {
+            const tbody = document.getElementById('quote-items-body');
+            tbody.innerHTML = '';
+            let grandTotal = 0;
+
+            if(currentQuoteItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-sm text-gray-400 italic">No items added to quote yet.</td></tr>`;
+                document.getElementById('quote-subtotal').textContent = "$0.00";
+                document.getElementById('quote-grand-total').textContent = "$0.00";
+                return;
             }
 
-            async function convertLead(leadId) {
-                if (!currentUser) return;
-                const lead = leads.find(l => l.id === leadId);
-                if (!lead) return;
-
-                try {
-                    const accRef = await addDoc(getColRef('accounts'), {
-                        name: lead.name,
-                        contact: lead.contact,
-                        createdAt: new Date().toISOString()
-                    });
-                    await addDoc(getColRef('opportunities'), {
-                        accountId: accRef.id,
-                        accountName: lead.name,
-                        title: `${lead.interest} Project`,
-                        stage: 'Estimating',
-                        createdAt: new Date().toISOString()
-                    });
-                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', leadId));
-                } catch(e) { console.error("Conversion failed:", e); }
-            }
-
-            // --- 6. Logic: Accounts ---
-            function renderAccounts() {
-                const tbody = document.getElementById('accounts-table-body');
-                tbody.innerHTML = '';
-                if(accounts.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">No accounts found.</td></tr>`;
-                    return;
-                }
-                accounts.forEach(acc => {
-                    const date = new Date(acc.createdAt).toLocaleDateString();
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${acc.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${acc.contact}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${date}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }
-
-            // --- 7. Logic: Opportunities Pipeline ---
-            function renderOpportunities() {
-                const stages = { 'Estimating': [], 'Scheduled': [], 'Completed': [] };
-                opportunities.forEach(opp => { if(stages[opp.stage]) stages[opp.stage].push(opp); });
-
-                document.getElementById('count-estimating').textContent = stages['Estimating'].length;
-                document.getElementById('count-scheduled').textContent = stages['Scheduled'].length;
-                document.getElementById('count-completed').textContent = stages['Completed'].length;
-
-                Object.keys(stages).forEach(stage => {
-                    const container = document.getElementById(`kanban-${stage.toLowerCase()}`);
-                    container.innerHTML = '';
-                    stages[stage].forEach(opp => {
-                        const card = document.createElement('div');
-                        card.className = "bg-white p-3 rounded shadow-sm border border-gray-200 cursor-default";
-                        let options = '';
-                        ['Estimating', 'Scheduled', 'Completed'].forEach(s => {
-                            if(s !== opp.stage) options += `<option value="${s}">Move to ${s}</option>`;
-                        });
-                        card.innerHTML = `
-                            <div class="font-medium text-sm text-gray-900">${opp.accountName}</div>
-                            <div class="text-xs text-gray-500 mt-1">${opp.title}</div>
-                            <div class="mt-3 border-t border-gray-100 pt-2">
-                                <select class="stage-select text-xs block w-full border-gray-300 rounded focus:ring-blue-500 bg-gray-50" data-id="${opp.id}">
-                                    <option value="" disabled selected>Change Stage...</option>
-                                    ${options}
-                                </select>
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    });
-                });
-
-                document.querySelectorAll('.stage-select').forEach(sel => {
-                    sel.addEventListener('change', async (e) => {
-                        const id = e.target.getAttribute('data-id');
-                        const newStage = e.target.value;
-                        if(id && newStage && currentUser) {
-                            try {
-                                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'opportunities', id), { stage: newStage });
-                            } catch(err) { console.error(err); }
-                        }
-                    });
-                });
-            }
-
-            // --- 8. Logic: Products & Categories ---
-            document.getElementById('add-category-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!currentUser) return;
-                const name = document.getElementById('cat-name').value;
-                try {
-                    await addDoc(getColRef('categories'), { name });
-                    e.target.reset();
-                } catch(err) { console.error(err); }
+            currentQuoteItems.forEach((item, index) => {
+                grandTotal += item.total;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="py-3 text-sm font-medium text-gray-900">${item.name}</td>
+                    <td class="py-3 text-right text-sm text-gray-500">${item.qty} ${item.unit}</td>
+                    <td class="py-3 text-right text-sm text-gray-500">$${item.price.toFixed(2)}</td>
+                    <td class="py-3 text-right text-sm font-medium text-gray-900">$${item.total.toFixed(2)}</td>
+                    <td class="py-3 text-right">
+                        <button class="text-red-400 hover:text-red-600 remove-item-btn" data-index="${index}">
+                            <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
             });
 
-            document.getElementById('add-product-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!currentUser) return;
-                const catId = document.getElementById('prod-category').value;
-                const name = document.getElementById('prod-name').value;
-                const unit = document.getElementById('prod-unit').value;
-                const price = parseFloat(document.getElementById('prod-price').value);
+            document.getElementById('quote-subtotal').textContent = `$${grandTotal.toFixed(2)}`;
+            document.getElementById('quote-grand-total').textContent = `$${grandTotal.toFixed(2)}`;
 
-                try {
-                    await addDoc(getColRef('products'), { categoryId: catId, name, unit, price });
-                    e.target.reset();
-                } catch(err) { console.error(err); }
+            document.querySelectorAll('.remove-item-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    currentQuoteItems.splice(parseInt(e.currentTarget.getAttribute('data-index')), 1);
+                    renderQuoteDocument();
+                });
+            });
+        }
+
+        // --- Generate PDF using jsPDF ---
+        document.getElementById('generate-pdf-btn').addEventListener('click', () => {
+            if(currentQuoteItems.length === 0) { alert("Please add items to the quote first."); return; }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const acc = accounts.find(a => a.id === quoteAccountSel.value);
+            const clientName = acc ? acc.name : "Valued Customer";
+
+            doc.setFontSize(22);
+            doc.setTextColor(30, 58, 138);
+            doc.text("SERVICE ESTIMATE", 14, 25);
+            
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            const dateStr = new Date().toLocaleDateString();
+            doc.text(`Date: ${dateStr}`, 14, 32);
+            doc.text(`Prepared for: ${clientName}`, 14, 38);
+            
+            doc.setFillColor(240, 240, 240);
+            doc.rect(14, 45, 182, 10, 'F');
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            doc.setFont("helvetica", "bold");
+            doc.text("Description", 16, 51.5);
+            doc.text("Qty", 120, 51.5);
+            doc.text("Rate", 145, 51.5);
+            doc.text("Amount", 175, 51.5);
+
+            doc.setFont("helvetica", "normal");
+            let y = 60;
+            let total = 0;
+
+            currentQuoteItems.forEach(item => {
+                doc.text(item.name, 16, y);
+                doc.text(`${item.qty} ${item.unit}`, 120, y);
+                doc.text(`$${item.price.toFixed(2)}`, 145, y);
+                doc.text(`$${item.total.toFixed(2)}`, 175, y);
+                total += item.total;
+                y += 10;
+                if(y > 270) { doc.addPage(); y = 20; }
             });
 
-            function renderCategoryDropdowns() {
-                const prodCat = document.getElementById('prod-category');
-                const quoteCat = document.getElementById('quote-category');
-                prodCat.innerHTML = '<option value="" disabled selected>Select Category</option>';
-                quoteCat.innerHTML = '<option value="">-- All Categories --</option>';
-                categories.forEach(cat => {
-                    prodCat.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
-                    quoteCat.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
-                });
-            }
+            doc.setDrawColor(200, 200, 200);
+            doc.line(14, y, 196, y);
+            y += 8;
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.text("Total Estimate:", 135, y);
+            doc.text(`$${total.toFixed(2)}`, 175, y);
 
-            function renderProducts() {
-                const tbody = document.getElementById('products-table-body');
-                tbody.innerHTML = '';
-                if(products.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No products added.</td></tr>`;
-                }
-                products.forEach(p => {
-                    const cat = categories.find(c => c.id === p.categoryId);
-                    const catName = cat ? cat.name : 'Unknown';
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${p.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${catName}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${p.unit}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">$${p.price.toFixed(2)}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-                populateQuoteProducts();
-            }
-
-            // --- 9. Logic: Quote Engine ---
-            const quoteAccountSel = document.getElementById('quote-account');
-            const quoteCategorySel = document.getElementById('quote-category');
-            const quoteProductSel = document.getElementById('quote-product');
-            const quoteQtyIn = document.getElementById('quote-qty');
-            const quoteUnitDisp = document.getElementById('quote-unit-display');
-            const quoteLineTotal = document.getElementById('quote-line-total');
-            let selectedProductForQuote = null;
-
-            function renderQuoteAccounts() {
-                quoteAccountSel.innerHTML = '<option value="" disabled selected>-- Select Account --</option>';
-                accounts.forEach(acc => { quoteAccountSel.innerHTML += `<option value="${acc.id}">${acc.name}</option>`; });
-            }
-
-            quoteCategorySel.addEventListener('change', populateQuoteProducts);
-
-            function populateQuoteProducts() {
-                const catId = quoteCategorySel.value;
-                quoteProductSel.innerHTML = '<option value="">-- Select an item --</option>';
-                const filtered = catId ? products.filter(p => p.categoryId === catId) : products;
-                filtered.forEach(p => {
-                    quoteProductSel.innerHTML += `<option value="${p.id}">${p.name} ($${p.price.toFixed(2)}/${p.unit})</option>`;
-                });
-                selectedProductForQuote = null;
-                updateQuoteLineMath();
-            }
-
-            quoteProductSel.addEventListener('change', (e) => {
-                selectedProductForQuote = products.find(p => p.id === e.target.value);
-                quoteUnitDisp.textContent = selectedProductForQuote ? selectedProductForQuote.unit : 'Unit';
-                updateQuoteLineMath();
-            });
-
-            quoteQtyIn.addEventListener('input', updateQuoteLineMath);
-
-            function updateQuoteLineMath() {
-                if(!selectedProductForQuote) { quoteLineTotal.textContent = "$0.00"; return; }
-                const qty = parseFloat(quoteQtyIn.value) || 0;
-                quoteLineTotal.textContent = `$${(qty * selectedProductForQuote.price).toFixed(2)}`;
-            }
-
-            quoteAccountSel.addEventListener('change', (e) => {
-                const acc = accounts.find(a => a.id === e.target.value);
-                if(acc) document.getElementById('quote-client-name').textContent = `Account: ${acc.name}`;
-            });
-
-            document.getElementById('add-to-quote-btn').addEventListener('click', () => {
-                if(!selectedProductForQuote) return;
-                const qty = parseFloat(quoteQtyIn.value) || 0;
-                if(qty <= 0) return;
-
-                currentQuoteItems.push({
-                    name: selectedProductForQuote.name,
-                    qty: qty,
-                    unit: selectedProductForQuote.unit,
-                    price: selectedProductForQuote.price,
-                    total: qty * selectedProductForQuote.price
-                });
-
-                quoteQtyIn.value = '';
-                updateQuoteLineMath();
-                renderQuoteDocument();
-            });
-
-            function renderQuoteDocument() {
-                const tbody = document.getElementById('quote-items-body');
-                tbody.innerHTML = '';
-                let grandTotal = 0;
-
-                if(currentQuoteItems.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-sm text-gray-400 italic">No items added to quote yet.</td></tr>`;
-                    document.getElementById('quote-subtotal').textContent = "$0.00";
-                    document.getElementById('quote-grand-total').textContent = "$0.00";
-                    return;
-                }
-
-                currentQuoteItems.forEach((item, index) => {
-                    grandTotal += item.total;
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="py-3 text-sm font-medium text-gray-900">${item.name}</td>
-                        <td class="py-3 text-right text-sm text-gray-500">${item.qty} ${item.unit}</td>
-                        <td class="py-3 text-right text-sm text-gray-500">$${item.price.toFixed(2)}</td>
-                        <td class="py-3 text-right text-sm font-medium text-gray-900">$${item.total.toFixed(2)}</td>
-                        <td class="py-3 text-right">
-                            <button class="text-red-400 hover:text-red-600 remove-item-btn" data-index="${index}">
-                                <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            </button>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-
-                document.getElementById('quote-subtotal').textContent = `$${grandTotal.toFixed(2)}`;
-                document.getElementById('quote-grand-total').textContent = `$${grandTotal.toFixed(2)}`;
-
-                document.querySelectorAll('.remove-item-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        currentQuoteItems.splice(parseInt(e.currentTarget.getAttribute('data-index')), 1);
-                        renderQuoteDocument();
-                    });
-                });
-            }
-
-            // --- 10. Generate PDF using jsPDF ---
-            document.getElementById('generate-pdf-btn').addEventListener('click', () => {
-                if(currentQuoteItems.length === 0) { alert("Please add items to the quote first."); return; }
-
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                const acc = accounts.find(a => a.id === quoteAccountSel.value);
-                const clientName = acc ? acc.name : "Valued Customer";
-
-                doc.setFontSize(22);
-                doc.setTextColor(30, 58, 138);
-                doc.text("SERVICE ESTIMATE", 14, 25);
-                
-                doc.setFontSize(10);
-                doc.setTextColor(100, 100, 100);
-                const dateStr = new Date().toLocaleDateString();
-                doc.text(`Date: ${dateStr}`, 14, 32);
-                doc.text(`Prepared for: ${clientName}`, 14, 38);
-                
-                doc.setFillColor(240, 240, 240);
-                doc.rect(14, 45, 182, 10, 'F');
-                doc.setFontSize(10);
-                doc.setTextColor(0, 0, 0);
-                doc.setFont("helvetica", "bold");
-                doc.text("Description", 16, 51.5);
-                doc.text("Qty", 120, 51.5);
-                doc.text("Rate", 145, 51.5);
-                doc.text("Amount", 175, 51.5);
-
-                doc.setFont("helvetica", "normal");
-                let y = 60;
-                let total = 0;
-
-                currentQuoteItems.forEach(item => {
-                    doc.text(item.name, 16, y);
-                    doc.text(`${item.qty} ${item.unit}`, 120, y);
-                    doc.text(`$${item.price.toFixed(2)}`, 145, y);
-                    doc.text(`$${item.total.toFixed(2)}`, 175, y);
-                    total += item.total;
-                    y += 10;
-                    if(y > 270) { doc.addPage(); y = 20; }
-                });
-
-                doc.setDrawColor(200, 200, 200);
-                doc.line(14, y, 196, y);
-                y += 8;
-                doc.setFont("helvetica", "bold");
-                doc.setFontSize(12);
-                doc.text("Total Estimate:", 135, y);
-                doc.text(`$${total.toFixed(2)}`, 175, y);
-
-                doc.save(`Estimate_${clientName.replace(/\s+/g, '_')}_${dateStr.replace(/\//g, '-')}.pdf`);
-            });
-        </script>
-    </body>
-    </html>
+            doc.save(`Estimate_${clientName.replace(/\s+/g, '_')}_${dateStr.replace(/\//g, '-')}.pdf`);
+        });
+    </script>
+</body>
+</html>
