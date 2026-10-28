@@ -28,7 +28,7 @@
 <body class="bg-gray-50 text-gray-800 h-screen overflow-hidden flex">
 
     <!-- ==================== AUTHENTICATION GATE ==================== -->
-    <div id="auth-view" class="fixed inset-0 bg-slate-900 z-[100] flex items-center justify-center">
+    <div id="auth-view" class="fixed inset-0 bg-black z-[100] flex items-center justify-center">
         <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border-t-4 border-red-600">
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-50 text-red-600 mb-4">
@@ -59,7 +59,7 @@
     <div id="app-view" class="w-full h-full flex hidden">
         
         <!-- Sidebar Navigation -->
-        <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 z-10 shadow-xl border-r border-slate-800">
+        <aside class="w-64 bg-black text-slate-300 flex flex-col transition-all duration-300 z-10 shadow-xl border-r border-slate-800">
             <div class="h-16 flex items-center px-6 border-b border-slate-800">
                 <span class="text-xl font-extrabold text-white tracking-tight uppercase">FloorEver<span class="text-red-500 text-xs ml-1 align-top tracking-normal">CRM</span></span>
             </div>
@@ -129,7 +129,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-slate-900 p-5 rounded-lg shadow-sm text-white">
+                        <div class="bg-black p-5 rounded-lg shadow-sm text-white">
                             <div class="text-sm font-medium text-slate-400">Scheduled / Open Jobs</div>
                             <div class="text-3xl font-black mt-1" id="metric-open-jobs">0</div>
                         </div>
@@ -270,7 +270,7 @@
                                 <h4 class="font-bold text-gray-900 mb-4">Add Product Category</h4>
                                 <form id="add-category-form" class="flex gap-2">
                                     <input type="text" id="cat-name" required placeholder="e.g. Flake Blends" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 text-sm">
-                                    <button type="submit" class="bg-slate-900 text-white px-4 py-2 rounded-md hover:bg-slate-800 font-bold text-sm">Save</button>
+                                    <button type="submit" class="bg-black text-white px-4 py-2 rounded-md hover:bg-slate-800 font-bold text-sm">Save</button>
                                 </form>
                             </div>
                             <!-- Categories Directory -->
@@ -325,7 +325,7 @@
                                 <span class="text-sm font-bold text-red-800">Line Total:</span>
                                 <span class="text-lg font-black text-red-900" id="quote-line-total">$0.00</span>
                             </div>
-                            <button id="add-to-quote-btn" class="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Add to Quote</button>
+                            <button id="add-to-quote-btn" class="w-full bg-black text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Add to Quote</button>
                         </div>
                         
                         <div class="bg-white rounded-lg shadow-sm border border-gray-200 lg:col-span-2 flex flex-col h-full min-h-[600px]">
@@ -398,7 +398,7 @@
                                         <option value="jobs">Jobs</option>
                                     </select>
                                 </div>
-                                <button onclick="exportData()" class="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Download CSV Export</button>
+                                <button onclick="exportData()" class="w-full bg-black text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Download CSV Export</button>
                             </div>
                         </div>
 
@@ -439,7 +439,7 @@
     </div>
 
     <!-- ==================== MODALS (DETAILS & EDIT) ==================== -->
-    <div id="modal-overlay" class="fixed inset-0 bg-slate-900/70 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="modal-overlay" class="fixed inset-0 bg-black/70 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden relative">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-600 transition-colors"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             <div id="modal-content" class="flex-1 overflow-y-auto p-6">
@@ -972,7 +972,7 @@
                 <hr class="my-6 border-gray-200">
                 <h4 class="font-bold text-gray-900 mb-3">Tasks & Reminders</h4>
                 <div id="modal-tasks-list">${renderTasksHTML(l.tasks)}</div>
-                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New actionable task..."><button onclick="addTaskUI()" class="bg-slate-900 text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
+                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New actionable task..."><button onclick="addTaskUI()" class="bg-black text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
@@ -1042,7 +1042,7 @@
                 <hr class="my-6 border-gray-200">
                 <h4 class="font-bold text-gray-900 mb-3">Tasks & Reminders</h4>
                 <div id="modal-tasks-list">${renderTasksHTML(o.tasks)}</div>
-                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New task..."><button onclick="addTaskUI()" class="bg-slate-900 text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
+                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New task..."><button onclick="addTaskUI()" class="bg-black text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
