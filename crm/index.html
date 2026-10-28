@@ -8,6 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- jsPDF for Quote Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- PapaParse for CSV Import/Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -29,8 +31,12 @@
     <div id="auth-view" class="fixed inset-0 bg-slate-900 z-[100] flex items-center justify-center">
         <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border-t-4 border-red-600">
             <div class="text-center mb-8">
-                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">FLOOREVER ETX</h1>
-                <p class="text-sm font-bold text-red-600 tracking-widest uppercase mt-1">Durable. Professional. Local.</p>
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-50 text-red-600 mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                </div>
+                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">FLOOREVER</h1>
+                <p class="text-sm font-semibold text-red-600 tracking-widest uppercase mt-1">Durable. Professional. Local.</p>
+                <p class="text-sm text-gray-500 mt-4">Sign in with your staff account.</p>
             </div>
             <form id="login-form" class="space-y-4">
                 <div>
@@ -65,9 +71,14 @@
                 <button data-target="jobs-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Jobs</button>
                 <button data-target="products-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Products Catalog</button>
                 <button data-target="quoting-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors">Quote Engine</button>
+                <!-- HIDDEN SETTINGS BUTTON -->
+                <button id="nav-settings-btn" data-target="settings-view" class="nav-btn w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition-colors hidden mt-6 border border-slate-700 text-slate-400">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Settings & Data
+                </button>
             </nav>
             <div class="p-4 border-t border-slate-800 text-sm flex justify-between items-center bg-slate-950">
-                <div class="text-slate-400 truncate" id="user-display">Staff User</div>
+                <div class="text-slate-400 truncate cursor-pointer select-none" id="user-display">Staff User</div>
                 <button id="logout-btn" class="text-slate-500 hover:text-red-400 ml-2 transition-colors" title="Sign Out">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                 </button>
@@ -323,6 +334,69 @@
                     </div>
                 </div>
 
+                <!-- 7. HIDDEN SETTINGS VIEW -->
+                <div id="settings-view" class="view-section">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-gray-900">Settings & Data Management</h3>
+                        <p class="text-sm text-gray-500 font-medium">Import or export your CRM data as CSV spreadsheets.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        
+                        <!-- Data Export -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <h4 class="font-bold text-gray-900 border-b border-gray-200 pb-2 mb-4">Export Data</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-500 mb-1">Select Collection</label>
+                                    <select id="export-collection" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                        <option value="leads">Leads</option>
+                                        <option value="accounts">Accounts</option>
+                                        <option value="opportunities">Opportunities</option>
+                                        <option value="products">Products</option>
+                                        <option value="jobs">Jobs</option>
+                                    </select>
+                                </div>
+                                <button onclick="exportData()" class="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Download CSV Export</button>
+                            </div>
+                        </div>
+
+                        <!-- Data Import -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <h4 class="font-bold text-gray-900 border-b border-gray-200 pb-2 mb-4">Import Data</h4>
+                            <div class="space-y-4" id="import-setup-ui">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-500 mb-1">Select Target Collection</label>
+                                    <select id="import-collection" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500">
+                                        <option value="leads">Leads</option>
+                                        <option value="accounts">Accounts</option>
+                                        <option value="opportunities">Opportunities</option>
+                                        <option value="products">Products</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-500 mb-1">Upload CSV Spreadsheet</label>
+                                    <input type="file" id="import-file" accept=".csv" class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-sm">
+                                </div>
+                                <p class="text-xs text-gray-500 italic">Once selected, you will be asked to map the spreadsheet columns to the CRM fields.</p>
+                            </div>
+
+                            <!-- Field Mapping UI (Hidden until file selected) -->
+                            <div id="import-mapping-ui" class="hidden mt-4 pt-4 border-t border-gray-200">
+                                <h5 class="text-sm font-bold text-gray-900 mb-3">Map CSV Columns</h5>
+                                <div id="mapping-container" class="space-y-2 mb-4 max-h-64 overflow-y-auto pr-2">
+                                    <!-- Selects injected here -->
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="cancelImport()" class="w-1/3 bg-gray-200 text-gray-700 py-2 rounded-md hover:bg-gray-300 font-bold">Cancel</button>
+                                    <button onclick="runImport()" class="w-2/3 bg-red-600 text-white py-2 rounded-md hover:bg-red-700 font-bold uppercase tracking-wide">Run Import</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
@@ -348,7 +422,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAUmBUuXMbMVTOB4HyrwoiM5i9kRKQDj40",
@@ -373,6 +447,19 @@
         
         // Currency Helper
         const formatCurrency = (val) => '$' + Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // --- Hidden Settings Trigger ---
+        let secretClicks = 0;
+        let secretTimer = null;
+        document.getElementById('user-display').addEventListener('click', () => {
+            secretClicks++;
+            clearTimeout(secretTimer);
+            secretTimer = setTimeout(() => { secretClicks = 0; }, 1000); // Reset after 1 second
+            if (secretClicks >= 3) {
+                document.getElementById('nav-settings-btn').classList.remove('hidden');
+                secretClicks = 0;
+            }
+        });
 
         // --- Auth ---
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
@@ -407,7 +494,12 @@
                 document.querySelectorAll('.nav-btn').forEach(b => {
                     b.classList.remove('bg-red-600', 'text-white'); b.classList.add('hover:bg-slate-800', 'hover:text-white', 'text-slate-300');
                 });
-                btn.classList.add('bg-red-600', 'text-white'); btn.classList.remove('hover:bg-slate-800', 'text-slate-300');
+                // Exception for settings styling
+                if(btn.id !== 'nav-settings-btn') {
+                    btn.classList.add('bg-red-600', 'text-white'); btn.classList.remove('hover:bg-slate-800', 'text-slate-300');
+                } else {
+                    btn.classList.add('bg-slate-700', 'text-white'); btn.classList.remove('hover:bg-slate-800', 'text-slate-400');
+                }
                 
                 const targetId = btn.getAttribute('data-target');
                 document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
@@ -862,6 +954,29 @@
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
 
+        window.convertLeadFromModal = async (leadId) => {
+            const lead = leads.find(l => l.id === leadId);
+            if(!lead) return;
+            try {
+                const clientName = `${lead.firstName || ''} ${lead.lastName || ''}`.trim() || 'Unnamed Client';
+                const accRef = await addDoc(getColRef('accounts'), {
+                    companyName: lead.companyName || '',
+                    phone: lead.phone, email: lead.email, address: lead.address, notes: lead.notes,
+                    contacts: [{firstName: lead.firstName, lastName: lead.lastName, phone: lead.phone, email: lead.email}],
+                    createdAt: new Date().toISOString()
+                });
+                await addDoc(getColRef('opportunities'), {
+                    accountId: accRef.id, accountName: lead.companyName ? `${clientName} (${lead.companyName})` : clientName,
+                    name: `${lead.projectType || 'New'} Project`, primaryContact: clientName,
+                    stage: 'New Opportunity', tasks: lead.tasks,
+                    createdAt: new Date().toISOString(), stageUpdatedAt: new Date().toISOString()
+                });
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', leadId));
+                closeModal();
+            } catch(e) { alert("Conversion failed: " + e.message); }
+        };
+
+        // --- PRODUCTS & QUOTING ---
         document.getElementById('add-category-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             try { await addDoc(getColRef('categories'), { name: document.getElementById('cat-name').value }); e.target.reset(); } 
@@ -1004,7 +1119,6 @@
                 const yPos = (35 - renderH) / 2;
                 doc.addImage(img, 'PNG', 14, yPos, renderW, renderH);
             } else {
-                // Fallback if logo fails to load
                 doc.setFontSize(24); doc.setTextColor(220, 38, 38); doc.setFont("helvetica","bold");
                 doc.text("FLOOREVER", 14, 23); 
             }
@@ -1017,7 +1131,7 @@
             doc.text(text2, startX + w1, textY);
 
             // --- METADATA ---
-            doc.setFontSize(12); doc.setTextColor(0, 0, 0); doc.setFont("helvetica","bold");
+            doc.setFontSize(12); doc.setTextColor(100, 100, 100); doc.setFont("helvetica","bold");
             doc.text("SERVICE ESTIMATE", 14, 50); 
             doc.setFontSize(10); doc.setFont("helvetica","normal");
             const dateStr = new Date().toLocaleDateString();
@@ -1062,6 +1176,191 @@
 
             doc.save(`Estimate_${clientName.replace(/\s+/g,'_')}_${dateStr.replace(/\//g, '-')}.pdf`);
         });
+
+        // --- IMPORT / EXPORT LOGIC ---
+        
+        // Export
+        window.exportData = async () => {
+            const colName = document.getElementById('export-collection').value;
+            try {
+                const snap = await getDocs(getColRef(colName));
+                const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                
+                // Flatten contact array for Accounts to make it readable in CSV
+                if(colName === 'accounts') {
+                    data.forEach(d => {
+                        if(d.contacts && d.contacts.length > 0) {
+                            d.firstName = d.contacts[0].firstName;
+                            d.lastName = d.contacts[0].lastName;
+                        }
+                        delete d.contacts;
+                    });
+                }
+                // Stringify tasks to prevent [object Object] in CSV
+                data.forEach(d => {
+                    if(d.tasks) d.tasks = JSON.stringify(d.tasks);
+                });
+
+                const csv = Papa.unparse(data);
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", `FloorEver_${colName}_Export_${new Date().toISOString().slice(0,10)}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (err) {
+                alert("Export failed: " + err.message);
+            }
+        };
+
+        // Import Schemas
+        const importSchemas = {
+            leads: [
+                { key: 'firstName', label: 'First Name', type: 'string' },
+                { key: 'lastName', label: 'Last Name', type: 'string' },
+                { key: 'companyName', label: 'Company Name', type: 'string' },
+                { key: 'phone', label: 'Phone', type: 'string' },
+                { key: 'email', label: 'Email', type: 'string' },
+                { key: 'address', label: 'Address', type: 'string' },
+                { key: 'projectType', label: 'Project Type', type: 'string' },
+                { key: 'notes', label: 'Notes', type: 'string' }
+            ],
+            accounts: [
+                { key: 'firstName', label: 'First Name', type: 'string' },
+                { key: 'lastName', label: 'Last Name', type: 'string' },
+                { key: 'companyName', label: 'Company Name', type: 'string' },
+                { key: 'phone', label: 'Phone', type: 'string' },
+                { key: 'email', label: 'Email', type: 'string' },
+                { key: 'address', label: 'Address', type: 'string' },
+                { key: 'notes', label: 'Notes', type: 'string' }
+            ],
+            opportunities: [
+                { key: 'name', label: 'Opportunity Name', type: 'string' },
+                { key: 'accountName', label: 'Account/Client Name', type: 'string' },
+                { key: 'primaryContact', label: 'Primary Contact', type: 'string' },
+                { key: 'amount', label: 'Amount ($)', type: 'number' },
+                { key: 'closeDate', label: 'Close Date', type: 'string' },
+                { key: 'stage', label: 'Stage', type: 'string' },
+                { key: 'notes', label: 'Notes', type: 'string' }
+            ],
+            products: [
+                { key: 'name', label: 'Product Name', type: 'string' },
+                { key: 'unit', label: 'Unit (SqFt, Flat, etc)', type: 'string' },
+                { key: 'price', label: 'Price', type: 'number' }
+            ]
+        };
+
+        let parsedImportData = [];
+        let parsedImportHeaders = [];
+
+        document.getElementById('import-file').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if(!file) return;
+            
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    parsedImportData = results.data;
+                    parsedImportHeaders = results.meta.fields;
+                    renderMappingUI();
+                }
+            });
+        });
+
+        document.getElementById('import-collection').addEventListener('change', () => {
+            if(parsedImportHeaders.length > 0) renderMappingUI();
+        });
+
+        function renderMappingUI() {
+            const col = document.getElementById('import-collection').value;
+            const fields = importSchemas[col];
+            const container = document.getElementById('mapping-container');
+            
+            let html = '';
+            fields.forEach(f => {
+                html += `
+                <div class="flex justify-between items-center bg-gray-50 p-2 rounded border border-gray-200">
+                    <span class="text-sm font-bold text-gray-700 w-1/3">${f.label}</span>
+                    <select id="map-${f.key}" class="w-2/3 border border-gray-300 rounded px-2 py-1 text-sm focus:ring-red-500">
+                        <option value="">-- Do Not Import --</option>`;
+                
+                parsedImportHeaders.forEach(h => {
+                    // Try to auto-select if header names match closely
+                    const selected = h.toLowerCase().replace(/[^a-z]/g, '') === f.label.toLowerCase().replace(/[^a-z]/g, '') ? 'selected' : '';
+                    html += `<option value="${h}" ${selected}>${h}</option>`;
+                });
+                
+                html += `</select></div>`;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('import-mapping-ui').classList.remove('hidden');
+        }
+
+        window.cancelImport = () => {
+            document.getElementById('import-file').value = '';
+            parsedImportData = [];
+            parsedImportHeaders = [];
+            document.getElementById('import-mapping-ui').classList.add('hidden');
+        };
+
+        window.runImport = async () => {
+            const col = document.getElementById('import-collection').value;
+            const fields = importSchemas[col];
+            const btn = document.querySelector('#import-mapping-ui button.bg-red-600');
+            
+            btn.textContent = 'Importing...';
+            btn.disabled = true;
+
+            let count = 0;
+            try {
+                for (let row of parsedImportData) {
+                    let obj = { createdAt: new Date().toISOString() };
+                    if(col === 'leads') obj.status = 'active';
+
+                    // Map fields
+                    fields.forEach(f => {
+                        const header = document.getElementById(`map-${f.key}`).value;
+                        if(header && row[header]) {
+                            obj[f.key] = f.type === 'number' ? (parseFloat(row[header].replace(/[^0-9.-]+/g,"")) || 0) : row[header];
+                        }
+                    });
+
+                    // Schema specific cleanup
+                    if(col === 'accounts') {
+                        obj.contacts = [{
+                            firstName: obj.firstName || '',
+                            lastName: obj.lastName || '',
+                            phone: obj.phone || '',
+                            email: obj.email || ''
+                        }];
+                        // Remove flat fields from root to match schema structure cleanly
+                        delete obj.firstName; 
+                        delete obj.lastName;
+                    }
+
+                    if(col === 'opportunities') {
+                        obj.stageUpdatedAt = obj.createdAt;
+                        if(!obj.stage) obj.stage = 'New Opportunity'; // Fallback
+                    }
+
+                    await addDoc(getColRef(col), obj);
+                    count++;
+                }
+                alert(`Successfully imported ${count} records into ${col}!`);
+                cancelImport();
+            } catch(e) {
+                alert("Import failed during execution: " + e.message);
+            } finally {
+                btn.textContent = 'Run Import';
+                btn.disabled = false;
+            }
+        };
+
     </script>
 </body>
 </html>
