@@ -28,7 +28,7 @@
 <body class="bg-gray-50 text-gray-800 h-screen overflow-hidden flex">
 
     <!-- ==================== AUTHENTICATION GATE ==================== -->
-    <div id="auth-view" class="fixed inset-0 bg-black z-[100] flex items-center justify-center">
+    <div id="auth-view" class="fixed inset-0 bg-slate-900 z-[100] flex items-center justify-center">
         <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border-t-4 border-red-600">
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-50 text-red-600 mb-4">
@@ -59,7 +59,7 @@
     <div id="app-view" class="w-full h-full flex hidden">
         
         <!-- Sidebar Navigation -->
-        <aside class="w-64 bg-black text-slate-300 flex flex-col transition-all duration-300 z-10 shadow-xl border-r border-slate-800">
+        <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 z-10 shadow-xl border-r border-slate-800">
             <div class="h-16 flex items-center px-6 border-b border-slate-800">
                 <span class="text-xl font-extrabold text-white tracking-tight uppercase">FloorEver<span class="text-red-500 text-xs ml-1 align-top tracking-normal">CRM</span></span>
             </div>
@@ -101,31 +101,35 @@
                         <p class="text-sm text-gray-500 font-medium">Overview of your open pipelines, jobs, and lead ages.</p>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
                         <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-t-4 border-t-green-500">
-                            <div class="text-xs font-bold text-gray-500 uppercase tracking-wide">YTD Revenue</div>
-                            <div class="text-2xl font-black text-gray-900 mt-1" id="metric-revenue">$0</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">YTD Revenue</div>
+                            <div class="text-xl font-black text-gray-900 mt-1" id="metric-revenue">$0</div>
                         </div>
                         <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-t-4 border-t-slate-800">
-                            <div class="text-xs font-bold text-gray-500 uppercase tracking-wide">YTD Won Opps</div>
-                            <div class="text-2xl font-black text-gray-900 mt-1" id="metric-won-opps">0</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">YTD Won Opps</div>
+                            <div class="text-xl font-black text-gray-900 mt-1" id="metric-won-opps">0</div>
                         </div>
                         <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-t-4 border-t-blue-500">
-                            <div class="text-xs font-bold text-gray-500 uppercase tracking-wide">Open Opps</div>
-                            <div class="text-2xl font-black text-gray-900 mt-1" id="metric-open-opps">0</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Open Opps ($)</div>
+                            <div class="text-xl font-black text-gray-900 mt-1" id="metric-open-opps-val">$0</div>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-t-4 border-t-blue-500">
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Open Opps (#)</div>
+                            <div class="text-xl font-black text-gray-900 mt-1" id="metric-open-opps-count">0</div>
                         </div>
                         <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-t-4 border-t-red-500">
-                            <div class="text-xs font-bold text-gray-500 uppercase tracking-wide">Open Leads</div>
-                            <div class="text-2xl font-black text-gray-900 mt-1" id="metric-open-leads">0</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Open Leads</div>
+                            <div class="text-xl font-black text-gray-900 mt-1" id="metric-open-leads">0</div>
                         </div>
                         <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-t-4 border-t-indigo-500">
-                            <div class="text-xs font-bold text-gray-500 uppercase tracking-wide">Completed Jobs</div>
-                            <div class="text-2xl font-black text-gray-900 mt-1" id="metric-completed-jobs">0</div>
+                            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Completed Jobs</div>
+                            <div class="text-xl font-black text-gray-900 mt-1" id="metric-completed-jobs">0</div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-black p-5 rounded-lg shadow-sm text-white">
+                        <div class="bg-slate-900 p-5 rounded-lg shadow-sm text-white">
                             <div class="text-sm font-medium text-slate-400">Scheduled / Open Jobs</div>
                             <div class="text-3xl font-black mt-1" id="metric-open-jobs">0</div>
                         </div>
@@ -169,7 +173,7 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Client Name</th>
-                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Company (Optional)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Source</th>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Contact</th>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Project Type</th>
                                 </tr>
@@ -210,7 +214,7 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Client Name</th>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Company (Optional)</th>
-                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Primary Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Location</th>
                                     <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Pipeline Status</th>
                                 </tr>
                             </thead>
@@ -266,7 +270,7 @@
                                 <h4 class="font-bold text-gray-900 mb-4">Add Product Category</h4>
                                 <form id="add-category-form" class="flex gap-2">
                                     <input type="text" id="cat-name" required placeholder="e.g. Flake Blends" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 text-sm">
-                                    <button type="submit" class="bg-black text-white px-4 py-2 rounded-md hover:bg-slate-800 font-bold text-sm">Save</button>
+                                    <button type="submit" class="bg-slate-900 text-white px-4 py-2 rounded-md hover:bg-slate-800 font-bold text-sm">Save</button>
                                 </form>
                             </div>
                             <!-- Categories Directory -->
@@ -321,7 +325,7 @@
                                 <span class="text-sm font-bold text-red-800">Line Total:</span>
                                 <span class="text-lg font-black text-red-900" id="quote-line-total">$0.00</span>
                             </div>
-                            <button id="add-to-quote-btn" class="w-full bg-black text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Add to Quote</button>
+                            <button id="add-to-quote-btn" class="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Add to Quote</button>
                         </div>
                         
                         <div class="bg-white rounded-lg shadow-sm border border-gray-200 lg:col-span-2 flex flex-col h-full min-h-[600px]">
@@ -394,7 +398,7 @@
                                         <option value="jobs">Jobs</option>
                                     </select>
                                 </div>
-                                <button onclick="exportData()" class="w-full bg-black text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Download CSV Export</button>
+                                <button onclick="exportData()" class="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Download CSV Export</button>
                             </div>
                         </div>
 
@@ -479,8 +483,8 @@
         let currentLeadSort = 'newest';
         let currentAccountSearch = '';
 
-        const stages = ['New Opportunity', 'Site Survey', 'Proposal', 'Negotiation', 'PO Pending', 'Closed Won', 'Closed Lost'];
-        const jobStatuses = ['Unscheduled', 'Scheduled', 'In Progress', 'Completed'];
+        const oppStages = ['Lead', 'Quoted', 'Follow-up'];
+        const jobStatuses = ['Booked', 'Scheduled', 'Poured', 'Curing', 'Paid'];
         
         const formatCurrency = (val) => '$' + Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -560,16 +564,18 @@
             const wonOpps = opportunities.filter(o => o.stage === 'Closed Won');
             const openOpps = opportunities.filter(o => !['Closed Won', 'Closed Lost'].includes(o.stage));
             const ytdRev = wonOpps.reduce((sum, o) => sum + (parseFloat(o.amount) || 0), 0);
+            const openOppsValue = openOpps.reduce((sum, o) => sum + (parseFloat(o.amount) || 0), 0);
             
             document.getElementById('metric-revenue').textContent = formatCurrency(ytdRev);
             document.getElementById('metric-won-opps').textContent = wonOpps.length;
-            document.getElementById('metric-open-opps').textContent = openOpps.length;
+            document.getElementById('metric-open-opps-count').textContent = openOpps.length;
+            document.getElementById('metric-open-opps-val').textContent = formatCurrency(openOppsValue);
             
             const activeLeads = leads.filter(l => l.status !== 'not_interested');
             document.getElementById('metric-open-leads').textContent = activeLeads.length;
             
-            document.getElementById('metric-completed-jobs').textContent = jobs.filter(j => j.status === 'Completed').length;
-            document.getElementById('metric-open-jobs').textContent = jobs.filter(j => j.status !== 'Completed').length;
+            document.getElementById('metric-completed-jobs').textContent = jobs.filter(j => j.status === 'Paid').length;
+            document.getElementById('metric-open-jobs').textContent = jobs.filter(j => j.status !== 'Paid').length;
 
             const now = new Date();
             const calcAvgAge = (arr) => arr.length ? Math.round(arr.reduce((sum, item) => sum + Math.abs(now - new Date(item.createdAt||now))/(1000*60*60*24), 0)/arr.length) : 0;
@@ -622,7 +628,7 @@
                     const tr = document.createElement('tr'); tr.className = "hover:bg-gray-50 transition-colors";
                     const clientName = `${l.firstName || ''} ${l.lastName || ''}`.trim() || 'Unnamed Client';
                     tr.innerHTML = `<td class="px-6 py-4 text-sm font-bold text-gray-900">${clientName}</td>
-                                    <td class="px-6 py-4 text-sm text-gray-500">${l.companyName || '-'}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500"><span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">${l.source || 'None'}</span></td>
                                     <td class="px-6 py-4 text-sm text-gray-500">${l.email || l.phone || '-'}</td>
                                     <td class="px-6 py-4 text-sm text-gray-500">${l.projectType || '-'}</td>`;
                     tr.onclick = () => openLeadModal(l.id);
@@ -677,7 +683,7 @@
                 const clientName = `${a.contacts?.[0]?.firstName || ''} ${a.contacts?.[0]?.lastName || ''}`.trim() || 'Unnamed Client';
                 tr.innerHTML = `<td class="px-6 py-4 text-sm font-bold text-gray-900">${clientName}</td>
                                 <td class="px-6 py-4 text-sm text-gray-500">${a.companyName || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500">${a.email || '-'}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">${a.city || ''}, ${a.state || ''}</td>
                                 <td class="px-6 py-4">${tagsHtml}</td>`;
                 tr.onclick = () => openAccountModal(a.id);
                 tbody.appendChild(tr);
@@ -687,18 +693,16 @@
         function renderOpportunities() {
             const board = document.getElementById('kanban-board'); board.innerHTML = '';
             
-            // Calculate header totals for all Open Opps on the page
             const openOpps = opportunities.filter(o => !['Closed Won', 'Closed Lost'].includes(o.stage));
             const totalOpenValue = openOpps.reduce((sum, o) => sum + (parseFloat(o.amount) || 0), 0);
             document.getElementById('opp-page-count').textContent = openOpps.length;
             document.getElementById('opp-page-value').textContent = formatCurrency(totalOpenValue);
 
-            stages.forEach(stage => {
+            oppStages.forEach(stage => {
                 const col = document.createElement('div'); col.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300";
                 
-                // Safety net: place unknown/blank stages into "New Opportunity"
                 const stageOpps = opportunities.filter(o => {
-                    const currentStage = stages.includes(o.stage) ? o.stage : 'New Opportunity';
+                    const currentStage = oppStages.includes(o.stage) ? o.stage : 'Lead';
                     return currentStage === stage;
                 });
                 
@@ -718,19 +722,40 @@
                 `;
                 board.appendChild(col);
             });
+            
+            // Add a column to view won/lost deals even though they aren't 'open'
+            const closedCol = document.createElement('div'); closedCol.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300 opacity-70";
+            const closedOpps = opportunities.filter(o => ['Closed Won', 'Closed Lost'].includes(o.stage));
+            let closedHtml = closedOpps.map(o => `
+                <div class="bg-white p-3 rounded-md shadow-sm border border-gray-200 cursor-pointer hover:border-gray-400 transition-colors" onclick="openOppModal('${o.id}')">
+                    <div class="font-bold text-sm text-gray-900">${o.name || 'Unnamed Opp'}</div>
+                    <div class="text-xs font-bold ${o.stage === 'Closed Won' ? 'text-green-600' : 'text-red-600'} mt-1">${o.stage}</div>
+                </div>
+            `).join('');
+            closedCol.innerHTML = `
+                <div class="p-3 border-b border-gray-300 bg-gray-200 rounded-t-lg font-bold text-sm text-gray-800 flex justify-between">
+                    <span>Closed Deals</span><span class="bg-white px-2 py-0.5 rounded text-xs shadow-sm">${closedOpps.length}</span>
+                </div>
+                <div class="p-3 flex-1 overflow-y-auto space-y-3">${closedHtml}</div>
+            `;
+            board.appendChild(closedCol);
         }
 
         function renderJobs() {
             const board = document.getElementById('jobs-board'); board.innerHTML = '';
             jobStatuses.forEach(status => {
                 const col = document.createElement('div'); col.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300";
-                const colJobs = jobs.filter(j => (j.status || 'Unscheduled') === status);
+                const colJobs = jobs.filter(j => {
+                    const currentStatus = jobStatuses.includes(j.status) ? j.status : 'Booked';
+                    return currentStatus === status;
+                });
                 
                 let cardsHtml = colJobs.map(j => `
                     <div class="bg-white p-3 rounded-md shadow-sm border border-gray-200 cursor-pointer hover:border-red-400 transition-colors" onclick="openJobModal('${j.id}')">
                         <div class="font-bold text-sm text-gray-900">${j.name || 'Unnamed Job'}</div>
                         <div class="text-xs font-medium text-gray-500 truncate">${j.accountName || '-'}</div>
                         ${j.scheduledDate ? `<div class="text-xs font-bold text-indigo-600 mt-2">Date: ${new Date(j.scheduledDate).toLocaleDateString()}</div>` : ''}
+                        ${j.depositPaid ? `<div class="text-[10px] font-bold text-green-700 bg-green-50 mt-2 px-2 py-1 rounded w-fit uppercase">Deposit Paid</div>` : `<div class="text-[10px] font-bold text-amber-700 bg-amber-50 mt-2 px-2 py-1 rounded w-fit uppercase">Pending Deposit</div>`}
                     </div>
                 `).join('');
 
@@ -780,8 +805,9 @@
                         firstName: document.getElementById('m-first').value, lastName: document.getElementById('m-last').value,
                         companyName: document.getElementById('m-comp').value, phone: document.getElementById('m-phone').value,
                         email: document.getElementById('m-email').value, address: document.getElementById('m-addr').value,
-                        projectType: document.getElementById('m-proj').value, notes: document.getElementById('m-notes').value,
-                        tasks: getTasksFromDOM()
+                        city: document.getElementById('m-city').value, state: document.getElementById('m-state').value,
+                        source: document.getElementById('m-source').value, projectType: document.getElementById('m-proj').value, 
+                        notes: document.getElementById('m-notes').value, tasks: getTasksFromDOM()
                     };
                     if(isNew) { data.status = 'active'; data.createdAt = new Date().toISOString(); await addDoc(getColRef('leads'), data); } 
                     else await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', id), data);
@@ -792,6 +818,7 @@
                     const data = {
                         companyName: document.getElementById('m-comp').value, 
                         phone: phone, email: email, address: document.getElementById('m-addr').value,
+                        city: document.getElementById('m-city').value, state: document.getElementById('m-state').value,
                         notes: document.getElementById('m-notes').value,
                         contacts: [{ firstName: document.getElementById('m-cfirst').value, lastName: document.getElementById('m-clast').value, phone: phone, email: email }]
                     };
@@ -814,7 +841,7 @@
                         if(data.stage === 'Closed Won') {
                             await addDoc(getColRef('jobs'), {
                                 name: data.name + ' (Installation)', accountId: data.accountId, accountName: data.accountName,
-                                opportunityId: docRef.id, status: 'Unscheduled', createdAt: new Date().toISOString()
+                                opportunityId: docRef.id, status: 'Booked', createdAt: new Date().toISOString(), depositPaid: false, depositAmount: 0
                             });
                         }
                     } else {
@@ -824,7 +851,7 @@
                             if(data.stage === 'Closed Won') {
                                 await addDoc(getColRef('jobs'), {
                                     name: data.name + ' (Installation)', accountId: data.accountId, accountName: data.accountName,
-                                    opportunityId: id, status: 'Unscheduled', createdAt: new Date().toISOString()
+                                    opportunityId: id, status: 'Booked', createdAt: new Date().toISOString(), depositPaid: false, depositAmount: 0
                                 });
                             }
                         }
@@ -839,6 +866,8 @@
                         opportunityId: document.getElementById('m-job-opp').value,
                         status: document.getElementById('m-job-status').value,
                         scheduledDate: document.getElementById('m-job-date').value,
+                        depositPaid: document.getElementById('m-job-dep-paid').checked,
+                        depositAmount: parseFloat(document.getElementById('m-job-dep-amt').value)||0,
                         notes: document.getElementById('m-job-notes').value
                     };
                     if(isNew) { data.createdAt = new Date().toISOString(); await addDoc(getColRef('jobs'), data); } 
@@ -897,6 +926,11 @@
             `).join('');
         };
 
+        const sourceOptionsHTML = (selected) => {
+            const sources = ['Facebook', 'Google', 'Door Knock', 'Referral', 'Other'];
+            return `<option value="">-- Select --</option>` + sources.map(s => `<option value="${s}" ${s===selected?'selected':''}>${s}</option>`).join('');
+        };
+
         // Form Generators
         window.openLeadModal = (id = null) => {
             currentModalContext = { type: 'lead', id };
@@ -922,14 +956,17 @@
                     <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Company (Optional)</label><input type="text" id="m-comp" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.companyName||''}"></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1">Phone</label><input type="tel" id="m-phone" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.phone||''}"></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1">Email</label><input type="email" id="m-email" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.email||''}"></div>
-                    <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Address</label><input type="text" id="m-addr" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.address||''}"></div>
-                    <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Project Type</label><input type="text" id="m-proj" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.projectType||''}"></div>
+                    <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Street Address</label><input type="text" id="m-addr" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.address||''}"></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">City</label><input type="text" id="m-city" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.city||''}"></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">State</label><input type="text" id="m-state" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.state||'TX'}"></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Source</label><select id="m-source" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500">${sourceOptionsHTML(l.source)}</select></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Project Type</label><input type="text" id="m-proj" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${l.projectType||''}"></div>
                     <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Notes</label><textarea id="m-notes" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" rows="3">${l.notes||''}</textarea></div>
                 </div>
                 <hr class="my-6 border-gray-200">
                 <h4 class="font-bold text-gray-900 mb-3">Tasks & Reminders</h4>
                 <div id="modal-tasks-list">${renderTasksHTML(l.tasks)}</div>
-                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New actionable task..."><button onclick="addTaskUI()" class="bg-black text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
+                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New actionable task..."><button onclick="addTaskUI()" class="bg-slate-900 text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
@@ -939,7 +976,6 @@
             const a = id ? accounts.find(x => x.id === id) : {};
             const c = a.contacts ? a.contacts[0] : {};
             
-            // Build related opportunities list
             const relatedOpps = id ? opportunities.filter(o => o.accountId === id) : [];
             let oppsHtml = relatedOpps.map(o => `<div class="text-sm p-3 bg-gray-50 border border-gray-200 rounded-md mb-2 flex justify-between items-center"><span class="font-bold text-gray-800">${o.name}</span><span class="font-bold text-red-600 bg-red-50 px-2 py-1 rounded text-xs uppercase">${o.stage}</span></div>`).join('');
             if(!oppsHtml) oppsHtml = '<div class="text-sm text-gray-500 italic">No related opportunities.</div>';
@@ -954,7 +990,9 @@
                     <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Company (Optional)</label><input type="text" id="m-comp" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${a.companyName||''}"></div>
                     <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Primary Email</label><input type="email" id="m-cemail" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${a.email||''}"></div>
                     <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Main Phone</label><input type="tel" id="m-cphone" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${a.phone||''}"></div>
-                    <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Address</label><input type="text" id="m-addr" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${a.address||''}"></div>
+                    <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Street Address</label><input type="text" id="m-addr" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${a.address||''}"></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">City</label><input type="text" id="m-city" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${a.city||''}"></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">State</label><input type="text" id="m-state" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" value="${a.state||'TX'}"></div>
                     <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Notes</label><textarea id="m-notes" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" rows="3">${a.notes||''}</textarea></div>
                 </div>
                 ${id ? `<hr class="my-6 border-gray-200"><h4 class="font-bold text-gray-900 mb-3">Related Opportunities</h4><div>${oppsHtml}</div>` : ''}
@@ -977,7 +1015,7 @@
                 return `<option value="${a.id}" ${a.id===o.accountId?'selected':''}>${display}</option>`;
             }).join('');
             
-            const stageOptions = stages.map(s => `<option value="${s}" ${s===(o.stage||'New Opportunity')?'selected':''}>${s}</option>`).join('');
+            const stageOptions = stages.map(s => `<option value="${s}" ${s===(o.stage||'Lead')?'selected':''}>${s}</option>`).join('');
 
             document.getElementById('modal-delete-container').innerHTML = id ? `<button onclick="deleteDocument('opportunities', '${id}')" class="text-red-600 font-bold hover:text-red-800 text-sm">Delete Opportunity</button>` : '';
 
@@ -998,7 +1036,7 @@
                 <hr class="my-6 border-gray-200">
                 <h4 class="font-bold text-gray-900 mb-3">Tasks & Reminders</h4>
                 <div id="modal-tasks-list">${renderTasksHTML(o.tasks)}</div>
-                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New task..."><button onclick="addTaskUI()" class="bg-black text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
+                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New task..."><button onclick="addTaskUI()" class="bg-slate-900 text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
@@ -1014,7 +1052,7 @@
             }).join('');
             
             const oppOptions = opportunities.map(o => `<option value="${o.id}" ${o.id===j.opportunityId?'selected':''}>${o.name}</option>`).join('');
-            const statusOptions = jobStatuses.map(s => `<option value="${s}" ${s===(j.status||'Unscheduled')?'selected':''}>${s}</option>`).join('');
+            const statusOptions = jobStatuses.map(s => `<option value="${s}" ${s===(j.status||'Booked')?'selected':''}>${s}</option>`).join('');
 
             document.getElementById('modal-delete-container').innerHTML = id ? `<button onclick="deleteDocument('jobs', '${id}')" class="text-red-600 font-bold hover:text-red-800 text-sm">Delete Job</button>` : '';
 
@@ -1026,7 +1064,19 @@
                     <div><label class="block text-xs font-bold text-gray-500 mb-1">Related Opportunity</label><select id="m-job-opp" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500"><option value="">-- None --</option>${oppOptions}</select></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1">Status</label><select id="m-job-status" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 font-medium">${statusOptions}</select></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1">Scheduled Date</label><input type="date" id="m-job-date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500" value="${j.scheduledDate||''}"></div>
-                    <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Installation Notes</label><textarea id="m-job-notes" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500" rows="3">${j.notes||''}</textarea></div>
+                    
+                    <div class="col-span-2 mt-2 bg-gray-50 p-4 border border-gray-200 rounded-md flex items-center gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer font-bold text-gray-700">
+                            <input type="checkbox" id="m-job-dep-paid" class="w-5 h-5 text-green-600 focus:ring-green-500 rounded" ${j.depositPaid ? 'checked' : ''}>
+                            Deposit Paid
+                        </label>
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-sm font-bold text-gray-500">Amount ($)</span>
+                            <input type="number" step="0.01" id="m-job-dep-amt" class="flex-1 border border-gray-300 rounded-md px-3 py-1 text-sm focus:border-green-500" value="${j.depositAmount||''}">
+                        </div>
+                    </div>
+
+                    <div class="col-span-2 mt-2"><label class="block text-xs font-bold text-gray-500 mb-1">Installation Notes</label><textarea id="m-job-notes" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500" rows="3">${j.notes||''}</textarea></div>
                 </div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
@@ -1067,28 +1117,6 @@
                 </div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
-        };
-
-        window.convertLeadFromModal = async (leadId) => {
-            const lead = leads.find(l => l.id === leadId);
-            if(!lead) return;
-            try {
-                const clientName = `${lead.firstName || ''} ${lead.lastName || ''}`.trim() || 'Unnamed Client';
-                const accRef = await addDoc(getColRef('accounts'), {
-                    companyName: lead.companyName || '',
-                    phone: lead.phone, email: lead.email, address: lead.address, notes: lead.notes,
-                    contacts: [{firstName: lead.firstName, lastName: lead.lastName, phone: lead.phone, email: lead.email}],
-                    createdAt: new Date().toISOString()
-                });
-                await addDoc(getColRef('opportunities'), {
-                    accountId: accRef.id, accountName: lead.companyName ? `${clientName} (${lead.companyName})` : clientName,
-                    name: `${lead.projectType || 'New'} Project`, primaryContact: clientName,
-                    stage: 'New Opportunity', tasks: lead.tasks,
-                    createdAt: new Date().toISOString(), stageUpdatedAt: new Date().toISOString()
-                });
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', leadId));
-                closeModal();
-            } catch(e) { alert("Conversion failed: " + e.message); }
         };
 
         // --- PRODUCTS & QUOTING ---
@@ -1307,7 +1335,6 @@
 
         // --- IMPORT / EXPORT LOGIC ---
         
-        // Export
         window.exportData = async () => {
             const colName = document.getElementById('export-collection').value;
             try {
@@ -1343,7 +1370,6 @@
             }
         };
 
-        // Import Schemas
         const importSchemas = {
             leads: [
                 { key: 'firstName', label: 'First Name', type: 'string' },
@@ -1351,7 +1377,10 @@
                 { key: 'companyName', label: 'Company Name', type: 'string' },
                 { key: 'phone', label: 'Phone', type: 'string' },
                 { key: 'email', label: 'Email', type: 'string' },
-                { key: 'address', label: 'Address', type: 'string' },
+                { key: 'address', label: 'Street Address', type: 'string' },
+                { key: 'city', label: 'City', type: 'string' },
+                { key: 'state', label: 'State', type: 'string' },
+                { key: 'source', label: 'Source', type: 'string' },
                 { key: 'projectType', label: 'Project Type', type: 'string' },
                 { key: 'notes', label: 'Notes', type: 'string' }
             ],
@@ -1361,7 +1390,9 @@
                 { key: 'companyName', label: 'Company Name', type: 'string' },
                 { key: 'phone', label: 'Phone', type: 'string' },
                 { key: 'email', label: 'Email', type: 'string' },
-                { key: 'address', label: 'Address', type: 'string' },
+                { key: 'address', label: 'Street Address', type: 'string' },
+                { key: 'city', label: 'City', type: 'string' },
+                { key: 'state', label: 'State', type: 'string' },
                 { key: 'notes', label: 'Notes', type: 'string' }
             ],
             opportunities: [
@@ -1464,14 +1495,13 @@
                             phone: obj.phone || '',
                             email: obj.email || ''
                         }];
-                        // Remove flat fields from root to match schema structure cleanly
                         delete obj.firstName; 
                         delete obj.lastName;
                     }
 
                     if(col === 'opportunities') {
                         obj.stageUpdatedAt = obj.createdAt;
-                        if(!obj.stage) obj.stage = 'New Opportunity'; // Fallback
+                        if(!obj.stage) obj.stage = 'Lead'; // Fallback to Lead
                     }
 
                     await addDoc(getColRef(col), obj);
