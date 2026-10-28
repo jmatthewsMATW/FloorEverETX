@@ -610,7 +610,12 @@
             const board = document.getElementById('kanban-board'); board.innerHTML = '';
             stages.forEach(stage => {
                 const col = document.createElement('div'); col.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300";
-                const stageOpps = opportunities.filter(o => (o.stage || 'New Opportunity') === stage);
+                
+                // SAFEGUARD: If the stage is unknown or blank, force it into 'New Opportunity'
+                const stageOpps = opportunities.filter(o => {
+                    const currentStage = stages.includes(o.stage) ? o.stage : 'New Opportunity';
+                    return currentStage === stage;
+                });
                 
                 let cardsHtml = stageOpps.map(o => `
                     <div class="bg-white p-3 rounded-md shadow-sm border border-gray-200 cursor-pointer hover:border-red-400 transition-colors" onclick="openOppModal('${o.id}')">
