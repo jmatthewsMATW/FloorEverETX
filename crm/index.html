@@ -375,6 +375,9 @@
         const stages = ['New Opportunity', 'Site Survey', 'Proposal', 'Negotiation', 'PO Pending', 'Closed Won', 'Closed Lost'];
         const jobStatuses = ['Unscheduled', 'Scheduled', 'In Progress', 'Completed'];
         
+        // Currency Helper
+        const formatCurrency = (val) => '$' + Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
         // --- Auth ---
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
         
@@ -435,7 +438,7 @@
             const openOpps = opportunities.filter(o => !['Closed Won', 'Closed Lost'].includes(o.stage));
             const ytdRev = wonOpps.reduce((sum, o) => sum + (parseFloat(o.amount) || 0), 0);
             
-            document.getElementById('metric-revenue').textContent = `$${ytdRev.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('metric-revenue').textContent = formatCurrency(ytdRev);
             document.getElementById('metric-won-opps').textContent = wonOpps.length;
             document.getElementById('metric-open-opps').textContent = openOpps.length;
             
@@ -525,7 +528,7 @@
                     <div class="bg-white p-3 rounded-md shadow-sm border border-gray-200 cursor-pointer hover:border-red-400 transition-colors" onclick="openOppModal('${o.id}')">
                         <div class="font-bold text-sm text-gray-900">${o.name || 'Unnamed Opp'}</div>
                         <div class="text-xs font-medium text-gray-500 truncate">${o.accountName || '-'}</div>
-                        <div class="text-xs font-bold text-green-700 mt-2">$${(parseFloat(o.amount)||0).toLocaleString()}</div>
+                        <div class="text-xs font-bold text-green-700 mt-2">${formatCurrency(o.amount)}</div>
                     </div>
                 `).join('');
 
@@ -627,7 +630,6 @@
                         notes: document.getElementById('m-notes').value, tasks: getTasksFromDOM()
                     };
                     
-                    // Opportunity Auto-Job Creation Logic
                     if(isNew) { 
                         data.createdAt = new Date().toISOString(); data.stageUpdatedAt = new Date().toISOString(); 
                         const docRef = await addDoc(getColRef('opportunities'), data); 
@@ -894,7 +896,7 @@
             products.forEach(p => {
                 const cat = categories.find(c => c.id === p.categoryId);
                 const tr = document.createElement('tr'); tr.className = "hover:bg-gray-50 transition-colors";
-                tr.innerHTML = `<td class="px-6 py-4 text-sm font-bold text-gray-900">${p.name}</td><td class="px-6 py-4 text-sm text-gray-500">${cat?.name||'Unknown'}</td><td class="px-6 py-4 text-sm text-gray-500">${p.unit}</td><td class="px-6 py-4 text-sm font-bold text-gray-900">$${p.price.toFixed(2)}</td>`;
+                tr.innerHTML = `<td class="px-6 py-4 text-sm font-bold text-gray-900">${p.name}</td><td class="px-6 py-4 text-sm text-gray-500">${cat?.name||'Unknown'}</td><td class="px-6 py-4 text-sm text-gray-500">${p.unit}</td><td class="px-6 py-4 text-sm font-bold text-gray-900">${formatCurrency(p.price)}</td>`;
                 tr.onclick = () => openProductModal(p.id);
                 tbody.appendChild(tr);
             });
@@ -913,7 +915,7 @@
         function populateQuoteProducts() {
             const catId = document.getElementById('quote-category').value;
             const filtered = catId ? products.filter(p => p.categoryId === catId) : products;
-            document.getElementById('quote-product').innerHTML = '<option value="">-- Select an item --</option>' + filtered.map(p => `<option value="${p.id}">${p.name} ($${p.price.toFixed(2)}/${p.unit})</option>`).join('');
+            document.getElementById('quote-product').innerHTML = '<option value="">-- Select an item --</option>' + filtered.map(p => `<option value="${p.id}">${p.name} (${formatCurrency(p.price)}/${p.unit})</option>`).join('');
             selectedProductForQuote = null; updateQuoteLineMath();
         }
         document.getElementById('quote-product').addEventListener('change', (e) => {
@@ -924,7 +926,7 @@
         document.getElementById('quote-qty').addEventListener('input', updateQuoteLineMath);
         function updateQuoteLineMath() {
             const total = selectedProductForQuote ? (parseFloat(document.getElementById('quote-qty').value)||0) * selectedProductForQuote.price : 0;
-            document.getElementById('quote-line-total').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('quote-line-total').textContent = formatCurrency(total);
         }
         document.getElementById('quote-account').addEventListener('change', (e) => {
             const acc = accounts.find(a => a.id === e.target.value);
@@ -956,7 +958,7 @@
             } else {
                 currentQuoteItems.forEach((item, i) => {
                     subtotal += item.total;
-                    tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="py-3 text-sm font-medium text-gray-900">${item.name}</td><td class="py-3 text-right text-sm text-gray-500">${item.qty} ${item.unit}</td><td class="py-3 text-right text-sm text-gray-500">$${item.price.toFixed(2)}</td><td class="py-3 text-right text-sm font-bold text-gray-900">$${item.total.toFixed(2)}</td><td class="py-3 text-right"><button onclick="removeQuoteItem(${i})" class="text-red-400 hover:text-red-700 font-bold">&times;</button></td></tr>`;
+                    tbody.innerHTML += `<tr class="hover:bg-gray-50"><td class="py-3 text-sm font-medium text-gray-900">${item.name}</td><td class="py-3 text-right text-sm text-gray-500">${item.qty} ${item.unit}</td><td class="py-3 text-right text-sm text-gray-500">${formatCurrency(item.price)}</td><td class="py-3 text-right text-sm font-bold text-gray-900">${formatCurrency(item.total)}</td><td class="py-3 text-right"><button onclick="removeQuoteItem(${i})" class="text-red-400 hover:text-red-700 font-bold">&times;</button></td></tr>`;
                 });
             }
 
@@ -968,32 +970,56 @@
             const taxAmt = discountedTotal * (taxPct / 100);
             const grandTotal = discountedTotal + taxAmt;
 
-            document.getElementById('quote-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('quote-grand-total').textContent = `$${grandTotal.toFixed(2)}`;
+            document.getElementById('quote-subtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('quote-grand-total').textContent = formatCurrency(grandTotal);
         }
         
-        document.getElementById('generate-pdf-btn').addEventListener('click', () => {
+        document.getElementById('generate-pdf-btn').addEventListener('click', async () => {
             if(!currentQuoteItems.length) return alert("Add items first.");
             const { jsPDF } = window.jspdf; const doc = new jsPDF();
             const acc = accounts.find(a => a.id === document.getElementById('quote-account').value);
             const clientName = acc ? `${acc.contacts?.[0]?.firstName || ''} ${acc.contacts?.[0]?.lastName || ''}`.trim() || "Valued Customer" : "Valued Customer";
             
-            doc.setFontSize(24); doc.setTextColor(220, 38, 38); // red-600
-            doc.text("FLOOREVER", 14, 25); 
-            doc.setFontSize(10); doc.setTextColor(0, 0, 0);
-            doc.text("DURABLE. PROFESSIONAL. LOCAL.", 14, 31);
-            
-            doc.setFontSize(12); doc.setTextColor(100, 100, 100);
-            doc.text("SERVICE ESTIMATE", 14, 42); 
-            doc.setFontSize(10);
+            // --- HEADER ---
+            doc.setFillColor(0, 0, 0);
+            doc.rect(0, 0, 210, 35, 'F'); 
+
+            // Load Logo asynchronously
+            const img = new Image();
+            img.src = '../images/FlooreverLogo.png';
+            await new Promise((resolve) => { img.onload = resolve; img.onerror = resolve; });
+
+            if (img.width) {
+                const imgWidth = 50;
+                const imgHeight = (img.height / img.width) * imgWidth;
+                const yPos = (35 - imgHeight) / 2;
+                doc.addImage(img, 'PNG', 14, yPos > 0 ? yPos : 5, imgWidth, imgHeight);
+                
+                doc.setFontSize(12); doc.setTextColor(220, 38, 38); doc.setFont("helvetica","bold");
+                doc.text("DURABLE. PROFESSIONAL. LOCAL.", 14 + imgWidth + 8, 19);
+            } else {
+                // Fallback if logo path isn't found
+                doc.setFontSize(24); doc.setTextColor(220, 38, 38); doc.setFont("helvetica","bold");
+                doc.text("FLOOREVER", 14, 22); 
+                doc.setFontSize(10); doc.setTextColor(220, 38, 38);
+                doc.text("DURABLE. PROFESSIONAL. LOCAL.", 75, 22);
+            }
+
+            // --- METADATA ---
+            doc.setFontSize(12); doc.setTextColor(100, 100, 100); doc.setFont("helvetica","bold");
+            doc.text("SERVICE ESTIMATE", 14, 50); 
+            doc.setFontSize(10); doc.setFont("helvetica","normal");
             const dateStr = new Date().toLocaleDateString();
-            doc.text(`Date: ${dateStr}`, 14, 48); doc.text(`Prepared for: ${clientName}`, 14, 54);
+            doc.text(`Date: ${dateStr}`, 14, 56); doc.text(`Prepared for: ${clientName}`, 14, 62);
             
-            doc.setFillColor(240,240,240); doc.rect(14,60,182,10,'F'); doc.setFont("helvetica","bold"); doc.setTextColor(0, 0, 0);
-            doc.text("Description", 16, 66.5); doc.text("Qty", 120, 66.5); doc.text("Rate", 145, 66.5); doc.text("Amount", 175, 66.5);
-            doc.setFont("helvetica","normal"); let y = 76, subtotal = 0;
+            // --- TABLE HEADER ---
+            doc.setFillColor(240,240,240); doc.rect(14, 68, 182, 10, 'F'); doc.setFont("helvetica","bold"); doc.setTextColor(0, 0, 0);
+            doc.text("Description", 16, 74.5); doc.text("Qty", 120, 74.5); doc.text("Rate", 145, 74.5); doc.text("Amount", 175, 74.5);
+            
+            // --- TABLE ITEMS ---
+            doc.setFont("helvetica","normal"); let y = 84, subtotal = 0;
             currentQuoteItems.forEach(item => {
-                doc.text(item.name, 16, y); doc.text(`${item.qty} ${item.unit}`, 120, y); doc.text(`$${item.price.toFixed(2)}`, 145, y); doc.text(`$${item.total.toFixed(2)}`, 175, y);
+                doc.text(item.name, 16, y); doc.text(`${item.qty} ${item.unit}`, 120, y); doc.text(formatCurrency(item.price), 145, y); doc.text(formatCurrency(item.total), 175, y);
                 subtotal += item.total; y += 10; if(y>260){doc.addPage(); y=20;}
             });
             
@@ -1006,15 +1032,22 @@
             const taxAmt = discountedTotal * (taxPct / 100);
             const grandTotal = discountedTotal + taxAmt;
 
+            // --- TOTALS ---
             doc.setFont("helvetica","normal"); doc.setFontSize(10);
-            doc.text("Subtotal:", 135, y); doc.text(`$${subtotal.toFixed(2)}`, 175, y); y+=6;
+            doc.text("Subtotal:", 135, y); doc.text(formatCurrency(subtotal), 175, y); y+=6;
             if(discountAmt > 0) {
-                doc.text(`Discount (${discountPct}%):`, 135, y); doc.text(`-$${discountAmt.toFixed(2)}`, 175, y); y+=6;
+                doc.text(`Discount (${discountPct}%):`, 135, y); doc.text(`-${formatCurrency(discountAmt)}`, 175, y); y+=6;
             }
-            doc.text(`Sales Tax (${taxPct}%):`, 135, y); doc.text(`$${taxAmt.toFixed(2)}`, 175, y); y+=8;
+            doc.text(`Sales Tax (${taxPct}%):`, 135, y); doc.text(formatCurrency(taxAmt), 175, y); y+=8;
             
             doc.setFont("helvetica","bold"); doc.setFontSize(12);
-            doc.text("Total Estimate:", 135, y); doc.text(`$${grandTotal.toFixed(2)}`, 175, y);
+            doc.text("Total Estimate:", 135, y); doc.text(formatCurrency(grandTotal), 175, y);
+
+            // --- FOOTER LINK ---
+            const footerY = 285;
+            doc.setFontSize(10); doc.setFont("helvetica","normal"); doc.setTextColor(37, 99, 235);
+            doc.text("Click here to view our complete Terms and Conditions as well as Service Agreement.", 14, footerY);
+            doc.link(14, footerY - 4, 150, 6, { url: 'https://flooreveretx.com/terms' });
 
             doc.save(`Estimate_${clientName.replace(/\s+/g,'_')}_${dateStr.replace(/\//g, '-')}.pdf`);
         });
