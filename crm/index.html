@@ -483,8 +483,10 @@
         let currentLeadSort = 'newest';
         let currentAccountSearch = '';
 
-        const oppStages = ['Lead', 'Quoted', 'Follow-up'];
-        const jobStatuses = ['Booked', 'Scheduled', 'Poured', 'Curing', 'Paid'];
+        const oppStages = ['New Opportunity', 'Site Survey', 'Quoted'];
+        const stages = ['New Opportunity', 'Site Survey', 'Quoted', 'Closed Won', 'Closed Lost'];
+        const jobStatuses = ['Unscheduled', 'Scheduled', 'In Progress', 'Completed'];
+        const prodPhases = ['Pending', 'Site Prep', 'Poured', 'Curing', "Touch Up's"];
         
         const formatCurrency = (val) => '$' + Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -574,8 +576,8 @@
             const activeLeads = leads.filter(l => l.status !== 'not_interested');
             document.getElementById('metric-open-leads').textContent = activeLeads.length;
             
-            document.getElementById('metric-completed-jobs').textContent = jobs.filter(j => j.status === 'Paid').length;
-            document.getElementById('metric-open-jobs').textContent = jobs.filter(j => j.status !== 'Paid').length;
+            document.getElementById('metric-completed-jobs').textContent = jobs.filter(j => j.status === 'Completed').length;
+            document.getElementById('metric-open-jobs').textContent = jobs.filter(j => j.status !== 'Completed').length;
 
             const now = new Date();
             const calcAvgAge = (arr) => arr.length ? Math.round(arr.reduce((sum, item) => sum + Math.abs(now - new Date(item.createdAt||now))/(1000*60*60*24), 0)/arr.length) : 0;
@@ -666,7 +668,6 @@
             if(!filteredAccs.length) { tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500 font-medium">No accounts found.</td></tr>`; return; }
             
             filteredAccs.forEach(a => {
-                // Determine linked opportunities pipeline status
                 const accOpps = opportunities.filter(o => o.accountId === a.id);
                 const hasOpen = accOpps.some(o => !['Closed Won', 'Closed Lost'].includes(o.stage));
                 const hasWon = accOpps.some(o => o.stage === 'Closed Won');
@@ -702,7 +703,7 @@
                 const col = document.createElement('div'); col.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300";
                 
                 const stageOpps = opportunities.filter(o => {
-                    const currentStage = oppStages.includes(o.stage) ? o.stage : 'Lead';
+                    const currentStage = oppStages.includes(o.stage) ? o.stage : 'New Opportunity';
                     return currentStage === stage;
                 });
                 
@@ -746,7 +747,7 @@
             jobStatuses.forEach(status => {
                 const col = document.createElement('div'); col.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300";
                 const colJobs = jobs.filter(j => {
-                    const currentStatus = jobStatuses.includes(j.status) ? j.status : 'Booked';
+                    const currentStatus = jobStatuses.includes(j.status) ? j.status : 'Unscheduled';
                     return currentStatus === status;
                 });
                 
@@ -755,7 +756,11 @@
                         <div class="font-bold text-sm text-gray-900">${j.name || 'Unnamed Job'}</div>
                         <div class="text-xs font-medium text-gray-500 truncate">${j.accountName || '-'}</div>
                         ${j.scheduledDate ? `<div class="text-xs font-bold text-indigo-600 mt-2">Date: ${new Date(j.scheduledDate).toLocaleDateString()}</div>` : ''}
-                        ${j.depositPaid ? `<div class="text-[10px] font-bold text-green-700 bg-green-50 mt-2 px-2 py-1 rounded w-fit uppercase">Deposit Paid</div>` : `<div class="text-[10px] font-bold text-amber-700 bg-amber-50 mt-2 px-2 py-1 rounded w-fit uppercase">Pending Deposit</div>`}
+                        
+                        <div class="flex gap-2 mt-2">
+                            ${j.depositPaid ? `<div class="text-[10px] font-bold text-green-700 bg-green-50 px-2 py-1 rounded w-fit uppercase border border-green-200">Deposit Paid</div>` : `<div class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-1 rounded w-fit uppercase border border-amber-200">Pending Deposit</div>`}
+                            ${j.productionStage && j.productionStage !== 'Pending' ? `<div class="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded w-fit uppercase border border-purple-200">Phase: ${j.productionStage}</div>` : ''}
+                        </div>
                     </div>
                 `).join('');
 
@@ -841,7 +846,7 @@
                         if(data.stage === 'Closed Won') {
                             await addDoc(getColRef('jobs'), {
                                 name: data.name + ' (Installation)', accountId: data.accountId, accountName: data.accountName,
-                                opportunityId: docRef.id, status: 'Booked', createdAt: new Date().toISOString(), depositPaid: false, depositAmount: 0
+                                opportunityId: docRef.id, status: 'Unscheduled', productionStage: 'Pending', createdAt: new Date().toISOString(), depositPaid: false, depositAmount: 0
                             });
                         }
                     } else {
@@ -851,7 +856,7 @@
                             if(data.stage === 'Closed Won') {
                                 await addDoc(getColRef('jobs'), {
                                     name: data.name + ' (Installation)', accountId: data.accountId, accountName: data.accountName,
-                                    opportunityId: id, status: 'Booked', createdAt: new Date().toISOString(), depositPaid: false, depositAmount: 0
+                                    opportunityId: id, status: 'Unscheduled', productionStage: 'Pending', createdAt: new Date().toISOString(), depositPaid: false, depositAmount: 0
                                 });
                             }
                         }
@@ -865,6 +870,7 @@
                         accountName: document.getElementById('m-job-acc').options[document.getElementById('m-job-acc').selectedIndex]?.text || '',
                         opportunityId: document.getElementById('m-job-opp').value,
                         status: document.getElementById('m-job-status').value,
+                        productionStage: document.getElementById('m-job-prod-stage').value,
                         scheduledDate: document.getElementById('m-job-date').value,
                         depositPaid: document.getElementById('m-job-dep-paid').checked,
                         depositAmount: parseFloat(document.getElementById('m-job-dep-amt').value)||0,
@@ -1015,7 +1021,7 @@
                 return `<option value="${a.id}" ${a.id===o.accountId?'selected':''}>${display}</option>`;
             }).join('');
             
-            const stageOptions = stages.map(s => `<option value="${s}" ${s===(o.stage||'Lead')?'selected':''}>${s}</option>`).join('');
+            const stageOptions = stages.map(s => `<option value="${s}" ${s===(o.stage||'New Opportunity')?'selected':''}>${s}</option>`).join('');
 
             document.getElementById('modal-delete-container').innerHTML = id ? `<button onclick="deleteDocument('opportunities', '${id}')" class="text-red-600 font-bold hover:text-red-800 text-sm">Delete Opportunity</button>` : '';
 
@@ -1052,7 +1058,10 @@
             }).join('');
             
             const oppOptions = opportunities.map(o => `<option value="${o.id}" ${o.id===j.opportunityId?'selected':''}>${o.name}</option>`).join('');
-            const statusOptions = jobStatuses.map(s => `<option value="${s}" ${s===(j.status||'Booked')?'selected':''}>${s}</option>`).join('');
+            
+            const statusOptions = jobStatuses.map(s => `<option value="${s}" ${s===(j.status||'Unscheduled')?'selected':''}>${s}</option>`).join('');
+            
+            const prodOptions = prodPhases.map(s => `<option value="${s}" ${s===(j.productionStage||'Pending')?'selected':''}>${s}</option>`).join('');
 
             document.getElementById('modal-delete-container').innerHTML = id ? `<button onclick="deleteDocument('jobs', '${id}')" class="text-red-600 font-bold hover:text-red-800 text-sm">Delete Job</button>` : '';
 
@@ -1062,7 +1071,10 @@
                     <div class="col-span-2"><label class="block text-xs font-bold text-gray-500 mb-1">Job Name</label><input type="text" id="m-job-name" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500" value="${j.name||''}"></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1">Account</label><select id="m-job-acc" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500"><option value="">-- Select --</option>${accOptions}</select></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1">Related Opportunity</label><select id="m-job-opp" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500"><option value="">-- None --</option>${oppOptions}</select></div>
-                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Status</label><select id="m-job-status" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 font-medium">${statusOptions}</select></div>
+                    
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Scheduling Status</label><select id="m-job-status" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 font-medium">${statusOptions}</select></div>
+                    <div><label class="block text-xs font-bold text-gray-500 mb-1">Production Phase</label><select id="m-job-prod-stage" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 font-medium">${prodOptions}</select></div>
+                    
                     <div><label class="block text-xs font-bold text-gray-500 mb-1">Scheduled Date</label><input type="date" id="m-job-date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500" value="${j.scheduledDate||''}"></div>
                     
                     <div class="col-span-2 mt-2 bg-gray-50 p-4 border border-gray-200 rounded-md flex items-center gap-4">
@@ -1244,34 +1256,20 @@
             doc.setFillColor(0, 0, 0);
             doc.rect(0, 0, 210, 35, 'F'); 
 
-            // Text configuration
-            doc.setFontSize(18);
-            doc.setFont("helvetica", "bold");
-            const text1 = "DURABLE. PROFESSIONAL. ";
-            const text2 = "LOCAL.";
-            const w1 = doc.getTextWidth(text1);
-            const w2 = doc.getTextWidth(text2);
-            const totalW = w1 + w2;
-            const rightMarginX = 196;
-            const startX = rightMarginX - totalW;
+            doc.setFontSize(18); doc.setFont("helvetica", "bold");
+            const text1 = "DURABLE. PROFESSIONAL. "; const text2 = "LOCAL.";
+            const w1 = doc.getTextWidth(text1); const w2 = doc.getTextWidth(text2);
+            const totalW = w1 + w2; const rightMarginX = 196; const startX = rightMarginX - totalW;
             const textY = 21;
 
-            // Load Logo asynchronously
             const img = new Image();
             img.src = '../images/FlooreverLogo.png';
             await new Promise((resolve) => { img.onload = resolve; img.onerror = resolve; });
 
             if (img.width) {
-                let maxH = 25;
-                let maxW = 80;
-                let imgRatio = img.width / img.height;
-                let renderW = maxH * imgRatio;
-                let renderH = maxH;
-                
-                if (renderW > maxW) {
-                    renderW = maxW;
-                    renderH = renderW / imgRatio;
-                }
+                let maxH = 25; let maxW = 80; let imgRatio = img.width / img.height;
+                let renderW = maxH * imgRatio; let renderH = maxH;
+                if (renderW > maxW) { renderW = maxW; renderH = renderW / imgRatio; }
                 const yPos = (35 - renderH) / 2;
                 doc.addImage(img, 'PNG', 14, yPos, renderW, renderH);
             } else {
@@ -1279,12 +1277,8 @@
                 doc.text("FLOOREVER", 14, 23); 
             }
 
-            // Draw right-aligned split-color text
-            doc.setFontSize(18);
-            doc.setTextColor(255, 255, 255); // White
-            doc.text(text1, startX, textY);
-            doc.setTextColor(220, 38, 38); // Red
-            doc.text(text2, startX + w1, textY);
+            doc.setFontSize(18); doc.setTextColor(255, 255, 255); doc.text(text1, startX, textY);
+            doc.setTextColor(220, 38, 38); doc.text(text2, startX + w1, textY);
 
             // --- METADATA ---
             doc.setFontSize(12); doc.setTextColor(100, 100, 100); doc.setFont("helvetica","bold");
@@ -1501,7 +1495,7 @@
 
                     if(col === 'opportunities') {
                         obj.stageUpdatedAt = obj.createdAt;
-                        if(!obj.stage) obj.stage = 'Lead'; // Fallback to Lead
+                        if(!obj.stage) obj.stage = 'New Opportunity'; // Fallback
                     }
 
                     await addDoc(getColRef(col), obj);
