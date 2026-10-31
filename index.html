@@ -3,13 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floorever ETX | East Texas Epoxy & Concrete Coatings</title>
+    <title>Floorever ETX | East Texas Epoxy & Concrete Coatings (Tyler & Lindale)</title>
+    <meta name="description" content="Floorever ETX installs industrial-grade epoxy and polyaspartic concrete floor coatings for garages, patios, and commercial spaces in Tyler, Lindale, and East Texas. ICC Certified Concrete Inspector. Request a free estimate today!">
+    <link rel="canonical" href="https://flooreveretx.com/">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://flooreveretx.com/">
+    <meta property="og:title" content="Floorever ETX | East Texas Epoxy & Concrete Coatings">
+    <meta property="og:description" content="We transform cracked, stained, and dusty concrete into durable showroom floors. Serving Tyler, Lindale & East Texas.">
+    <meta property="og:image" content="https://flooreveretx.com/images/BackdropETX.png">
 
     <link rel="icon" type="image/png" href="images/Favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- LocalBusiness Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HomeAndConstructionBusiness",
+      "name": "Floorever ETX",
+      "image": "https://flooreveretx.com/images/FlooreverLogo.png",
+      "url": "https://flooreveretx.com/",
+      "telephone": "+1-430-235-8699",
+      "email": "info@flooreveretx.com",
+      "priceRange": "$$",
+      "description": "Industrial-grade epoxy and polyaspartic concrete floor coatings for residential garages, outdoor patios, and commercial facilities across East Texas.",
+      "areaServed": [
+        { "@type": "City", "name": "Tyler", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Lindale", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Longview", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Whitehouse", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Bullard", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Mineola", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Hideaway", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Canton", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Flint", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Chandler", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Kilgore", "containedInPlace": { "@type": "State", "name": "Texas" } },
+        { "@type": "City", "name": "Jacksonville", "containedInPlace": { "@type": "State", "name": "Texas" } }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/flooreveretx",
+        "https://www.instagram.com/flooreveretx",
+        "https://www.tiktok.com/@floorever.etx"
+      ]
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -43,26 +86,27 @@
 <body class="bg-gray-50 font-worksans text-gray-800 min-h-screen flex flex-col">
 
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-[#032338] md:bg-transparent py-5">
-           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-               <div class="flex justify-between items-center">
-                   <div class="flex-shrink-0 flex items-center">
-                       <a href="/" class="flex items-center gap-3">
-                           <img src="images/FlooreverLogo.png" alt="Floorever ETX Logo" class="h-24 w-auto object-contain">
-                       </a>
-                   </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <img src="images/FlooreverLogo.png" alt="Floorever ETX - East Texas Epoxy Flooring Logo" class="h-24 w-auto object-contain">
+                    </a>
+                </div>
                 
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#services" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Services</a>
                     <a href="#materials" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Materials</a>
                     <a href="#about" class="text-white hover:text-[#93e6ff] font-medium transition-colors">About Us</a>
-                    <a href="/connect" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Connect</a>
+                    <a href="visualizer.html" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Visualizer</a>
+                    <a href="connect.html" class="text-white hover:text-[#93e6ff] font-medium transition-colors">Connect</a>
                     <a href="#contact" class="bg-[#e00603] hover:bg-red-700 text-white px-6 py-2.5 rounded font-oswald font-semibold tracking-wide transition-all transform hover:scale-105 shadow-lg">
                         GET A FREE ESTIMATE
                     </a>
                 </div>
 
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-white focus:outline-none">
+                    <button id="mobile-menu-btn" aria-label="Toggle Menu" class="text-white focus:outline-none">
                         <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
                     </button>
                 </div>
@@ -74,7 +118,8 @@
                 <a href="#services" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Services</a>
                 <a href="#materials" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Materials</a>
                 <a href="#about" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">About Us</a>
-                <a href="/connect" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Connect</a>
+                <a href="visualizer.html" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Visualizer</a>
+                <a href="connect.html" class="mobile-link block px-3 py-2 text-white font-medium hover:text-[#93e6ff]">Connect</a>
                 <a href="#contact" class="mobile-link block px-3 py-2 text-[#e00603] font-bold">Get a Quote</a>
             </div>
         </div>
@@ -85,7 +130,7 @@
         
         <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-[#032338] overflow-hidden">
             <div class="absolute inset-0 z-0">
-                <img src="images/BackdropETX.png" alt="Epoxy Flooring Background" class="w-full h-full object-cover">
+                <img src="images/BackdropETX.png" alt="Epoxy and Polyaspartic Garage Floor Coating in East Texas" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-[#032338] opacity-85"></div>
             </div>
 
@@ -96,15 +141,15 @@
             </div>
 
             <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-white/10 text-[#93e6ff] font-semibold text-sm mb-6 uppercase tracking-wider border border-white/20">
-                    Serving Tyler, Lindale & East Texas
-                </span>
                 <h1 class="font-oswald text-5xl md:text-7xl font-bold text-white mb-6 uppercase tracking-tight leading-tight">
+                    <span class="inline-block py-1 px-3 rounded-full bg-white/10 text-[#93e6ff] font-worksans font-semibold text-sm mb-6 uppercase tracking-wider border border-white/20 block mx-auto w-max">
+                        Serving Tyler, Lindale & East Texas
+                    </span>
                     East Texas Tough. <br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#93e6ff] to-white">Showroom Shine.</span>
                 </h1>
                 <p class="mt-4 text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10 font-light">
-                    We transform cracked, stained, and dusty concrete into durable, custom floors built to handle dropped tools, hot tires, and heavy traffic.
+                    We transform cracked, stained, and dusty concrete into durable, custom epoxy and polyaspartic floors built to handle dropped tools, hot tires, and heavy traffic.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="#contact" class="bg-[#e00603] hover:bg-red-700 text-white px-8 py-4 rounded font-oswald text-lg font-semibold tracking-wide transition-all transform hover:-translate-y-1 shadow-lg shadow-red-500/30 flex items-center justify-center gap-2">
@@ -122,17 +167,17 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
                     <div class="flex flex-col items-center p-4">
                         <i data-lucide="shield-check" class="text-[#93e6ff] mb-3 w-10 h-10"></i>
-                        <h3 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">ICC Certified Expert</h3>
+                        <h2 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">ICC Certified Expert</h2>
                         <p class="text-gray-300 text-sm mt-1">Installed by a certified structural concrete inspector.</p>
                     </div>
                     <div class="flex flex-col items-center p-4">
                         <i data-lucide="clock" class="text-[#93e6ff] mb-3 w-10 h-10"></i>
-                        <h3 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">15+ Years Experience</h3>
+                        <h2 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">15+ Years Experience</h2>
                         <p class="text-gray-300 text-sm mt-1">Civil engineering inspection background on every job.</p>
                     </div>
                     <div class="flex flex-col items-center p-4">
                         <i data-lucide="award" class="text-[#93e6ff] mb-3 w-10 h-10"></i>
-                        <h3 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">100% Solid Topcoat</h3>
+                        <h2 class="text-white font-oswald text-xl font-semibold uppercase tracking-wide">100% Solid Topcoat</h2>
                         <p class="text-gray-300 text-sm mt-1">Industrial-grade polyaspartic coatings built to last.</p>
                     </div>
                 </div>
@@ -142,10 +187,11 @@
         <section id="services" class="py-24 bg-white relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
+                    <span class="text-[#e00603] font-oswald font-bold uppercase tracking-wider text-sm mb-2 block">Epoxy & Polyaspartic Floor Coatings</span>
                     <h2 class="font-oswald text-4xl md:text-5xl font-bold text-[#032338] mb-4 uppercase">Your Concrete, Upgraded</h2>
                     <div class="w-24 h-1.5 bg-[#e00603] mx-auto mb-6"></div>
                     <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-2">
-                        From residential garages to high-traffic commercial facilities, we provide tailored coating solutions that resist chemicals, impacts, and the harsh Texas climate.
+                        From residential garages to high-traffic commercial facilities, we provide tailored concrete coating solutions that resist chemicals, impacts, and the harsh Texas climate.
                     </p>
                     <p class="text-sm text-[#032338] font-bold uppercase tracking-wider">Click a category below to view our projects</p>
                 </div>
@@ -154,7 +200,7 @@
                     <!-- Commercial Card -->
                     <a href="#category-commercial" class="block bg-[#a2def4]/20 rounded-xl overflow-hidden border border-[#a2def4]/50 hover:shadow-2xl transition-all transform hover:-translate-y-2 group cursor-pointer">
                         <div class="h-48 bg-[#032338] relative overflow-hidden flex items-center justify-center">
-                            <img src="images/BeforeAfter.png" alt="Commercial Epoxy Floor" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <img src="images/BeforeAfter.png" alt="Commercial and Industrial Epoxy Flooring in East Texas" loading="lazy" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <div class="absolute inset-0 z-10 flex items-center justify-center">
                                 <div class="bg-[#e00603] text-white px-4 py-2 rounded font-oswald font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">VIEW GALLERY</div>
                             </div>
@@ -174,7 +220,7 @@
                     <a href="#category-residential" class="block bg-[#032338] rounded-xl overflow-hidden shadow-xl transform hover:-translate-y-2 hover:shadow-2xl transition-all relative group cursor-pointer md:-mt-4">
                         <div class="absolute top-0 right-0 bg-[#e00603] text-white text-xs font-bold px-3 py-1 font-oswald uppercase tracking-wider rounded-bl-lg z-20">Most Popular</div>
                         <div class="h-48 bg-[#4d0103] relative overflow-hidden flex items-center justify-center">
-                            <img src="images/ResidentialGarage3.jpg" alt="Residential Garage Epoxy Floor" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <img src="images/ResidentialGarage3.jpg" alt="Residential Garage Flake Epoxy Floor in Tyler TX" loading="lazy" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <div class="absolute inset-0 z-10 flex items-center justify-center">
                                 <div class="bg-[#e00603] text-white px-4 py-2 rounded font-oswald font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">VIEW GALLERY</div>
                             </div>
@@ -193,7 +239,7 @@
                     <!-- Outdoor Card -->
                     <a href="#category-outdoor" class="block bg-[#a2def4]/20 rounded-xl overflow-hidden border border-[#a2def4]/50 hover:shadow-2xl transition-all transform hover:-translate-y-2 group cursor-pointer">
                         <div class="h-48 bg-[#032338] relative overflow-hidden flex items-center justify-center">
-                            <img src="images/ResidentialGarage2.png" alt="Outdoor Epoxy Floor" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <img src="images/ResidentialGarage2.png" alt="Outdoor Patio and Pool Deck Polyaspartic Coating" loading="lazy" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <div class="absolute inset-0 z-10 flex items-center justify-center">
                                 <div class="bg-[#e00603] text-white px-4 py-2 rounded font-oswald font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">VIEW GALLERY</div>
                             </div>
@@ -232,7 +278,7 @@
                                     <i data-lucide="layers" class="text-[#93e6ff] w-6 h-6"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-oswald text-xl font-bold tracking-wide">1. Mechanical Prep & Diamond Grinding</h4>
+                                    <h3 class="font-oswald text-xl font-bold tracking-wide">1. Mechanical Prep & Diamond Grinding</h3>
                                     <p class="text-gray-400 mt-1">We don't acid wash. We use heavy diamond grinders to profile the concrete, ensuring the base coat achieves a deep, permanent mechanical bond.</p>
                                 </div>
                             </div>
@@ -242,7 +288,7 @@
                                     <i data-lucide="droplets" class="text-[#93e6ff] w-6 h-6"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-oswald text-xl font-bold tracking-wide">2. 100% Solid Epoxy Base Coat</h4>
+                                    <h3 class="font-oswald text-xl font-bold tracking-wide">2. 100% Solid Epoxy Base Coat</h3>
                                     <p class="text-gray-400 mt-1">Our industrial epoxies are formulated to wick deep into the pores of the concrete, blocking moisture and preventing hot-tire pickup.</p>
                                 </div>
                             </div>
@@ -252,7 +298,7 @@
                                     <i data-lucide="sun" class="text-[#93e6ff] w-6 h-6"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-oswald text-xl font-bold tracking-wide">3. Polyaspartic Clear Topcoat</h4>
+                                    <h3 class="font-oswald text-xl font-bold tracking-wide">3. Polyaspartic Clear Topcoat</h3>
                                     <p class="text-gray-400 mt-1">The final layer is a premium polyaspartic clear coat. It cures harder than epoxy, provides a brilliant high-gloss shine, and is 100% UV stable (it will never yellow in the Texas sun).</p>
                                 </div>
                             </div>
@@ -300,13 +346,14 @@
                 <div class="flex flex-col lg:flex-row items-center gap-16">
                     <div class="w-full lg:w-1/2">
                         <div class="relative aspect-square rounded-2xl overflow-hidden bg-gray-300 shadow-2xl flex items-center justify-center">
-                            <img src="images/KPS.png" alt="Floorever ETX Team" class="absolute inset-0 w-full h-full object-cover">
+                            <img src="images/KPS.png" alt="Patrick and Kerry - Owners of Floorever ETX Concrete Coatings" loading="lazy" class="absolute inset-0 w-full h-full object-cover">
                             <div class="absolute inset-0 bg-[#032338] opacity-20"></div>
                             <div class="absolute inset-0 border-8 border-[#93e6ff]/30 m-4 rounded-xl z-10"></div>
                         </div>
                     </div>
                     
                     <div class="w-full lg:w-1/2">
+                        <span class="text-[#e00603] font-oswald font-bold uppercase tracking-wider text-sm mb-2 block">Locally Owned in Tyler & Lindale</span>
                         <h2 class="font-oswald text-4xl md:text-5xl font-bold text-[#032338] mb-4 uppercase">The Expert Neighbor</h2>
                         <div class="w-24 h-1.5 bg-[#e00603] mb-8"></div>
                         
@@ -341,7 +388,7 @@
                         <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-20 -mt-20"></div>
                         
                         <div class="relative z-10">
-                            <h3 class="font-oswald text-3xl font-bold uppercase mb-2">Ready to Upgrade?</h3>
+                            <h2 class="font-oswald text-3xl font-bold uppercase mb-2">Ready to Upgrade?</h2>
                             <p class="text-[#93e6ff] mb-12 text-lg">Contact us today for a free, no-obligation estimate.</p>
                             
                             <div class="space-y-8">
@@ -382,7 +429,7 @@
                                         <div class="max-w-sm w-full overflow-hidden rounded-xl shadow-md">
                                             <img
                                                 src="images/ServiceArea.png"
-                                                alt="FloorEver ETX Service Area - Tyler, Lindale, and East Texas"
+                                                alt="FloorEver ETX Service Area Map - Tyler, Lindale, and East Texas"
                                                 class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
                                                 loading="lazy"
                                             >
@@ -485,15 +532,14 @@
     <footer class="bg-[#1a0001] py-8 text-center border-t border-white/10 mt-auto w-full">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex items-center justify-center mb-4">
-                <img src="images/FlooreverLogo.png" alt="Floorever ETX Logo" class="h-20 w-auto object-contain">
+                <img src="images/FlooreverLogo.png" alt="Floorever ETX Logo" loading="lazy" class="h-20 w-auto object-contain">
             </div>
             <p class="text-gray-500 text-sm">
-                &copy; <span id="year"></span> Floorever ETX. All rights reserved. <br class="md:hidden"> Proudly serving East Texas.
+                &copy; <span id="year"></span> Floorever ETX. All rights reserved. <br class="md:hidden"> Proudly serving Tyler, Lindale & East Texas.
             </p>
         </div>
     </footer>
 
-    <!-- UPDATED: Script block changed to type="module" -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
@@ -561,32 +607,28 @@
         const quoteForm = document.getElementById('quote-form');
         if(quoteForm) {
             quoteForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Stop page redirect
+                event.preventDefault();
                 
                 const form = this;
                 const data = new FormData(form);
                 const submitButton = form.querySelector('button[type="submit"]');
                 const originalBtnText = submitButton.innerHTML;
                 
-                // Show loading state on button
                 submitButton.innerHTML = 'SENDING... <i data-lucide="loader-2" class="w-6 h-6 animate-spin"></i>';
                 lucide.createIcons();
                 submitButton.disabled = true;
                 
-                // Send background request
                 fetch(form.action, {
                     method: 'POST',
                     body: data,
-                    mode: 'no-cors' // Bypasses Google's security blocks for background posts
+                    mode: 'no-cors'
                 })
                 .then(() => {
-                    // Trigger the beautiful success message you built
                     showSuccessMessage();
                 })
                 .catch((error) => {
                     console.error('Error!', error.message);
                     alert("Something went wrong. Please check your connection and try again.");
-                    // Revert button if failed
                     submitButton.innerHTML = originalBtnText;
                     submitButton.disabled = false;
                     lucide.createIcons();
@@ -615,7 +657,6 @@
         const galleryDesc = document.getElementById('gallery-description');
         const galleryLoader = document.getElementById('gallery-loader');
 
-        // Static details for the category headers
         const categoryDataMap = {
             'commercial': { title: 'Commercial & Industrial', description: 'Built for forklifts, heavy foot traffic, and rigorous cleaning protocols. We install seamless floors that meet strict safety standards.' },
             'residential': { title: 'Residential', description: 'Turn your dusty, stained garage into a clean, easy-to-wash showroom. Our systems cure fast so you can park your cars again in no time.' },
@@ -638,7 +679,6 @@
             galleryDesc.textContent = catInfo.description;
 
             try {
-                // Query Firestore for projects that match the clicked category
                 const q = query(collection(db, "projects"), where("category", "==", categoryKey));
                 const querySnapshot = await getDocs(q);
                 
@@ -654,9 +694,15 @@
                     return;
                 }
 
-                let htmlContent = '';
+                // Extract and sort by Admin Portal order
+                let projects = [];
                 querySnapshot.forEach((doc) => {
-                    const proj = doc.data();
+                    projects.push(doc.data());
+                });
+                projects.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+                let htmlContent = '';
+                projects.forEach((proj) => {
                     let bulletsHtml = (proj.bullets || []).map(b =>
                         `<li class="flex items-center text-sm text-[#032338] font-medium"><i data-lucide="circle-check" class="text-[#e00603] mr-2 w-4 h-4"></i> ${b}</li>`
                     ).join('');
@@ -664,7 +710,7 @@
                     htmlContent += `
                         <div class="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-shadow group flex flex-col transform hover:-translate-y-1 duration-300">
                             <div class="h-64 bg-[#032338] relative overflow-hidden flex-shrink-0">
-                                <img src="${proj.image}" alt="${proj.name}" onerror="this.onerror=null; this.src='https://placehold.co/600x400/032338/93e6ff?text=Photo+Coming+Soon';" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <img src="${proj.image}" alt="${proj.name}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x400/032338/93e6ff?text=Photo+Coming+Soon';" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80 z-10"></div>
                             </div>
                             <div class="p-8 flex flex-col flex-grow relative z-20 bg-white">
@@ -750,5 +796,4 @@
     </script>
 </body>
 </html>
-
 
