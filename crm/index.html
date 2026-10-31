@@ -28,7 +28,7 @@
 <body class="bg-gray-50 text-gray-800 h-screen overflow-hidden flex">
 
     <!-- ==================== AUTHENTICATION GATE ==================== -->
-    <div id="auth-view" class="fixed inset-0 bg-black z-[100] flex items-center justify-center">
+    <div id="auth-view" class="fixed inset-0 bg-slate-900 z-[100] flex items-center justify-center">
         <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border-t-4 border-red-600">
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-50 text-red-600 mb-4">
@@ -59,7 +59,7 @@
     <div id="app-view" class="w-full h-full flex hidden">
         
         <!-- Sidebar Navigation -->
-        <aside class="w-64 bg-black text-slate-300 flex flex-col transition-all duration-300 z-10 shadow-xl border-r border-slate-800">
+        <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 z-10 shadow-xl border-r border-slate-800">
             <div class="h-16 flex items-center px-6 border-b border-slate-800">
                 <span class="text-xl font-extrabold text-white tracking-tight uppercase">FloorEver<span class="text-red-500 text-xs ml-1 align-top tracking-normal">CRM</span></span>
             </div>
@@ -129,7 +129,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-black p-5 rounded-lg shadow-sm text-white">
+                        <div class="bg-slate-900 p-5 rounded-lg shadow-sm text-white">
                             <div class="text-sm font-medium text-slate-400">Scheduled / Open Jobs</div>
                             <div class="text-3xl font-black mt-1" id="metric-open-jobs">0</div>
                         </div>
@@ -270,7 +270,7 @@
                                 <h4 class="font-bold text-gray-900 mb-4">Add Product Category</h4>
                                 <form id="add-category-form" class="flex gap-2">
                                     <input type="text" id="cat-name" required placeholder="e.g. Flake Blends" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 text-sm">
-                                    <button type="submit" class="bg-black text-white px-4 py-2 rounded-md hover:bg-slate-800 font-bold text-sm">Save</button>
+                                    <button type="submit" class="bg-slate-900 text-white px-4 py-2 rounded-md hover:bg-slate-800 font-bold text-sm">Save</button>
                                 </form>
                             </div>
                             <!-- Categories Directory -->
@@ -325,7 +325,7 @@
                                 <span class="text-sm font-bold text-red-800">Line Total:</span>
                                 <span class="text-lg font-black text-red-900" id="quote-line-total">$0.00</span>
                             </div>
-                            <button id="add-to-quote-btn" class="w-full bg-black text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Add to Quote</button>
+                            <button id="add-to-quote-btn" class="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Add to Quote</button>
                         </div>
                         
                         <div class="bg-white rounded-lg shadow-sm border border-gray-200 lg:col-span-2 flex flex-col h-full min-h-[600px]">
@@ -398,7 +398,7 @@
                                         <option value="jobs">Jobs</option>
                                     </select>
                                 </div>
-                                <button onclick="exportData()" class="w-full bg-black text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Download CSV Export</button>
+                                <button onclick="exportData()" class="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-800 font-bold uppercase tracking-wide">Download CSV Export</button>
                             </div>
                         </div>
 
@@ -412,6 +412,7 @@
                                         <option value="leads">Leads</option>
                                         <option value="accounts">Accounts</option>
                                         <option value="opportunities">Opportunities</option>
+                                        <option value="jobs">Jobs</option>
                                         <option value="products">Products</option>
                                     </select>
                                 </div>
@@ -439,7 +440,7 @@
     </div>
 
     <!-- ==================== MODALS (DETAILS & EDIT) ==================== -->
-    <div id="modal-overlay" class="fixed inset-0 bg-black z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="modal-overlay" class="fixed inset-0 bg-slate-900/70 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden relative">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-600 transition-colors"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             <div id="modal-content" class="flex-1 overflow-y-auto p-6">
@@ -703,6 +704,7 @@
                 const col = document.createElement('div'); col.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300";
                 
                 const stageOpps = opportunities.filter(o => {
+                    if (['Closed Won', 'Closed Lost'].includes(o.stage)) return false; // Ignore closed deals
                     const currentStage = oppStages.includes(o.stage) ? o.stage : 'New Opportunity';
                     return currentStage === stage;
                 });
@@ -724,7 +726,7 @@
                 board.appendChild(col);
             });
             
-            // Add a column to view won/lost deals even though they aren't 'open'
+            // View won/lost deals
             const closedCol = document.createElement('div'); closedCol.className = "kanban-col bg-gray-200 rounded-lg flex flex-col shrink-0 border border-gray-300 opacity-70";
             const closedOpps = opportunities.filter(o => ['Closed Won', 'Closed Lost'].includes(o.stage));
             let closedHtml = closedOpps.map(o => `
@@ -972,7 +974,7 @@
                 <hr class="my-6 border-gray-200">
                 <h4 class="font-bold text-gray-900 mb-3">Tasks & Reminders</h4>
                 <div id="modal-tasks-list">${renderTasksHTML(l.tasks)}</div>
-                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New actionable task..."><button onclick="addTaskUI()" class="bg-black text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
+                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New actionable task..."><button onclick="addTaskUI()" class="bg-slate-900 text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
@@ -1042,7 +1044,7 @@
                 <hr class="my-6 border-gray-200">
                 <h4 class="font-bold text-gray-900 mb-3">Tasks & Reminders</h4>
                 <div id="modal-tasks-list">${renderTasksHTML(o.tasks)}</div>
-                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New task..."><button onclick="addTaskUI()" class="bg-black text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
+                <div class="flex gap-2 mt-3"><input type="text" id="new-task-input" class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-red-500 focus:ring-red-500" placeholder="New task..."><button onclick="addTaskUI()" class="bg-slate-900 text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-slate-800 transition-colors">Add</button></div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
         };
@@ -1058,9 +1060,7 @@
             }).join('');
             
             const oppOptions = opportunities.map(o => `<option value="${o.id}" ${o.id===j.opportunityId?'selected':''}>${o.name}</option>`).join('');
-            
             const statusOptions = jobStatuses.map(s => `<option value="${s}" ${s===(j.status||'Unscheduled')?'selected':''}>${s}</option>`).join('');
-            
             const prodOptions = prodPhases.map(s => `<option value="${s}" ${s===(j.productionStage||'Pending')?'selected':''}>${s}</option>`).join('');
 
             document.getElementById('modal-delete-container').innerHTML = id ? `<button onclick="deleteDocument('jobs', '${id}')" class="text-red-600 font-bold hover:text-red-800 text-sm">Delete Job</button>` : '';
@@ -1129,6 +1129,37 @@
                 </div>
             `;
             document.getElementById('modal-overlay').classList.remove('hidden');
+        };
+
+        window.convertLeadFromModal = async (leadId) => {
+            const lead = leads.find(l => l.id === leadId);
+            if(!lead) return;
+            try {
+                const clientName = `${lead.firstName || ''} ${lead.lastName || ''}`.trim() || 'Unnamed Client';
+                
+                // AUTO-FILL OPPORTUNITY NAME
+                let oppNameParts = [clientName];
+                if (lead.companyName && lead.companyName.trim() !== '') oppNameParts.push(lead.companyName.trim());
+                if (lead.projectType && lead.projectType.trim() !== '') oppNameParts.push(lead.projectType.trim());
+                else oppNameParts.push("New Project");
+                const oppName = oppNameParts.join(" - ");
+
+                const accRef = await addDoc(getColRef('accounts'), {
+                    companyName: lead.companyName || '',
+                    phone: lead.phone, email: lead.email, address: lead.address, notes: lead.notes,
+                    city: lead.city || '', state: lead.state || 'TX',
+                    contacts: [{firstName: lead.firstName, lastName: lead.lastName, phone: lead.phone, email: lead.email}],
+                    createdAt: new Date().toISOString()
+                });
+                await addDoc(getColRef('opportunities'), {
+                    accountId: accRef.id, accountName: lead.companyName ? `${clientName} (${lead.companyName})` : clientName,
+                    name: oppName, primaryContact: clientName,
+                    stage: 'New Opportunity', tasks: lead.tasks,
+                    createdAt: new Date().toISOString(), stageUpdatedAt: new Date().toISOString()
+                });
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', leadId));
+                closeModal();
+            } catch(e) { alert("Conversion failed: " + e.message); }
         };
 
         // --- PRODUCTS & QUOTING ---
@@ -1398,6 +1429,16 @@
                 { key: 'stage', label: 'Stage', type: 'string' },
                 { key: 'notes', label: 'Notes', type: 'string' }
             ],
+            jobs: [
+                { key: 'name', label: 'Job Name', type: 'string' },
+                { key: 'accountName', label: 'Account/Client Name', type: 'string' },
+                { key: 'status', label: 'Status (Unscheduled, Scheduled, In Progress, Completed)', type: 'string' },
+                { key: 'productionStage', label: 'Phase (Site Prep, Poured, etc)', type: 'string' },
+                { key: 'scheduledDate', label: 'Scheduled Date (YYYY-MM-DD)', type: 'string' },
+                { key: 'depositPaid', label: 'Deposit Paid (TRUE/FALSE)', type: 'string' },
+                { key: 'depositAmount', label: 'Deposit Amount', type: 'number' },
+                { key: 'notes', label: 'Notes', type: 'string' }
+            ],
             products: [
                 { key: 'name', label: 'Product Name', type: 'string' },
                 { key: 'unit', label: 'Unit (SqFt, Flat, etc)', type: 'string' },
@@ -1496,6 +1537,12 @@
                     if(col === 'opportunities') {
                         obj.stageUpdatedAt = obj.createdAt;
                         if(!obj.stage) obj.stage = 'New Opportunity'; // Fallback
+                    }
+
+                    if(col === 'jobs') {
+                        obj.depositPaid = (String(obj.depositPaid).toLowerCase() === 'true');
+                        if(!obj.status) obj.status = 'Unscheduled';
+                        if(!obj.productionStage) obj.productionStage = 'Pending';
                     }
 
                     await addDoc(getColRef(col), obj);
